@@ -2,5 +2,7 @@
 url: "http://sgoettschkes.me"
 
 # Build settings
+timezone: Europe/Vienna
+encoding: utf-8
 markdown: kramdown
 permalink: /p/:title.html
