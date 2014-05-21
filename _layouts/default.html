@@ -1,19 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <head>
+        <title>Sgoettschkes.me - Coding 5 to 9</title>
 
-  {% include head.html %}
+        <meta charset="utf-8" /> 
+        <meta name="robots" content="index, follow" />
 
-    <body>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    {% include header.html %}
+        <link rel="stylesheet" type="text/css" media="screen" href="/styles/normalize.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/styles/foundation.min.css" />
+        <link rel='stylesheet' type='text/css' media="screen" href='http://fonts.googleapis.com/css?family=Open+Sans:400,700|Noto+Serif' >
+        <link rel="stylesheet" type="text/css" media="screen" href="/styles/main.css" />
 
-    <div class="page-content">
-      <div class="wrap">
-      {{ content }}
-      </div>
-    </div>
+        <script src="/scripts/vendor/modernizr.js"></script>
 
-    {% include footer.html %}
+        <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+    </head>
+    <body id="default">
+        <header>
+            <div>
+                <div>
+                    <p class="blog-title"><a href="/">Sgoettschkes.me</a></p> 
+                    <p class="blog-description">Coding 5 to 9</p>
+                </div>
+            </div>
+        </header>
+        <main>
+            {{ content }}
+        </main>
+        <footer>
+            <div class="row">
+                <div class="small-1 columns">&nbsp;</div>
+                <div class="small-10 columns">
+                    <ul class="no-bullet">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="small-1 columns">&nbsp;</div>
+            </div>
+        </footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+            ga('create', 'UA-30976233-2', 'sgoettschkes.me');
+            ga('send', 'pageview');
+        </script>
     </body>
 </html>
