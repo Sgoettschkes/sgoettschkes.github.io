@@ -1,6 +1,5 @@
 ---
 layout: post
-permalink: /p/hello-world.html
 title: Hello World!
 author: Sebastian
 date: 2014-05-16 23:10:00

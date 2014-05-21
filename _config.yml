@@ -1,3 +1,5 @@
 # Site settings
 
 # Build settings
+markdown: kramdown
+permalink: /p/:title.html
