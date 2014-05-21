@@ -3,7 +3,7 @@ layout: post
 permalink: /p/hello-world.html
 title: Hello World!
 author: Sebastian
-date: 2014-05-16
+date: 2014-05-16 23:10:00
 ---
 I wanted to do this for a long time. Write a "Hello World" on a new blog. So here it is. Awesome! But this is not a normal "Hello world" trying to get my feet wet, this is a post on why one should avoid blogging plattforms like Blogspot, where my blog lived up until now.
 
