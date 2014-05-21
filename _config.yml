@@ -1,4 +1,5 @@
 # Site settings
+url: "http://sgoettschkes.me"
 
 # Build settings
 markdown: kramdown
