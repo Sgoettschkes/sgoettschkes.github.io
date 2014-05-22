@@ -15,7 +15,7 @@ sitemap:
     {% for page in site.pages %}
         {% unless page.sitemap.exclude == "yes" %}
             <url>
-                <loc>{{ page.url | prepend: site.url | remove: "index.html" }}</loc>
+                <loc>{{ page.url | prepend: site.url }}</loc>
             </url>
         {% endunless %}
     {% endfor %}
