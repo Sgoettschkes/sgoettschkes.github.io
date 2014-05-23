@@ -3,7 +3,7 @@ layout: post
 permalink: /p/from-phrozn-to-jekyll.html
 title: From Phrozn to Jekyll
 author: Sebastian
-date: 2014-05-23 20:10:00 UTC
+date: 2014-05-23 20:22:00 UTC
 ---
 As you might know by now, I like static side generators. They combine the flexibility of a templating system with the easy deployment of static pages. Creating pages feels like working in a programming language and deploying the page in the end is as easy as putting some html files on an ftp (which you shouldn't do, of course). There is no need for a complicated setup or deployment process because it's just some HTML served from nginx (or any other webserver). You can put the files on Amazon S3, your own host or github pages. And as it's only static files being served, performance is as good as it gets.
 
