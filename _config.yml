@@ -4,7 +4,8 @@ description: "Personal blog and website by Sebastian Göttschkes, known as Sgoet
 url: "http://sgoettschkes.me"
 
 # Build settings
+exclude: ['Rakefile']
 timezone: Europe/Vienna
 encoding: utf-8
-markdown: kramdown
 permalink: /p/:title.html
+markdown: kramdown
