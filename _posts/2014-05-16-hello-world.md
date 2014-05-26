@@ -1,6 +1,7 @@
 ---
 layout: post
 category: general
+tags: [blogging, static site generators, ghost, phrozn, blogger]
 title: Hello World!
 author: Sebastian
 date: 2014-05-16 21:10:00 UTC

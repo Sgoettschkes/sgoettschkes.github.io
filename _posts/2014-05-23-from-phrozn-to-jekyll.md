@@ -1,6 +1,7 @@
 ---
 layout: post
-permalink: /p/from-phrozn-to-jekyll.html
+category: blogging
+tags: [blogging, static site generators, jekyll, phrozn]
 title: From Phrozn to Jekyll
 author: Sebastian
 date: 2014-05-23 20:22:00 UTC
