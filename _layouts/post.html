@@ -4,7 +4,7 @@ layout: default
 <div class="row">
     <div class="large-12 columns" role="content">
         <article>
-            <span>Written by {{ page.author }}  on {{ page.date | date: "%b %-d, %Y" }}</span>
+            <p class="pre-headline">Written by {{ page.author }}  on {{ page.date | date: "%b %-d, %Y" }}</p>
             <h1>{{ page.title }}</h1>
             {{ content }}
         </article>

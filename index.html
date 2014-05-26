@@ -4,7 +4,9 @@ permalink: /
 ---
 {% for post in site.posts %}
     <article>
+        <p class="pre-headline">Written by {{ post.author }}  on {{ post.date | date: "%b %-d, %Y" }}</p>
         <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
         {{ post.excerpt }}
+        <p class="read-more"><a href="{{ post.url }}">Read more</a></p>
     </article>
 {% endfor %}
