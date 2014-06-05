@@ -4,6 +4,8 @@ require "tmpdir"
 require "bundler/setup"
 require "jekyll"
 
+require "net/http"
+
 # Change your GitHub reponame
 GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
 
@@ -41,5 +43,22 @@ task :publish => [:generate] do
         Dir.chdir pwd
     end
 
+    Rake::Task["ping"].invoke
+
     system "git push origin source"
+end
+
+desc "Push sitemap to Google and Bing"
+task :ping do
+    url = URI.parse('http://www.google.com/webmasters/tools/ping?sitemap=http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml')
+    req = Net::HTTP::Get.new(url.to_s)
+    res = Net::HTTP.start(url.host, url.port) { |http|
+        http.request(req)
+    }
+
+    url = URI.parse('http://www.bing.com/webmaster/ping.aspx?siteMap=http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml')
+    req = Net::HTTP::Get.new(url.to_s)
+    res = Net::HTTP.start(url.host, url.port) { |http|
+        http.request(req)
+    }
 end
