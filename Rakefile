@@ -7,6 +7,11 @@ require "jekyll"
 # Change your GitHub reponame
 GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
 
+desc "Update repository"
+task :update do
+    system "git pull"
+end
+
 desc "Generate blog files"
 task :generate do
     Jekyll::Site.new(Jekyll.configuration({
