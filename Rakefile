@@ -13,7 +13,7 @@ desc "Update repository"
 task :update do
     system "git stash save"
     system "git pull"
-    system "git push"
+    system "git push origin source"
     system "git stash pop"
 end
 
