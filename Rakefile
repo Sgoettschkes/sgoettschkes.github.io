@@ -9,7 +9,7 @@ GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
 
 desc "Update repository"
 task :update do
-    system "git stash"
+    system "git stash save"
     system "git pull"
     system "git push"
     system "git stash pop"
