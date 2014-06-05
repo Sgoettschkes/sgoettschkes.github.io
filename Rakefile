@@ -11,6 +11,7 @@ desc "Update repository"
 task :update do
     system "git stash"
     system "git pull"
+    system "git push"
     system "git stash pop"
 end
 
