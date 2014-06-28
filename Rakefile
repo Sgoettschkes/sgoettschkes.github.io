@@ -8,6 +8,7 @@ require "net/http"
 
 # Change your GitHub reponame
 GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
+SITEMAP_PATH = "http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml"
 
 desc "Update repository"
 task :update do
@@ -50,15 +51,14 @@ end
 
 desc "Push sitemap to Google and Bing"
 task :ping do
-    url = URI.parse('http://www.google.com/webmasters/tools/ping?sitemap=http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml')
-    req = Net::HTTP::Get.new(url.to_s)
-    res = Net::HTTP.start(url.host, url.port) { |http|
-        http.request(req)
-    }
-
-    url = URI.parse('http://www.bing.com/webmaster/ping.aspx?siteMap=http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml')
-    req = Net::HTTP::Get.new(url.to_s)
-    res = Net::HTTP.start(url.host, url.port) { |http|
-        http.request(req)
-    }
+    urls = [
+        "http://www.google.com/webmasters/tools/ping?sitemap=#{SITEMAP_PATH}",
+        "http://www.bing.com/webmaster/ping.aspx?siteMap=#{SITEMAP_PATH}"]
+    urls.each do |url|
+        uri = URI.parse(url)
+        req = Net::HTTP::Get.new(uri.to_s)
+        res = Net::HTTP.start(uri.host, uri.port) { |http|
+            http.request(req)
+        }
+    end
 end
