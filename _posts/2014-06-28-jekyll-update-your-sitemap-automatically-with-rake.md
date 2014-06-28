@@ -69,6 +69,6 @@ And now let's add a rake task to ping Google and Bing about our new sitemap:
         end
     end
 
-The last part is calling the ping rake task from within the generate task which can be done with `Rake::Task["ping"].invoke`. Now, whenever calling `rake publish`, it generates the html, pushes it to github and pings Google and Bing. To see the end result, check out [my Rakefile](https://github.com/Sgoettschkes/sgoettschkes.github.io/commit/3e0de230b165591505b7496f9eb40103116967bc).
+The last part is calling the ping rake task from within the generate task which can be done with `Rake::Task["ping"].invoke`. Now, whenever calling `rake publish`, it generates the html, pushes it to github and pings Google and Bing. To see the end result, check out [my Rakefile](https://github.com/Sgoettschkes/sgoettschkes.github.io/blob/3e0de230b165591505b7496f9eb40103116967bc/Rakefile).
 
 **Success!**
