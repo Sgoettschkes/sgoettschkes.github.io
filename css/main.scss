@@ -41,6 +41,12 @@ $footer-bg: #F7FAFB;
         font-family: $normal-font;
     }
 
+    pre {
+        overflow: hidden;
+
+        margin: 0 0 1.25rem 0;
+    }
+
     code {
         font-weight: normal;
     }
