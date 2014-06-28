@@ -4,7 +4,7 @@ category: dev
 tags: [dev, development, jekyll, rake, ruby]
 title: "Jekyll: Update your sitemap automatically with rake"
 author: Sebastian
-date: 2014-05-31 18:48:00 UTC
+date: 2014-06-28 19:48:00 UTC
 ---
 If you write your blog to also be found through Google, you may have a sitemap which makes it easy for Google and Bing to crawl your page. It might be good idea to inform both if this sitemap changes so they can send their crawlers your way and update their index with the great stuff you just put on their. This can be done by doing a `GET` request and passing the url to your sitemap as a parameter. Easy as pie, right?
 
@@ -69,6 +69,6 @@ And now let's add a rake task to ping Google and Bing about our new sitemap:
         end
     end
 
-The last part is calling the ping rake task from within the generate task which can be done with `Rake::Task["ping"].invoke`. Now, whenever calling `rake publish`, it generates the html, pushes it to github and pings Google and Bing.
+The last part is calling the ping rake task from within the generate task which can be done with `Rake::Task["ping"].invoke`. Now, whenever calling `rake publish`, it generates the html, pushes it to github and pings Google and Bing. To see the end result, check out [my Rakefile](https://github.com/Sgoettschkes/sgoettschkes.github.io/blob/source/Rakefile).
 
 **Success!**
