@@ -2,7 +2,7 @@
 layout: post
 category: tools
 tags: [tools, backup, obnam, data recovery]
-title: Backups with Obnam
+title: "Backups with Obnam"
 author: Sebastian
 date: 2014-05-31 18:48:00 UTC
 ---
