@@ -4,7 +4,7 @@ permalink: /
 ---
 {% for post in site.posts %}
     <article>
-        <p class="pre-headline">Written by {{ post.author }}  on {{ post.date | date: "%b %-d, %Y" }}</p>
+        <p class="pre-headline">Written by {{ post.author }} on {{ post.date | date: "%b %-d, %Y" }} in <a href="/c/{{ post.category }}.html">{{ post.category | capitalize }}</p>
         <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
         {{ post.excerpt }}
         <p class="read-more"><a href="{{ post.url }}">Read more</a></p>
