@@ -3,7 +3,7 @@ layout: default
 ---
 <div class="row">
     <div class="large-12 columns" role="content">
-            <h1>All post from category "{{ page.category | capitalize }}"</h1>
+            <h1>All post for category "{{ page.category | capitalize }}"</h1>
             {% for post in site.categories[page.category] %}
                 <article>
                     <p class="pre-headline">Written by {{ post.author }}  on {{ post.date | date: "%b %-d, %Y" }}</p>
