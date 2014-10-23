@@ -26,6 +26,11 @@ task :generate do
     })).process
 end
 
+desc "Serve blog from localhost"
+task :serve do
+    system "jekyll serve --watch --force_polling"
+end
+
 desc "Generate and publish blog to gh-pages"
 task :publish => [:generate] do
     Dir.mktmpdir do |tmp|
