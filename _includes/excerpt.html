@@ -1,0 +1,6 @@
+<article>
+    <p class="pre-headline">Written by {{ include.post.author }} on {{ include.post.date | date: "%b %-d, %Y" }} in <a href="/c/{{ include.post.category }}.html">{{ include.post.category | capitalize }}</p>
+    <h2><a href="{{ include.post.url }}">{{ include.post.title }}</a></h2>
+    {{ include.post.excerpt }}
+    <p class="read-more"><a href="{{ include.post.url }}">Read more</a></p>
+</article>
