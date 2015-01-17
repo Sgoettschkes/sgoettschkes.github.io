@@ -1,0 +1,6 @@
+- name: PHPUnit Basisklassen für symfony2-Projekte
+  description: PHPMagazin.de, May 2012, German
+  url: http://it-republik.de/php/artikel/PHPUnit-Basisklassen-fuer-symfony2-Projekte-4804.html
+- name: How To Enable PHP 5.4 on OpenShift
+  description: openshift.redhat.com, Januar 2013, English
+  url: https://openshift.redhat.com/community/blogs/php-54-howto

@@ -53,14 +53,18 @@ layout: page
 <h2>Workshops</h2>
 
 <ul class="circle">
-    {% for workshop in site.data.about.workshops %}
-    <li>{{ workshop.name }}</li>
+    {% for ws in site.data.about.workshops %}
+    <li>{{ ws.name }}</li>
     {% endfor %}
 </ul>
 
 <h2>Publications</h2>
 
 <ul class="circle">
-    <li><a href="http://it-republik.de/php/artikel/PHPUnit-Basisklassen-fuer-symfony2-Projekte-4804.html" class="pubtitle" target="_blank">"PHPUnit Basisklassen für symfony2-Projekte"</a>, PHPMagazin.de, May 2012, German</li>
-    <li><a href="https://openshift.redhat.com/community/blogs/php-54-howto" class="pubtitle" target="_blank">"How To Enable PHP 5.4 on OpenShift"</a>, openshift.redhat.com, Januar 2013, English</li>
+    {% for pub in site.data.about.publications %}
+    <li>
+        <a href="{{ pub.url }}" class="pubtitle" target="_blank">"{{ pub.name }}"</a>, 
+        {{ pub.description }}
+    </li>
+    {% endfor %}
 </ul>
