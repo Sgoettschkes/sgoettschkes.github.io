@@ -41,9 +41,20 @@ layout: page
 <h2>Talks</h2>
 
 <ul class="circle">
-    {% for talk in site.data.about.talks %}
+    {% for talk in site.data.about.talks.recent %}
     <li>
         <a href="{{ talk.url }}" target="_blank">{{ talk.name }}</a> 
+        @ {{ talk.location }}, {{ talk.date }}
+    </li>
+    {% endfor %}
+</ul>
+
+<h4>Upcoming</h4>
+
+<ul>
+    {% for talk in site.data.about.talks.upcoming %}
+    <li>
+        {{ talk.name }}
         @ {{ talk.location }}, {{ talk.date }}
     </li>
     {% endfor %}
