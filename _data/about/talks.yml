@@ -1,0 +1,44 @@
+- name: Agile Webentwicklung mit symfony2 am Bespiel einer SOAP-Schnittstelle der PicturePlix
+  url: https://speakerdeck.com/sgoettschkes/agile-webentwicklung-mit-symfony2-am-bespiel-einer-soap-schnittstelle-der-pictureplix
+  location: Competence Center Day 2012
+  date: April 2012
+- name: symfony/AsseticBundle
+  url: https://speakerdeck.com/sgoettschkes/asseticbundle
+  location: symfony Usergroup Munich
+  date: May 2012
+- name: Improving Code Quality with Jenkins
+  url: https://speakerdeck.com/sgoettschkes/improving-code-quality-with-jenkins
+  location: Symfony Live 2012 (Unconference)
+  date: June 2012
+- name: assetic-in-the-real-world
+  url: https://speakerdeck.com/sgoettschkes/assetic-in-the-real-world
+  location: ViennaPHP
+  date: May 2013
+- name: shopify/dashing
+  url: https://speakerdeck.com/sgoettschkes/dashing
+  location: ViennaPHP
+  date: August 2013
+- name: Love thy vagrant
+  url: https://speakerdeck.com/sgoettschkes/love-thy-vagrant
+  location: DrupalCamp 2013
+  date: October 2013
+- name: va (Short intro to vagrant)
+  url: https://speakerdeck.com/sgoettschkes/va-short-intro-to-vagrant
+  location: MongoDB Vienna
+  date: March 2014
+- name: Vagrant for busy developers
+  url: https://speakerdeck.com/sgoettschkes/vagrant-for-busy-developers
+  location: vienna.js
+  date: March 2014
+- name: Vagrant to the rescue
+  url: https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue
+  location: Linuxwochen Wien 2014
+  date: May 2014
+- name: Vagrant to the rescue
+  url: https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-1
+  location: WebCamp Zagreb
+  date: October 2014
+- name: Vagrant to the rescue
+  url: https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-2
+  location: ViennaPHP
+  date: Novembeer 2014

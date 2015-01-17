@@ -18,7 +18,11 @@ layout: page
 
 <ul class="seenon no-bullet clearfix">
     {% for item in site.data.about.seenon %}
-    <li class="left"><a href="{{ item.url }}" target="_blank" ><image src="{{ item.image }}" alt="{{ item.name }}" title="{{ item.name }}" /></a></li>
+    <li class="left">
+        <a href="{{ item.url }}" target="_blank" >
+            <img src="{{ item.image }}" alt="{{ item.name }}" title="{{ item.name }}" />
+        </a>
+    </li>
     {% endfor %}
 </ul>
 
@@ -37,17 +41,12 @@ layout: page
 <h2>Talks</h2>
 
 <ul class="circle">
-    <li><a href="https://speakerdeck.com/sgoettschkes/agile-webentwicklung-mit-symfony2-am-bespiel-einer-soap-schnittstelle-der-pictureplix" target="_blank">Agile Webentwicklung mit symfony2 am Bespiel einer SOAP-Schnittstelle der PicturePlix</a> @ Competence Center Day 2012, April 2012 </li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/asseticbundle" target="_blank">symfony/AsseticBundle</a> @ symfony Usergroup Munich, May 2012</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/improving-code-quality-with-jenkins" targe="_blank">Improving Code Quality with Jenkins</a> @ Symfony Live 2012 (Unconference), June 2012</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/assetic-in-the-real-world" target="_blank">assetic-in-the-real-world</a> @ ViennaPHP, May 2013</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/dashing" target="_blank">shopify/dashing</a> @ ViennaPHP, August 2013</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/love-thy-vagrant" target="_blank">Love thy vagrant</a> @ DrupalCamp 2013, October 2013</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/va-short-intro-to-vagrant" target="_blank">va (Short intro to vagrant)</a> @ MongoDB Vienna, March 2014</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/vagrant-for-busy-developers" target="_blank">Vagrant for busy developers</a> @ vienna.js, March 2014</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue" target="_blank">Vagrant to the rescue</a> @ Linuxwochen Wien 2014, May 2014</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-1" target="_blank">Vagrant to the rescue</a> @ WebCamp Zagreb, October 2014</li>
-    <li><a href="https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-2" target="_blank">Vagrant to the rescue</a> @ ViennaPHP, November 2014</li>
+    {% for talk in site.data.about.talks %}
+    <li>
+        <a href="{{ talk.url }}" target="_blank">{{ talk.name }}</a> 
+        @ {{ talk.location }}, {{ talk.date }}
+    </li>
+    {% endfor %}
 </ul>
 
 <h2>Workshops</h2>
