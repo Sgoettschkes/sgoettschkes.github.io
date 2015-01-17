@@ -1,0 +1,36 @@
+- name: Facebook
+  url: http://www.facebook.com/sgoettschkes
+  image: /media/seenon/facebook.jpg
+- name: Google+
+  url: http://gplus.to/sgoettschkes
+  image: /media/seenon/googlePlus.jpg
+- name: twitter
+  url: http://twitter.com/Sgoettschkes
+  image: /media/seenon/twitter.jpg
+- name: app.net
+  url: https://alpha.app.net/sgoettschkes
+  image: /media/seenon/appnet.png
+- name: diaspora
+  url: https://diasp.de/u/sgoettschkes
+  image: /media/seenon/diaspora.jpg
+- name: XING
+  url: https://www.xing.com/profile/Sebastian_Goettschkes
+  image: /media/seenon/xing.jpg
+- name: LinkedIn
+  url: http://de.linkedin.com/in/sgoettschkes
+  image: /media/seenon/linkedIn.jpg
+- name: Careers 2.0
+  url: http://careers.stackoverflow.com/cv/employer/61523
+  image: media/seenon/careers20.jpg
+- name: Speakerdeck
+  url: https://speakerdeck.com/sgoettschkes
+  image: /media/seenon/speakerdeck.jpg
+- name: Stack Overflow
+  url: http://stackoverflow.com/users/372562/sgoettschkes
+  image: /media/seenon/stackOverflow.jpg
+- name: GitHub
+  url: https://github.com/Sgoettschkes
+  image: /media/seenon/github.jpg
+- name: Coderwall
+  url: https://github.com/Sgoettschkes 
+  image: /media/seenon/coderwall.jpg

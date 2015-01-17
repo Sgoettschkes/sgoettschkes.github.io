@@ -1,0 +1,13 @@
+- name: Sgoettschkes.me
+  description: Personal blog and page about me. Blogging about Software Engineering, DevOps and all things tech.
+  url: http://sgoettschkes.me
+  url_caption: sgoettschkes.me
+- name: ViennaPHP
+  description: Monthly events (Meetups with talks, Workshops) for (PHP) developer in Vienna. Founder and Co-Organizer.
+  url: http://viennaphp.org
+  url_caption: viennaphp.org
+- name: cllctr
+  description: Online software to manage CD collections.
+  url: http://cllctr.net
+  url_caption: cllctr.net
+

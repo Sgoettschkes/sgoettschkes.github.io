@@ -17,31 +17,21 @@ layout: page
 <h2>As seen on</h2>
 
 <ul class="seenon no-bullet clearfix">
-    <li class="left"><a href="http://www.facebook.com/sgoettschkes" target="_blank" ><image src="media/seenon/facebook.jpg" alt="facebook" title="facebook" /></a></li>
-    <li class="left"><a href="http://gplus.to/sgoettschkes" target="_blank" ><image src="media/seenon/googlePlus.jpg" alt="Google+" title="Google+" /></a></li>
-    <li class="left"><a href="http://twitter.com/Sgoettschkes" target="_blank" ><image src="media/seenon/twitter.jpg" alt="twitter" title="twitter" /></a></li>
-    <li class="left"><a href="https://alpha.app.net/sgoettschkes" target="_blank"  rel="me"><image src="media/seenon/appnet.png" alt="app.net" title="app.net" /></a></li>
-    <li class="left"><a href="https://diasp.de/u/sgoettschkes" target="_blank" ><image src="media/seenon/diaspora.jpg" alt="diaspora" title="diaspora" /></a></li>
-
-    <li class="left"><a href="https://www.xing.com/profile/Sebastian_Goettschkes" target="_blank" ><image src="media/seenon/xing.jpg" alt="XING" title="XING" /></a></li>
-    <li class="left"><a href="http://de.linkedin.com/in/sgoettschkes" target="_blank" ><image src="media/seenon/linkedIn.jpg" alt="LinkedIn" title="LinkedIn" /></a></li>
-    <li class="left"><a href="http://careers.stackoverflow.com/cv/employer/61523" target="_blank" ><image src="media/seenon/careers20.jpg" alt="Careers 2.0" title="Careers 2.0" /></a></li>
-    <li class="left"><a href="https://speakerdeck.com/sgoettschkes" target="_blank" ><image src="media/seenon/speakerdeck.jpg" alt="speakerdeck" title="speakerdeck" /></a></li>
-
-    <li class="left"><a href="http://stackoverflow.com/users/372562/sgoettschkes" target="_blank" ><image src="media/seenon/stackOverflow.jpg" alt="Stack Overflow" title="Stack Overflow" /></a></li>
-    <li class="left"><a href="https://github.com/Sgoettschkes" target="_blank" ><image src="media/seenon/github.jpg" alt="github" title="github" /></a></li>
-    <li class="left"><a href="http://coderwall.com/sgoettschkes" target="_blank" ><image src="media/seenon/coderwall.jpg" alt="coderwall" title="coderwall" /></a></li>
+    {% for item in site.data.about.seenon %}
+    <li class="left"><a href="{{ item.url }}" target="_blank" ><image src="{{ item.image }}" alt="{{ item.name }}" title="{{ item.name }}" /></a></li>
+    {% endfor %}
 </ul>
 
 <h2>Projects</h2>
 
 <dl>
-    <dt>Sgoettschkes.me</dt>
-    <dd>Personal blog and page about me. Blogging about Software Engineering, DevOps and all things tech. <a href="http://sgoettschkes.me" target="_blank">sgoettschkes.me</a></dd>
-    <dt>ViennaPHP</dt>
-    <dd>Founder and Organizer of the Vienna PHP Usergroup (ViennaPHP). Hosting monthly events for PHP developers. <a href="http://viennaphp.org" target="_blank">viennaphp.org</a></dd>
-    <dt>cllctr</dt>
-    <dd>Online software to manage CD collections. <a href="http://cllctr.net" target="_blank">cllctr.net</a></dd>
+    {% for project in site.data.about.projects %}
+    <dt>{{ project.name }}</dt>
+    <dd>
+        {{ project.description }}
+        <a href="{{ project.url }}" target="_blank">{{ project.url_caption }}</a>
+    </dd>
+    {% endfor %}
 </dl>
 
 <h2>Talks</h2>
@@ -63,7 +53,9 @@ layout: page
 <h2>Workshops</h2>
 
 <ul class="circle">
-    <li>Introduction to vagrant</li>
+    {% for workshop in site.data.about.workshops %}
+    <li>{{ workshop.name }}</li>
+    {% endfor %}
 </ul>
 
 <h2>Publications</h2>
