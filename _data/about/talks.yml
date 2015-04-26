@@ -42,8 +42,16 @@ recent:
     - name: Vagrant to the rescue
       url: https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-2
       location: ViennaPHP
-      date: Novembeer 2014
-upcoming:
+      date: November 2014
     - name: "Vagrant & Ansible: A love story"
+      url: https://speakerdeck.com/sgoettschkes/vagrant-and-ansible-a-love-story
       location: AnsibleFest London 2015
-      date: 05.02.2015
+      date: February 2015
+    - name: Building cllctr
+      url: https://speakerdeck.com/sgoettschkes/building-cllctr
+      location: ViennaPHP
+      date: April 2015
+upcoming:
+    - name: Let's automate stuff with ansible
+      location: Linuxwochen Wien 2015
+      date: 07.05.2015
