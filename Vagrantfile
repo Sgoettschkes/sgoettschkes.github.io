@@ -15,5 +15,5 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: "apt-get update"
   config.vm.provision "shell", inline: "apt-get install -y ruby ruby-dev &> /dev/null"
   config.vm.provision "shell", inline: "gem install --no-rdoc --no-ri bundler jekyll rake &> /dev/null"
-  config.vm.provision "shell", inline: "export DEBIAN_FRONTEND=noninteractive; apt-get install -t testing -y nodejs &> /dev/null"
+  config.vm.provision "shell", inline: "export DEBIAN_FRONTEND=noninteractive; apt-get install -t jessie -y nodejs &> /dev/null"
 end
