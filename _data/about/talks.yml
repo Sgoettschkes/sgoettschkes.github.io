@@ -51,7 +51,4 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/building-cllctr
       location: ViennaPHP
       date: April 2015
-upcoming:
-    - name: Let's automate stuff with ansible
-      location: Linuxwochen Wien 2015
-      date: 07.05.2015
+upcoming: []
