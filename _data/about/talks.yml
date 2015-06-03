@@ -47,6 +47,10 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/vagrant-and-ansible-a-love-story
       location: AnsibleFest London 2015
       date: February 2015
+    - name: Vagrant to the rescue
+      url: https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-3
+      location: LondonPHP Usergroup
+      date: February 2015
     - name: Building cllctr
       url: https://speakerdeck.com/sgoettschkes/building-cllctr
       location: ViennaPHP
