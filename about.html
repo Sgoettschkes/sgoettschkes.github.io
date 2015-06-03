@@ -45,6 +45,7 @@ layout: page
     <li>
         <a href="{{ talk.url }}" target="_blank">{{ talk.name }}</a> 
         @ {{ talk.location }}, {{ talk.date }}
+        {% if talk.video != nil %}| <a href="{{ talk.video }}">Video</a>{% endif %}
     </li>
     {% endfor %}
 </ul>
