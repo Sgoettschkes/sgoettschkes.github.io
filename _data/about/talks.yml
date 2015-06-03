@@ -21,6 +21,7 @@ recent:
       date: August 2013
     - name: Love thy vagrant
       url: https://speakerdeck.com/sgoettschkes/love-thy-vagrant
+      video: https://youtu.be/TMfUWNMXVV8
       location: DrupalCamp 2013
       date: October 2013
     - name: va (Short intro to vagrant)
@@ -37,6 +38,7 @@ recent:
       date: May 2014
     - name: Vagrant to the rescue
       url: https://speakerdeck.com/sgoettschkes/vagrant-to-the-rescue-1
+      video: https://youtu.be/VPSBFh418iM
       location: WebCamp Zagreb
       date: October 2014
     - name: Vagrant to the rescue
