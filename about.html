@@ -85,7 +85,8 @@ layout: page
 <h2>Contributions</h2>
 
 <ul class="circle">
-    {% for con in site.data.about.contributions %}
+    {% assign sorted_con = (site.data.about.contributions | sort: 'org' | sort: 'repo') %}
+    {% for con in sorted_con %}
     <li>
         <a href="https://github.com/{{ con.org }}/{{ con.repo }}" target="_blank">
             {{ con.org }}/{{ con.repo }}
