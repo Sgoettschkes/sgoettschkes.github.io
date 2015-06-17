@@ -40,3 +40,5 @@
   repo: symfony
 - org: josh
   repo: css-explain
+- org: zendframework
+  repo: zf2-documentation
