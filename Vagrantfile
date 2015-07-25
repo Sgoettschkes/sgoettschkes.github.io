@@ -1,6 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+$script = <<SCRIPT
+apt-get update &> /dev/null
+apt-get install -y ruby ruby-dev &> /dev/null
+gem install --no-rdoc --no-ri bundler jekyll rake &> /dev/null
+export DEBIAN_FRONTEND=noninteractive; apt-get install -t jessie -y nodejs &> /dev/null
+SCRIPT
+
 Vagrant.configure(2) do |config|
   config.vm.box = "Sgoettschkes/debian7-ansible"
 
@@ -12,8 +19,5 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: "chmod 0600 /home/vagrant/.ssh/id_rsa*"
 
   # install jekyll and dependencies
-  config.vm.provision "shell", inline: "apt-get update"
-  config.vm.provision "shell", inline: "apt-get install -y ruby ruby-dev &> /dev/null"
-  config.vm.provision "shell", inline: "gem install --no-rdoc --no-ri bundler jekyll rake &> /dev/null"
-  config.vm.provision "shell", inline: "export DEBIAN_FRONTEND=noninteractive; apt-get install -t jessie -y nodejs &> /dev/null"
+  config.vm.provision "shell", inline: $script
 end
