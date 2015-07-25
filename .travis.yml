@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+    - 2.1.5
+install:
+    - gem install --no-rdoc --no-ri bundler jekyll rake
+script:
+    - rake generate
