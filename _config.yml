@@ -8,7 +8,7 @@ exclude: ['contributions.pl', 'Rakefile', 'Vagrantfile']
 timezone: Europe/Vienna
 encoding: utf-8
 permalink: /p/:title.html
-markdown: kramdown
+markdown: redcarpet
 
 # Serve settings
 host: 0.0.0.0
