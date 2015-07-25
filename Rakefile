@@ -6,8 +6,7 @@ require "jekyll"
 
 require "net/http"
 
-# Change your GitHub reponame
-GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
+GITHUB_REPONAME = "https://#{ENV['GH_TOKEN']}@github.com/sgoettschkes/sgoettschkes.github.io"
 SITEMAP_PATH = "http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml"
 
 desc "Update repository"
@@ -48,7 +47,7 @@ task :publish => [:generate] do
         system "git add ."
         message = "Site updated at #{Time.now.utc}"
         system "git commit -m #{message.inspect}"
-        system "git remote add origin https://#{ENV['GH_TOKEN']}@github.com/#{GITHUB_REPONAME}"
+        system "git remote add origin #{GITHUB_REPONAME}"
         system "git push --force origin master"
 
         Dir.chdir pwd
