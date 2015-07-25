@@ -55,8 +55,6 @@ task :publish => [:generate] do
     end
 
     Rake::Task["ping"].invoke
-
-    system "git push origin source"
 end
 
 desc "Push sitemap to Google and Bing"
