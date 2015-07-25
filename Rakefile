@@ -33,6 +33,8 @@ end
 
 desc "Generate and publish blog to gh-pages"
 task :publish => [:generate] do
+    fail "Not on Travis" if "#{ENV['TRAVIS']}" != "true"
+
     Dir.mktmpdir do |tmp|
         cp_r "_site/.", tmp
 
@@ -40,11 +42,14 @@ task :publish => [:generate] do
         Dir.chdir tmp
 
         system "git init"
+        system "git config user.name 'Sebastian Göttschkes'"
+        system "git config user.email 'sebastian.goettschkes@googlemail.com'"
+
         system "git add ."
         message = "Site updated at #{Time.now.utc}"
         system "git commit -m #{message.inspect}"
-        system "git remote add origin git@github.com:#{GITHUB_REPONAME}.git"
-        system "git push origin master --force"
+        system "git remote add origin https://#{ENV['GH_TOKEN']}@github.com/#{GITHUB_REPONAME}"
+        system "git push --force origin master"
 
         Dir.chdir pwd
     end
