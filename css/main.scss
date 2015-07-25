@@ -45,6 +45,10 @@ $footer-bg: #F7FAFB;
         overflow: hidden;
 
         margin: 0 0 1.25rem 0;
+        padding: 0.25rem;
+
+        background: $footer-bg;
+        border: #EBF2F6 1px solid;
     }
 
     code {
