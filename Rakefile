@@ -7,14 +7,6 @@ GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
 GITHUB_REMOTE = "https://#{ENV['GH_TOKEN']}@github.com/#{GITHUB_REPONAME}"
 SITEMAP_PATH = "http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml"
 
-desc "Update repository"
-task :update do
-    system "git stash save"
-    system "git pull"
-    system "git push origin source"
-    system "git stash pop"
-end
-
 desc "Generate blog files"
 task :generate do
     Jekyll::Site.new(Jekyll.configuration({
