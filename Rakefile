@@ -20,7 +20,7 @@ task :serve do
     system "jekyll serve --watch --force_polling"
 end
 
-desc "Generate and publish blog to gh-pages"
+desc "Generate and publish blog to master"
 task :publish => [:generate] do
     fail "Not on Travis" if "#{ENV['TRAVIS']}" != "true"
 
