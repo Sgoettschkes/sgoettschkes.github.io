@@ -57,7 +57,8 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/building-cllctr
       location: ViennaPHP
       date: April 2015
-upcoming:
     - name: Let's automate stuf with Ansible
+      url: https://speakerdeck.com/sgoettschkes/automate-stuff-with-ansible
       location: Symfony Live Berlin 2015
       date: October 2015
+upcoming: []
