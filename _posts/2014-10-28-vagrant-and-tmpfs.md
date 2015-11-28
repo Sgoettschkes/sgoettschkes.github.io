@@ -10,7 +10,7 @@ When I am talking about Vagrant at usergroups and conferences, one thing I alway
 
 ## Mounting inside share folders
 
-At the vagran workshop for ViennaPHP, somebody mentioned to me the possibility to mount shared folders inside the virtual machine as a tmpfs drive. This surprised me because I was under the impression that you cannot mount folders inside a shared folder. Turns out you can, which opens a lot of possibilities.
+At the vagrant workshop for ViennaPHP, somebody mentioned to me the possibility to mount shared folders inside the virtual machine as a tmpfs drive. This surprised me because I was under the impression that you cannot mount folders inside a shared folder. Turns out you can, which opens a lot of possibilities.
 
 One is mounting the cache and log dir as a tmpfs drive, bypassing the shared folder and keeping the cache files and logs in RAM. As writing do disk is slower than using the RAM, this should make things faster. Compared to shared folders, it should be huge improvement.
 The disadvantage of this is that all files will be gone after the machine is powered off and that you can't access it easily from your host.
