@@ -18,7 +18,7 @@ With a Juypter server running and the iPython kernel installed, I can set up new
 
 ## Combining the GAE Remote API with iPython notebooks
 
-It became clear to me pretty fast that by using an iPython notebook to connect to the GAE Remote API and then working with objects like I do in the code could make things much easier. Sadly, I wasn't able to pull it off as I hit more than one wall trying to get the environment set up the right way. With some luck, I found a post by [Andrey](https://github.com/anfedorov) where he stated that he got this setup working. I shot him an email and he was very helpful and we got two different solutions working within a few emails.
+It became clear to me pretty fast that by using an iPython notebook to connect to the GAE Remote API and then working with objects like I do in the code could make things much easier. Sadly, I wasn't able to pull it off as I hit more than one wall trying to get the environment set up the right way. With some luck, I found a post by [Andrey](http://anfedorov.com/) where he stated that he got this setup working. I shot him an email and he was very helpful and we got two different solutions working within a few emails.
 
 It works pretty straight forward: When the iPython kernel boots, it looks for files to execute in a specific startup folder at `~/.ipython/default_profile/startup`. Putting a `startup.py` file there which provides a function to connect to the GAE Remote API is the only thing needed:
 
