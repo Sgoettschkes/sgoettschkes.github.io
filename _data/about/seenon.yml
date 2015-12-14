@@ -7,12 +7,6 @@
 - name: twitter
   url: http://twitter.com/Sgoettschkes
   image: /media/seenon/twitter.jpg
-- name: app.net
-  url: https://alpha.app.net/sgoettschkes
-  image: /media/seenon/appnet.png
-- name: diaspora
-  url: https://diasp.de/u/sgoettschkes
-  image: /media/seenon/diaspora.jpg
 - name: XING
   url: https://www.xing.com/profile/Sebastian_Goettschkes
   image: /media/seenon/xing.jpg
