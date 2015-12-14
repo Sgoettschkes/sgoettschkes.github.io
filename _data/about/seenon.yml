@@ -7,6 +7,9 @@
 - name: twitter
   url: http://twitter.com/Sgoettschkes
   image: /media/seenon/twitter.jpg
+- name: reddit
+  url: https://www.reddit.com/user/Sgoettschkes/
+  image: /media/seenon/reddit.jpg
 - name: XING
   url: https://www.xing.com/profile/Sebastian_Goettschkes
   image: /media/seenon/xing.jpg
@@ -25,6 +28,9 @@
 - name: GitHub
   url: https://github.com/Sgoettschkes
   image: /media/seenon/github.jpg
+- name: Meetup
+  url: http://www.meetup.com/members/39941682/
+  image: /media/seenon/meetup.jpg
 - name: Coderwall
   url: https://coderwall.com/sgoettschkes
   image: /media/seenon/coderwall.jpg
