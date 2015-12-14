@@ -4,13 +4,15 @@ sitemap:
     exclude: 'yes'
 ---
 
-$normal-font: 'Noto Serif', serif;
-$special-font: 'Open Sans', sans-serif;
+$normal-font: 'Open Sans', sans-serif;
+$special-font: 'Lora', serif;
 $footer-bg: #F7FAFB;
 
 @media only screen {
     body {
         background: $footer-bg;
+
+        font-family: $normal-font;
     }
 
     h1 {
@@ -19,8 +21,6 @@ $footer-bg: #F7FAFB;
         font-family: $special-font;
         font-size: 2.25rem;
         font-weight: bold;
-        letter-spacing: -1px;
-        text-indent: -2px;
     }
     
     h2 {
@@ -29,16 +29,10 @@ $footer-bg: #F7FAFB;
         font-family: $special-font;
         font-size: 1.25rem;
         font-weight: bold;
-        letter-spacing: -1px;
-        text-indent: -2px;
     }
 
     h3 {
         font-family: $special-font;
-    }
-
-    p, li {
-        font-family: $normal-font;
     }
 
     pre {
@@ -90,8 +84,6 @@ $footer-bg: #F7FAFB;
                         font-size: 2.25rem;
                         font-weight: bold;
                         
-                        letter-spacing: -1px;
-
                         > a {
                             color: #ffffff;
                         }
@@ -165,18 +157,14 @@ $footer-bg: #F7FAFB;
         margin: 0;
 
         color: #9EABB3;
-        font-family: $special-font;
         font-size: 0.9rem;
     }
 
     p.read-more {
         margin: 0 0 0.8rem 0;
-
-        font-family: $special-font;
     }
 
     p.tagline {
-        font-family: $special-font;
         font-weight: bold;
     }
 
