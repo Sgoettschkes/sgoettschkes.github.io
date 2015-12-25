@@ -13,15 +13,9 @@ I recently started working with the blossom team and doing freelancing work besi
 I spend most of my time on these things:</p>
 
 <ul>
-    <li>Making the blossom application better</li>
-    <li>Learning a ton of Python and Dart</li>
-    <li>Learning a lot about growth at a startup</li>
-    <li>Diving deep into the Google Cloud Platform</li>
-    <li>Writing and talking about Vagrant/Ansible</li>
-    <li>Organizing the Dart Usergroup and getting involved in WeAreDevelopers</li>
-    <li>Running and Body Weight Exercise</li>
-    <li>Going to hardcore punk shows and running tbalive, a small distro</li>
-    <li>Meditating</li>
+    {% for item in site.data.now.now %}
+    <li>{{ item }}</li> 
+    {% endfor %}
 </ul>
 
-<p>Last update was December 2015.</p>
+<p>Last updated in December 2015.</p>
