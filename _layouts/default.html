@@ -4,7 +4,7 @@
         <title>{{ site.title }}</title>
         <meta name="description" content="{{ site.description }}" />
 
-        <meta charset="utf-8" /> 
+        <meta charset="utf-8" />
         <meta name="robots" content="index, follow" />
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,11 +27,19 @@
         <header>
             <div>
                 <div>
-                    <p class="blog-title"><a href="/">Sgoettschkes.me</a></p> 
+                    <p class="blog-title"><a href="/">Sgoettschkes.me</a></p>
                     <p class="blog-description">Coding 5 to 9</p>
+
                 </div>
             </div>
         </header>
+        <nav>
+            <ul class="row">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/now.html">Now</a></li>
+            </ul>
+        </nav>
         <main>
             {{ content }}
         </main>

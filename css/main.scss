@@ -22,7 +22,7 @@ $footer-bg: #F7FAFB;
         font-size: 2.25rem;
         font-weight: bold;
     }
-    
+
     h2 {
         line-height: 1.1em;
 
@@ -83,15 +83,43 @@ $footer-bg: #F7FAFB;
 
                         font-size: 2.25rem;
                         font-weight: bold;
-                        
+
                         > a {
                             color: #ffffff;
                         }
                     }
 
                     &.blog-description {
+                        margin: 0 0 20px 0;
+
                         font-size: 1.125rem;
                     }
+                }
+            }
+        }
+    }
+
+    nav {
+        padding: 1rem 0 0 0;
+
+        ul {
+            text-align: center;
+
+            li {
+                display: inline;
+
+                margin: 0;
+                padding: 0 3rem 0 0;
+
+                list-style: none;
+
+                &:last-child {
+                    padding: 0;
+                }
+
+                > a {
+                    font-size: 1.125rem;
+                    color: #303538;
                 }
             }
         }
@@ -100,7 +128,7 @@ $footer-bg: #F7FAFB;
     main {
         display: block;
 
-        padding: 2rem 0;
+        padding: 1rem 0;
 
         background: #ffffff no-repeat center center;
 
@@ -108,7 +136,7 @@ $footer-bg: #F7FAFB;
             margin: 0 0 1.25rem 0;
 
             border-bottom: #EBF2F6 1px solid;
-            
+
             &:last-child {
                 border-bottom: #FFFFFF 0px solid;
             }
@@ -121,7 +149,7 @@ $footer-bg: #F7FAFB;
         background: $footer-bg no-repeat center center;
 
         border-top: #EBF2F6 1px solid;
-        
+
         a, a:hover {
             i {
                 color: #222222;
@@ -170,10 +198,10 @@ $footer-bg: #F7FAFB;
 
     ul.seenon {
         min-width: 200px;
-        
+
         li {
             padding: 10px;
-            
+
             a {
                 opacity: 0.7;
 
@@ -199,15 +227,21 @@ $footer-bg: #F7FAFB;
         font-size: 1.75rem;
     }
 
-    header {
-        > div > div p {
-            &.blog-title {
-                font-size: 3rem;
-            }
+    header > div > div p {
+        &.blog-title {
+            font-size: 3rem;
+        }
 
-            &.blog-description {
-                font-size: 1.25rem;
-            }
+        &.blog-description {
+            font-size: 1.25rem;
+        }
+    }
+
+    nav {
+        padding: 2rem 0 0 0;
+
+        ul > li > a {
+            font-size: 1.25rem;
         }
     }
 
