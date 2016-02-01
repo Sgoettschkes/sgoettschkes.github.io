@@ -4,3 +4,6 @@
 - name: How To Enable PHP 5.4 on OpenShift
   description: openshift.redhat.com, Januar 2013, English
   url: https://openshift.redhat.com/community/blogs/php-54-howto
+- name: Every project needs a Vagrant
+  description: wearedevelopers.com, January 2016, English
+  url: http://www.wearedevelopers.org/every-project-needs-a-vagrant/
