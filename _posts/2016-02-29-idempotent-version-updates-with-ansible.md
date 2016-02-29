@@ -4,7 +4,7 @@ category: dev
 tags: [ansible, devops, vagrant, dart]
 title: "Idempotent version updates with Ansible"
 author: Sebastian
-date: 2016-02-29 10:30:00
+date: 2016-02-29 10:00:00
 ---
 If you are a seasoned Vagrant user, you know the problem around provisioning. If some software version changes, everybody needs to provision his or her machine again. Otherwise, things will fail eventually. You'll also run into problems if running the provisioning twice fails for some reason (e.g. because a file already exists somewhere).
 
