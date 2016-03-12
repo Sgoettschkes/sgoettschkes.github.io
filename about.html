@@ -1,5 +1,6 @@
 ---
 layout: page
+title: About
 ---
 <h1>Sebastian Göttschkes</h1>
 <p class="tagline">#vegan #straightedge #agile #development #blossom</p>
@@ -45,7 +46,7 @@ layout: page
 <ul class="circle">
     {% for talk in site.data.about.talks.recent %}
     <li>
-        <a href="{{ talk.url }}" target="_blank">{{ talk.name }}</a> 
+        <a href="{{ talk.url }}" target="_blank">{{ talk.name }}</a>
         @ {{ talk.location }}, {{ talk.date }}
         {% if talk.video != nil %}| <a href="{{ talk.video }}">Video</a>{% endif %}
     </li>
@@ -78,12 +79,12 @@ layout: page
 <ul class="circle">
     {% for pub in site.data.about.publications %}
     <li>
-        <a href="{{ pub.url }}" class="pubtitle" target="_blank">"{{ pub.name }}"</a>, 
+        <a href="{{ pub.url }}" class="pubtitle" target="_blank">"{{ pub.name }}"</a>,
         {{ pub.description }}
     </li>
     {% endfor %}
 </ul>
- 
+
 <h2>Contributions</h2>
 
 <ul class="circle">
