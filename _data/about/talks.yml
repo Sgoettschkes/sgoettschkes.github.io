@@ -65,4 +65,8 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/lets-automate-stuff-with-ansible
       location: DrupalCamp Vienna 2015
       date: November 2015
+    - name: "Bullseye: An introduction to Dart"
+      url: https://speakerdeck.com/sgoettschkes/bullseye-an-introduction-to-dart
+      location: DartVienna
+      date: June 2016
 upcoming: []
