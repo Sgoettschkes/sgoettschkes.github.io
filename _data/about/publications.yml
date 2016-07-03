@@ -7,3 +7,5 @@
 - name: Every project needs a Vagrant
   description: wearedevelopers.com, January 2016, English
   url: http://www.wearedevelopers.org/every-project-needs-a-vagrant/
+- name: Get NumPY with Juypter and Vagrant
+  description: LinuxVoice #27, May 2016, English

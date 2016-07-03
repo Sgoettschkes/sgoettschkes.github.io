@@ -79,7 +79,11 @@ title: About
 <ul class="circle">
     {% for pub in site.data.about.publications %}
     <li>
-        <a href="{{ pub.url }}" class="pubtitle" target="_blank">"{{ pub.name }}"</a>,
+        {% if pub.url %}
+            <a href="{{ pub.url }}" class="pubtitle" target="_blank">"{{ pub.name }}"</a>,
+        {% else %}
+            "{{ pub.name }}",
+        {% endif %}
         {{ pub.description }}
     </li>
     {% endfor %}
