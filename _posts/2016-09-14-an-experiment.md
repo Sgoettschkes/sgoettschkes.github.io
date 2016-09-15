@@ -6,9 +6,10 @@ title: "An experiment"
 author: Sebastian
 date: 2016-09-14 07:00:00
 ---
-In the upcoming weeks, I'd like to do an experiment involving Pokemon Go and the in-game currency Pokecoins. In short: I'll exchange 2 hours of playing time for working with a client and using the money from this work to buy Pokecoins.
+In the upcoming weeks, I'd like to do an experiment involving Pokemon Go and the in-game currency Pokecoins. In short: I'll work with a specific client for 2 hours each week doing my usual work and I'll use the resulting money to buy Pokecoins. This work will be done on top of my current work.
 
 ## Client needed
+
 I am currently looking for a new client I can work with. There are a few requirements that need to be met in order to be a fit:
 
 * I'll only work for 2 hours/week with this client
