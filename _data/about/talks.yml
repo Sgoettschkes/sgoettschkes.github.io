@@ -73,4 +73,9 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/level-up-your-bot-with-watson
       location: Vienna Bots Meetup
       date: June 2016
+    - name: "Bullsyey: An introduction to Dart"
+      url: https://speakerdeck.com/sgoettschkes/bullseye-an-introduction-to-dart-1
+      video: https://youtu.be/IerhJ_4jFdA
+      location: WebCamp Zagreb
+      date: October 2016
 upcoming: []
