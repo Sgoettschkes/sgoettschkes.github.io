@@ -9,3 +9,5 @@
   url: http://www.wearedevelopers.org/every-project-needs-a-vagrant/
 - name: Get NumPY with Juypter and Vagrant
   description: LinuxVoice #27, May 2016, English
+- name: Harden your server using Ansible
+  description: LinuxVoice #30, September 2016, English

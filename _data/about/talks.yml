@@ -78,4 +78,8 @@ recent:
       video: https://youtu.be/IerhJ_4jFdA
       location: WebCamp Zagreb
       date: October 2016
+    - name: "How learning Python/Dart/Clojure made me a better PHP Developer"
+      url: https://speakerdeck.com/sgoettschkes/clojure-made-me-a-better-php-developer
+      location: ViennaPHP
+      date: May 2017
 upcoming: []

@@ -4,5 +4,11 @@
   url_caption: sgoettschkes.me
 - name: tbalive
   description: Small DIY distro for hardcore punk records.
-  url: http://www.tbalive.at
-  url_caption: www.tbalive.at
+- name: pogo.travel
+  description: Travel guides for Pokemon Go players
+  url: https://pogo.travel
+  url_caption: pogo.travel
+- name: raidwith.me
+  description: Web app for Pokemon players to coordinate in-game activities
+  url: https://raidwith.me
+  url_caption: raidwith.me

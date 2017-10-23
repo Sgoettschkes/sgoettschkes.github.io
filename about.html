@@ -36,7 +36,7 @@ title: About
     <dt>{{ project.name }}</dt>
     <dd>
         {{ project.description }}
-        <a href="{{ project.url }}" target="_blank">{{ project.url_caption }}</a>
+        {% if project.url != nil %}<a href="{{ project.url }}" target="_blank">{{ project.url_caption }}</a>{% endif %}
     </dd>
     {% endfor %}
 </dl>
@@ -92,7 +92,7 @@ title: About
 <h2>Contributions</h2>
 
 <ul class="circle">
-    {% assign sorted_con = (site.data.about.contributions | sort: 'org' | sort: 'repo') %}
+    {% assign sorted_con = site.data.about.contributions | sort: 'org' | sort: 'repo' %}
     {% for con in sorted_con %}
     <li>
         <a href="https://github.com/{{ con.org }}/{{ con.repo }}" target="_blank">
