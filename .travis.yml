@@ -6,7 +6,7 @@ branches:
 rvm:
 - 2.6.3
 install:
-- gem install --no-rdoc --no-ri bundler jekyll rake redcarpet
+- gem install --no-document bundler jekyll rake redcarpet
 script:
 - rake publish
 env:
