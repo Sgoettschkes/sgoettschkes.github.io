@@ -3,7 +3,7 @@ require "tmpdir"
 
 require "net/http"
 
-GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io"
+GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io.git"
 GITHUB_REMOTE = "https://#{ENV['GH_TOKEN']}@github.com/#{GITHUB_REPONAME}"
 SITEMAP_PATH = "http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml"
 
