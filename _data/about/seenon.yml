@@ -1,24 +1,12 @@
 - name: Facebook
   url: http://www.facebook.com/sgoettschkes
   image: /media/seenon/facebook.jpg
-- name: Google+
-  url: http://gplus.to/sgoettschkes
-  image: /media/seenon/googlePlus.jpg
 - name: twitter
   url: http://twitter.com/Sgoettschkes
   image: /media/seenon/twitter.jpg
-- name: reddit
-  url: https://www.reddit.com/user/Sgoettschkes/
-  image: /media/seenon/reddit.jpg
-- name: XING
-  url: https://www.xing.com/profile/Sebastian_Goettschkes
-  image: /media/seenon/xing.jpg
 - name: LinkedIn
   url: http://de.linkedin.com/in/sgoettschkes
   image: /media/seenon/linkedIn.jpg
-- name: Careers 2.0
-  url: http://careers.stackoverflow.com/cv/employer/61523
-  image: media/seenon/careers20.jpg
 - name: Speakerdeck
   url: https://speakerdeck.com/sgoettschkes
   image: /media/seenon/speakerdeck.jpg
@@ -28,9 +16,3 @@
 - name: GitHub
   url: https://github.com/Sgoettschkes
   image: /media/seenon/github.jpg
-- name: Meetup
-  url: http://www.meetup.com/members/39941682/
-  image: /media/seenon/meetup.jpg
-- name: Coderwall
-  url: https://coderwall.com/sgoettschkes
-  image: /media/seenon/coderwall.jpg
