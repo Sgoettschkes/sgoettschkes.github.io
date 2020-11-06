@@ -2,13 +2,9 @@
   description: Personal blog and page about me. Blogging about Software Engineering, DevOps and all things tech.
   url: http://sgoettschkes.me
   url_caption: sgoettschkes.me
-- name: tbalive
+- name: tbalive (discontinued)
   description: Small DIY distro for hardcore punk records.
-- name: pogo.travel
+- name: pogo.travel (discontinued)
   description: Travel guides for Pokemon Go players
-  url: https://pogo.travel
-  url_caption: pogo.travel
-- name: raidwith.me
+- name: raidwith.me (discontinued)
   description: Web app for Pokemon players to coordinate in-game activities
-  url: https://raidwith.me
-  url_caption: raidwith.me
