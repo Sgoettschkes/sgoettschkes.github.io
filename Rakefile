@@ -31,8 +31,8 @@ task :publish => [:generate] do
         Dir.chdir tmp
 
         system "git config --global init.defaultBranch main"
-        system "git config user.name 'Sebastian Göttschkes'"
-        system "git config user.email 'sebastian.goettschkes@googlemail.com'"
+        system "git config --global user.name 'Sebastian Göttschkes'"
+        system "git config --global user.email 'sebastian.goettschkes@googlemail.com'"
         system "git init"
 
         system "git add ."
