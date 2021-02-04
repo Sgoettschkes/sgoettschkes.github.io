@@ -3,7 +3,7 @@ require "tmpdir"
 
 require "net/http"
 
-GITHUB_REPONAME = "sgoettschkes/sgoettschkes.github.io.git"
+GITHUB_REPONAME = "Sgoettschkes/sgoettschkes.github.io.git"
 GITHUB_REMOTE = "https://#{ENV['GH_TOKEN']}@github.com/#{GITHUB_REPONAME}"
 SITEMAP_PATH = "http%3A%2F%2Fsgoettschkes.me%2Fsitemap.xml"
 
@@ -20,7 +20,7 @@ task :serve do
     system "jekyll serve --watch --force_polling"
 end
 
-desc "Generate and publish blog to master"
+desc "Generate and publish blog to main"
 task :publish => [:generate] do
     fail "Not on Travis" if "#{ENV['GITHUB_ACTIONS']}" != "true"
 
@@ -30,15 +30,16 @@ task :publish => [:generate] do
         pwd = Dir.pwd
         Dir.chdir tmp
 
-        system "git init"
+        system "git config --global init.defaultBranch main"
         system "git config user.name 'Sebastian Göttschkes'"
         system "git config user.email 'sebastian.goettschkes@googlemail.com'"
+        system "git init"
 
         system "git add ."
         message = "Site updated at #{Time.now.utc}"
         system "git commit -m #{message.inspect}"
         system "git remote add origin #{GITHUB_REMOTE}"
-        system "git push --quiet --force origin master"
+        system "git push --quiet --force origin main"
 
         Dir.chdir pwd
     end
