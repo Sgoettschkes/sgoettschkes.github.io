@@ -22,7 +22,7 @@ end
 
 desc "Generate and publish blog to master"
 task :publish => [:generate] do
-    fail "Not on Travis" if "#{ENV['TRAVIS']}" != "true"
+    fail "Not on Travis" if "#{ENV['GITHUB_ACTIONS']}" != "true"
 
     Dir.mktmpdir do |tmp|
         cp_r "_site/.", tmp
