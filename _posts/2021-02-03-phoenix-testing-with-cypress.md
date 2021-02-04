@@ -7,9 +7,9 @@ author: Sebastian
 date: 2021-02-03 17:30:00
 ---
 
-## Introduction into Cypress
-
 I still remember the days I tried to achieve UI testing with Selenium, PhantomJS and various other tools. It was a hassle. It didn't run on CI because it needed some kind of window manager. It was unstable.
+
+## Introducing Cypress
 
 Cypress has solved these issues, hiding the complexity of UI testing and leaving you with the task of writing the tests. It comes with it's own UI where you can run tests and see what the test does in realtime. Cypress can do screenshots, videos of the tests and more.
 
@@ -21,11 +21,11 @@ I assume you have an existing Elixir/Phoenix project you want to start using Cyp
 
 To install Cypress, we use npm: `cd assets/ && npm install cypress --save-dev`. Cypress installs itself and is afterwards available as a command line tool at `assets/node_modules/cypress/bin/cypress`.
 
-If you open the Cypress UI (`./assets/node_modules/cypress/bin/cypress open`), it creates a `cypress/` folder in your root directory, containing a full setup. I dislike the idea of having a folder dedicated to one specific tool in my root directory. I'd argue a much better place for these files is in `test/cypress`, so this is what we're going to set up. If you like your Cypress tests to live someplace else, you'll find this guide helpful to figure out which adjustments you need to make.
+Cypress by default expects all test files and support files to be located at `cypress/`. I'd argue a much better place for these files is in `test/cypress`, so this is where we're going to place them. If you like your Cypress tests to live someplace else, you'll find this guide helpful to figure out which adjustments you need to make.
 
 ## Config and support files
 
-Because we omit the `open` command and don't let Cypress create all the necessary files, we need to create them on our own. Let's start with the config file `cypress.json` in your root directory:
+Let's start with the config file `cypress.json` in your root directory:
 
 ```json
 {
@@ -47,7 +47,7 @@ As you can see, we overwrite all folders, either pointing to `test/cypress` or `
 
 ## The first test
 
-Now it's time to write the first test, a simple request to our homepage. Tests for Cypress are placed in the integrations folder which for us means creating the file `test/cypress/integration/index_spec.js`:
+Now it's time to write the first test, a simple request to our homepage. Tests for Cypress are placed in the integrations folder which means creating the file `test/cypress/integration/index_spec.js`:
 
 ```js
 describe('Homepage', () => {
@@ -57,7 +57,7 @@ describe('Homepage', () => {
 })
 ```
 
-You can run this test using the command `./assets/node_modules/cypress/bin/cypress run`, but it will fail if your Phoenix server does not run. Try it again after starting the the server with `mix phx.serer` in another terminal window.
+You can run this test using the command `./assets/node_modules/cypress/bin/cypress run` but it will fail if your Phoenix server does not run. Try it again after starting the server with `mix phx.serer` in another terminal window.
 
 ## The All-in-one shell file
 
@@ -88,7 +88,7 @@ echo "===KILLING PHX SERVER==="
 exit $result
 ```
 
-As you might have noticed, the `MIX_ENV` ist set to `cypress`. To create this env, we need a new configuration file `config/cypress.exs`:
+As you might have noticed, the `MIX_ENV` is set to `cypress`. To create this env, we need the new configuration file `config/cypress.exs`:
 
 ```elixir
 use Mix.Config
@@ -111,9 +111,9 @@ config :logger, level: :warn
 
 This approach is also copied from https://www.alanvardy.com/post/phoenix-cypress-tests. It's a great idea to separate the test environment from the ui test environment. As Alan suggests, you could use a tool like `ex_check` which can run your normal tests and your ui tests in parallel, which is only possible if you use different databases and thus different environments.
 
-We are using a different port in the cypress env, so make sure to adjust your tests accordingly.
+We are using a different port in the cypress env (`4002`), so make sure to adjust your tests accordingly.
 
-Now you can run your UI tests by executing `./cypress-run.sh`. 
+Now you can run your UI tests by executing `./cypress-run.sh`. This script should run on your CI environment as well as locally. Just make sure to run `npm install` in your CI run!
 
 ## What else?
 
