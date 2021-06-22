@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title><![CDATA[ Sgoettschkes.me ]]></title>
+        <description><![CDATA[ Personal blog and website by Sebastian Göttschkes, known as Sgoettschkes. Blogging about all things tech, mostly software engineering and DevOps. ]]></description>
+        <link>http://sgoettschkes.me/</link>
+        <generator>Jekyll</generator>
+        <lastBuildDate>Tue, 22 Jun 2021 09:31:47 +0200</lastBuildDate>
+        <atom:link href="http://sgoettschkes.me/feed.xml" rel="self" type="application/rss+xml" />
+        <author><![CDATA[ Sebastian Göttschkes ]]></author>
+        <ttl>60</ttl>
+        
+        <item>
+            <title><![CDATA[ Phoenix UI testing with Cypress, Part 1 ]]></title>
+            <description><![CDATA[ <p>I still remember the days I tried to achieve UI testing with Selenium, PhantomJS and various other tools. It was a hassle. It didn’t run on CI because it needed some kind of window manager. It was unstable.</p>
+
+<h2 id="introducing-cypress">Introducing Cypress</h2>
+
+<p>Cypress has solved these issues, hiding the complexity of UI testing and leaving you with the task of writing the tests. It comes with it’s own UI where you can run tests and see what the test does in realtime. Cypress can do screenshots, videos of the tests and more.</p>
+
+<p>In this tutorial, we’ll mostly use <code class="language-plaintext highlighter-rouge">cypress run</code>. This command acts like <code class="language-plaintext highlighter-rouge">mix test</code> does: Running your tests and displaying the result within your terminal window. I encourage you to check out the other features of Cypress on your own.</p>
+
+<h2 id="cypress-setup">Cypress Setup</h2>
+
+<p>I assume you have an existing Elixir/Phoenix project you want to start using Cypress with. Your frontend files are located at <code class="language-plaintext highlighter-rouge">assets/</code> while your elixir tests are stored within <code class="language-plaintext highlighter-rouge">test/</code>.</p>
+
+<p>To install Cypress, we use npm: <code class="language-plaintext highlighter-rouge">cd assets/ &amp;&amp; npm install cypress --save-dev</code>. Cypress installs itself and is afterwards available as a command line tool at <code class="language-plaintext highlighter-rouge">assets/node_modules/cypress/bin/cypress</code>.</p>
+
+<p>Cypress by default expects all test files and support files to be located at <code class="language-plaintext highlighter-rouge">cypress/</code>. I’d argue a much better place for these files is in <code class="language-plaintext highlighter-rouge">test/cypress</code>, so this is where we’re going to place them. If you like your Cypress tests to live someplace else, you’ll find this guide helpful to figure out which adjustments you need to make.</p>
+
+<h2 id="config-and-support-files">Config and support files</h2>
+
+<p>Let’s start with the config file <code class="language-plaintext highlighter-rouge">cypress.json</code> in your root directory:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"componentFolder"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"downloadsFolder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tmp/cypress/downloads"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"fixturesFolder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test/cypress/fixtures"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"integrationFolder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"test/cypress/integration"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"pluginsFile"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"screenshotOnRunFailure"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"screenshotsFolder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tmp/cypress/screenshots"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"supportFile"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"testFiles"</span><span class="p">:</span><span class="w"> </span><span class="s2">"**/*.*"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"video"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"videosFolder"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tmp/cypress/videos"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>As you can see, we overwrite all folders, either pointing to <code class="language-plaintext highlighter-rouge">test/cypress</code> or <code class="language-plaintext highlighter-rouge">tmp/cypress</code> (for files to be ignored). We also don’t use support files or plugins and deactivate screenshots and videos.</p>
+
+<h2 id="the-first-test">The first test</h2>
+
+<p>Now it’s time to write the first test, a simple request to our homepage. Tests for Cypress are placed in the integrations folder which means creating the file <code class="language-plaintext highlighter-rouge">test/cypress/integration/index_spec.js</code>:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">Homepage</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">Visit homepage without interaction</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">cy</span><span class="p">.</span><span class="nx">visit</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://localhost:4000/</span><span class="dl">'</span><span class="p">)</span>
+  <span class="p">})</span>
+<span class="p">})</span>
+</code></pre></div></div>
+
+<p>You can run this test using the command <code class="language-plaintext highlighter-rouge">./assets/node_modules/cypress/bin/cypress run</code> but it will fail if your Phoenix server does not run. Try it again after starting the server with <code class="language-plaintext highlighter-rouge">mix phx.serer</code> in another terminal window.</p>
+
+<h2 id="the-all-in-one-shell-file">The All-in-one shell file</h2>
+
+<p>We want to run the tests with one command, both locally and on a CI server. I used the shell script suggested by https://www.alanvardy.com/post/phoenix-cypress-tests and modified them a bit. Create a file <code class="language-plaintext highlighter-rouge">cypress-run.sh</code>, make it executable (<code class="language-plaintext highlighter-rouge">chmod +x cypress-run.sh</code>) and put the following code into it:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="c">#!/bin/sh</span>
+
+<span class="nv">MIX_ENV</span><span class="o">=</span>cypress mix ecto.reset
+<span class="nb">echo</span> <span class="s2">"===STARTING PHX SERVER==="</span>
+<span class="nb">echo</span> <span class="s2">"===IF STARTING CYPRESS FAILS==="</span>
+<span class="nb">echo</span> <span class="s2">"===RUN npm install cypress --save-dev ==="</span>
+<span class="nb">echo</span> <span class="s2">"===IN THE assets/ FOLDER==="</span>
+<span class="nv">MIX_ENV</span><span class="o">=</span>cypress mix phx.server &amp;
+<span class="nv">pid</span><span class="o">=</span><span class="nv">$!</span> <span class="c"># Store server pid</span>
+<span class="nb">echo</span> <span class="s2">"===WAITING FOR PHX SERVER==="</span>
+<span class="k">until</span> <span class="si">$(</span>curl <span class="nt">--output</span> /dev/null <span class="nt">--silent</span> <span class="nt">--head</span> <span class="nt">--fail</span> http://localhost:4002<span class="si">)</span><span class="p">;</span> <span class="k">do
+    </span><span class="nb">printf</span> <span class="s1">'.'</span>
+    <span class="nb">sleep </span>5
+<span class="k">done
+</span><span class="nb">echo</span> <span class="s2">""</span>
+<span class="nb">echo</span> <span class="s2">"===PHX SERVER RUNNING==="</span>
+<span class="nb">echo</span> <span class="s2">"===STARTING CYPRESS==="</span>
+./assets/node_modules/.bin/cypress run
+<span class="nv">result</span><span class="o">=</span><span class="nv">$?</span>
+<span class="nb">kill</span> <span class="nt">-9</span> <span class="nv">$pid</span> <span class="c"># kill server</span>
+<span class="nb">echo</span> <span class="s2">"===KILLING PHX SERVER==="</span>
+<span class="nb">exit</span> <span class="nv">$result</span>
+</code></pre></div></div>
+
+<p>As you might have noticed, the <code class="language-plaintext highlighter-rouge">MIX_ENV</code> is set to <code class="language-plaintext highlighter-rouge">cypress</code>. To create this env, we need the new configuration file <code class="language-plaintext highlighter-rouge">config/cypress.exs</code>:</p>
+
+<div class="language-elixir highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">use</span> <span class="no">Mix</span><span class="o">.</span><span class="no">Config</span>
+
+<span class="c1"># Configure your database</span>
+<span class="n">config</span> <span class="ss">:phonix</span><span class="p">,</span> <span class="no">Phonix</span><span class="o">.</span><span class="no">Repo</span><span class="p">,</span>
+  <span class="ss">username:</span> <span class="s2">"postgres"</span><span class="p">,</span>
+  <span class="ss">password:</span> <span class="s2">"postgres"</span><span class="p">,</span>
+  <span class="ss">database:</span> <span class="s2">"phonix_cypress"</span><span class="p">,</span>
+  <span class="ss">hostname:</span> <span class="s2">"localhost"</span><span class="p">,</span>
+  <span class="ss">pool_size:</span> <span class="mi">10</span>
+
+<span class="n">config</span> <span class="ss">:phonix</span><span class="p">,</span> <span class="no">PhonixWeb</span><span class="o">.</span><span class="no">Endpoint</span><span class="p">,</span>
+  <span class="ss">http:</span> <span class="p">[</span><span class="ss">port:</span> <span class="mi">4002</span><span class="p">],</span>
+  <span class="ss">server:</span> <span class="no">true</span>
+
+<span class="c1"># Print only warnings and errors during test</span>
+<span class="n">config</span> <span class="ss">:logger</span><span class="p">,</span> <span class="ss">level:</span> <span class="ss">:warn</span>
+</code></pre></div></div>
+
+<p>This approach is also copied from https://www.alanvardy.com/post/phoenix-cypress-tests. It’s a great idea to separate the test environment from the ui test environment. As Alan suggests, you could use a tool like <code class="language-plaintext highlighter-rouge">ex_check</code> which can run your normal tests and your ui tests in parallel, which is only possible if you use different databases and thus different environments.</p>
+
+<p>We are using a different port in the cypress env (<code class="language-plaintext highlighter-rouge">4002</code>), so make sure to adjust your tests accordingly.</p>
+
+<p>Now you can run your UI tests by executing <code class="language-plaintext highlighter-rouge">./cypress-run.sh</code>. This script should run on your CI environment as well as locally. Just make sure to run <code class="language-plaintext highlighter-rouge">npm install</code> in your CI run!</p>
+
+<h2 id="what-else">What else?</h2>
+
+<p>I intend to write a second part, figuring out how to use fixtures or reset the database between tests. I saw a few blog posts on how to do this, utilizing sockets in phoenix to take commands. I don’t really like the approach and might come up with a way to work with the database directly. We’ll see!</p>
+ ]]></description>
+            <pubDate>Wed, 03 Feb 2021 18:30:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/phoenix-testing-with-cypress.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/phoenix-testing-with-cypress.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ Quickstart guide for clojure (compojure), clojurescript (figwheel), garden ]]></title>
+            <description><![CDATA[ <p>Setting up new projects is always exciting, but if you have done it a few times, it’s getting old quick. I have set up a few projects in the last time and I believe I have a nice setup going which I’m about to share with everybody interested. There is nothing new in here and if you are a seasoned Clojure developer, you might not learn much. If you are just starting out or have some work done in Clojure but need a working setup or some input on your current setup, you are at the right place.</p>
+
+<p>All my projects live insight Vagrant virtual machines. I’ll be using Clojure with Compojure and Ring, Clojurescript with figwheel and garden. I’m also throwing in the cooper library.</p>
+
+<h2 id="clojure">Clojure</h2>
+
+<p>All my web Clojure projects include <code class="language-plaintext highlighter-rouge">compojure</code> and the <code class="language-plaintext highlighter-rouge">lein-ring</code> plugin. Both are mature and work very well, so I didn’t look any further. My project.clj at this point looks like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(defproject mycompany/myproject "0.1.0"
+  :dependencies [[compojure "1.6.0"]
+                 [org.clojure/clojure "1.8.0"]]
+  :main myproject.core
+  :min-lein-version "2.0.0"
+  :plugins [[lein-ring "0.12.1"]]
+  :ring {:auto-reload? true
+         :handler myproject.core/app
+         :open-browser? false
+         :reload-paths ["src/" "resources/"]}
+  :source-paths ["src/clj"])
+</code></pre></div></div>
+
+<p>The ring setup is important as it allows for auto-recompiling when run through <code class="language-plaintext highlighter-rouge">lein ring server</code>. <code class="language-plaintext highlighter-rouge">open-browser</code> is there because I run the project inside a vm, so there is no browser to open and instead of remembering to run <code class="language-plaintext highlighter-rouge">lein ring server-headless</code> every time, I disable it altogether.</p>
+
+<h1 id="clojurescript">ClojureScript</h1>
+
+<p>Adding Clojurescript is just a dependency away, especially if you don’t start with figwheel and other libraries but keep it plain and simple:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(defproject mycompany/myproject "0.1.0"
+  :cljsbuild {:builds [{:source-paths ["src/cljs"]
+                        :compiler {:optimizations :whitespace
+                                   :output-to "resources/public/js/main.js"
+                                   :output-dir "resources/public/js"}}]}
+  :dependencies [[compojure "1.6.0"]
+                 [org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.9.946"]
+                 [ring/ring-core "1.6.2"]
+                 [selmer "1.11.2"]]
+  :main myproject.core
+  :min-lein-version "2.0.0"
+  :plugins [[lein-cljsbuild "1.1.7"]
+            [lein-ring "0.12.1"]]
+  :resource-paths ["resources"]
+  :ring {:auto-reload? true
+         :handler myproject.core/app
+         :open-browser? false
+         :reload-paths ["src/" "resources/"]}
+  :source-paths ["src/clj"])
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">lein-cljsbuild</code> helps transpiling ClojureScript to Javascript by running <code class="language-plaintext highlighter-rouge">lein cljsbuild once</code> or <code class="language-plaintext highlighter-rouge">lein cljsbuild auto</code>.</p>
+
+<h2 id="garden">Garden</h2>
+
+<p>I usually try to stick with the choices popular within the ecosystem. I have used Sass and Less in the past and was fine with both. Garden is another CSS precompiler, but you write your CC as Clojure data structures, making it easy to integrate it within the ecosystem. There is nothing wrong with using another precompiler for CSS or write plain CSS if the project calls for it.</p>
+
+<p>For garden, you only need the dependency <code class="language-plaintext highlighter-rouge">[garden "1.3.3"]</code> as well as the plugin <code class="language-plaintext highlighter-rouge">[lein-garden "0.3.0"]</code>. After that, adding the garden config to your project.clj works like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  :garden {:builds [{:id "screen"
+                     :source-paths ["src/garden"]
+                     :stylesheet myproject.core/main
+                     :compiler {:output-to "resources/public/css/main.css"
+                                :pretty-print? false}}]}
+</code></pre></div></div>
+
+<p>As you can see, the garden source code goes into <code class="language-plaintext highlighter-rouge">src/garden</code>. Within <code class="language-plaintext highlighter-rouge">src</code>, there is also <code class="language-plaintext highlighter-rouge">clj</code> and <code class="language-plaintext highlighter-rouge">cljs</code> to split up the different parts (backend, frontend, CSS).</p>
+
+<h2 id="figwheel">Figwheel</h2>
+
+<p>We glanced over figwheel when setting up ClojureScript. If you would stop right now and would start working on your project, you’d need to wait for the ClojureScript compiler to generate the js on every change, than reload the website, navigate where you left of and look at your changed.</p>
+
+<p>With figwheel, only the part of your ClojureScript app that changed get recompiled and these parts get pushed to the browser directly which in turns exchanges the code parts so you see the changes directly.</p>
+
+<p>With all this going on, figwheel was the first hurdle for me. Adding it was straightforward by adding <code class="language-plaintext highlighter-rouge">[lein-figwheel "0.5.14"]</code> to the plugin section of the project.clj. After the, the <code class="language-plaintext highlighter-rouge">cljsbuild</code> config needed to be changed:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  :cljsbuild {:builds [{:compiler {:asset-path "js/out"
+                                   :main "myproject.core"
+                                   :optimizations :none
+                                   :output-to "resources/public/js/main.js"
+                                   :output-dir "resources/public/js/out"}
+                        :figwheel {:websocket-host "myproject.local"}
+                        :id "dev"
+                        :source-paths ["src/cljs"]}]}
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">websocket-host</code> was needed because of the vm. I run the project through a hostname and not by mapping localhost ports. The second thing needed was the figwheel config itself:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  :figwheel {:css-dirs ["resources/public/css"]
+             :hawk-options {:watcher :polling}
+             :ring-handler myproject.core/app
+             :server-port 3000}
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">css-dirs</code> is important to have hot code reloading for CSS as well. The <code class="language-plaintext highlighter-rouge">hawk-options</code> is needed because of the vm (again), as figwheel does not detect code changes (due to the way Vagrant mounts folders). By adding the <code class="language-plaintext highlighter-rouge">ring-handler</code>, the ring server is run when running figwheel, making it easier than running both processes in parallel.</p>
+
+<h2 id="bonus-points-cooper">Bonus points: Cooper</h2>
+
+<p>The next thing for me was to not have the need to run both <code class="language-plaintext highlighter-rouge">lein figwheel</code> and <code class="language-plaintext highlighter-rouge">lein garden auto</code> in two different shells. Luckily, there is <code class="language-plaintext highlighter-rouge">cooper</code>, which can be used to run many tasks in parallel. Add the lein plugin and a small config, and you are good to go:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  :cooper {"figwheel"  ["lein" "figwheel"]
+           "garden" ["lein" "garden" "auto"]}
+</code></pre></div></div>
+
+<p>After that, <code class="language-plaintext highlighter-rouge">lein cooper figwheel garden</code> got you covered.</p>
+
+<h2 id="follow-along">Follow along</h2>
+
+<p>If you want to see this changes in full (without cooper right now), go over to <a href="https://github.com/Sgoettschkes/web-clj">https://github.com/Sgoettschkes/web-clj</a> and step through the commits. You can see every code change in detail much better than I would ever be able to outline in this blog.</p>
+
+<p>I’ll also be adding more (and writing a second blog post) on testing Clojure and ClojureScript as well as adding some example code to the repo. Stay tuned!</p>
+
+<p>I’m also looking for feedback towards my setup, both in terms if libraries I used and the ways I plugged them together. You can either comment here, add an issue to the github repo or find me on social media as well as send me an email.</p>
+ ]]></description>
+            <pubDate>Fri, 03 Nov 2017 15:00:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/quickstart-guide-for-clojure-compojure-clojurescript-figwheel-garden.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/quickstart-guide-for-clojure-compojure-clojurescript-figwheel-garden.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ My personal state of Clojure ]]></title>
+            <description><![CDATA[ <p>Almost a year ago I wrote my last blog post on this blog. It wasn’t planned, it just happened. I was busy doing other, unrelated things and while I sometimes had something to say, I never took the time to take it to my blog. As with many things which are not top priority, it got lost along the way.</p>
+
+<p>As a comeback, I figured a personal look into Clojure might be interesting for some. Let’s go!</p>
+
+<h2 id="one-year-with-clojure">One year with Clojure</h2>
+
+<p>We started using Clojure for a new project (green-field, as some might say) at Blossom. We are building the project alongside running Blossom and other projects, which means progress is naturally slow. We also decided to look into Datomic as well, harming progress even further. But while we removed Datomic from our stack again, we keep Clojure and Clojurescript. Getting used to Clojure and Clojurescript took some times as well but now I feel good about the way I write code and I grew to like it a lot. I still got much to learn, but that’s ok as I like learning new things. Beside work, I used Clojure for 3 side projects (a Chatbot, a article-based website and a map-based web app).</p>
+
+<h2 id="clojure-as-a-language">Clojure as a language</h2>
+
+<p>I have worked with many languages over the years. Clojure feels more mature than many other “small” languages, both the language itself as well as the ecosystem. Leiningen is a great tool for managing dependencies and to buid your project. Built on top of the JVM means that running the application in production is possible everywhere where you’d be able to run Java applications.</p>
+
+<p>After some time to get used to the Clojure way, I am very fast implementing features in Clojure. Having the codebase split up into many small functions which are pure in most cases makes it easy to plug them together in new ways, remove a certain step or add another one. Testing is easy as well, given that Clojure works with data most of the time.</p>
+
+<p>And, before the argument comes up: Sure, just having (pure) functions doesn’t protect you from a messy code base. You can have unreadable, untraceable code in almost any language. But my personal feeling is that by sticking to small functions and trying to keep them pure goes a long way towards good software.</p>
+
+<p>The Clojars repository contains many packages and I haven’t had any problems finding the libraries I needed throughout the year. Having the possibility to add Maven dependencies or Jar files if no Clojure library is available adds to the ecosystem as well. Using Java libraries isn’t as smooth as the ones written in Clojure, but that’s mostly due to the underlying differences in thinking than a shortcoming of Clojure. And even though it sometimes feels weird, it works quiet well.</p>
+
+<h2 id="the-community">The community</h2>
+
+<p>Clojure has a small, nice community. You can feel the excitment about the language at our local Usergroup as well as when talking about Clojure at conferences and with fellow developers. Many times I had people jumping in to help me with my problems and being nice. I also don’t feel like I am looked down on or anything if I don’t understand a certain concept. In languages like Haskell I always felt a little stupid for not knowing how to solve a certain problem “the functional way”. I didn’t have this feeling in Clojure.</p>
+
+<p>As with any other small language, having a small community has drawbacks. Sometimes, you come across a problem nobody ever had. This is rare in the big languages as almost everything has been done. Sometimes, you are looking around and while it seems others have solved the problem, they didn’t openly discuss it. Again, it happens because of the smaller amount of people around.</p>
+
+<p>Additionally, the opinion of a few does make a lot more noise in a small community. It did show recently as a negative blog post hit Hackernews and reddit and the community started discussing. I don’t think a post like this would hit the Javascript or Python community as hard. With this in mind, it becomes even more crucial to try to discuss in a civil manner than to attack. People are spending their free time so we all can benefit. Even if you don’t like or don’t agree, showing some decency and respect for the work goes a long way.</p>
+
+<h2 id="getting-payed">Getting payed</h2>
+
+<p>Beside Blossom, I do some freelancing and while I’d love to use Clojure there as well, I wasn’t able to find any opportunities yet. The market for Clojure developers seems small. I was surprised to see some Clojure job posts on Upwork and have applied there, without much success yet.</p>
+
+<p>In Vienna, there are some companies using Clojure for their products. I am excited for their success stories and the inspiration for other companies to make the bold move and invest in a rather small language. I feel that with the Java interoperability the risks of such a move are minimized.</p>
+
+<p>Should you drop everything else and learn Clojure? I don’t think so. Make sure to experiment with Clojure. If you like it and if you feel you could be more productive, try to incorporate it into existing projects or new ones. But don’t just try Clojure. See if Erlang/Elixir is for you, if you can get more done with another “big” language or if you are still happy with your language of choice.</p>
+
+<p>I don’t see Clojure as a game changer, just as a nicer, cleaner way to express intend. But that’s a lot of what a language should foster, right?</p>
+ ]]></description>
+            <pubDate>Mon, 23 Oct 2017 12:00:00 +0200</pubDate>
+            <link>http://sgoettschkes.me/p/my-personal-state-of-clojure.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/my-personal-state-of-clojure.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ (clojure 2) Getting used to ]]></title>
+            <description><![CDATA[ <p>After “<a href="http://sgoettschkes.me/p/clojure-0-the-setup.html">The setup</a>” and “<a href="http://sgoettschkes.me/p/clojure-1-the-beginning.html">The beginning</a>”, my time with Clojure was somewhat limited due to pre-christmas stress. But this gave me time to reflect on what I learned so far, what I liked and didn’t like. I also attended the December Meetup by <a href="https://www.meetup.com/clojure-vienna/">(clojure ‘vienna)</a> and pair programmed Clojure for a few hours.</p>
+
+<h2 id="the-ecosystem">The ecosystem</h2>
+
+<p>I already said I liked the way Leiningen worked. Nothing has changed here. Leiningen feels stable and works great. I didn’t come across any issues using it, which is a great way for a language to work.</p>
+
+<p>I didn’t find an editor/IDE I liked yet. I started with vim because it is what I know and universal enough. I also set up <a href="https://atom.io/">Atom</a> and use it but don’t really like it. My biggest problem right now is that Clojure and Leiningen are installed inside a virtual machine, making many tools unusable. I’d love to be able to evaluate statements from my editor directly by running them inside the vm but it turns out that’s a bit of a problem. There are tools to do that, but the setup needed is just to much.</p>
+
+<p>My current workflow is writing code in Atom, running it sshd into the vm and also having an additional ssh session running with the Leiningen repl started to test out different things.</p>
+
+<h2 id="the-workflow">The workflow</h2>
+
+<p>Programming in a functional lanuage is just different then using a procedural language. It’s more about passing data around and rearrange it instead of maintaining a global state. It’s true that it’s much easier to reason about a small part of the software as the input and output is defined and can be tested.</p>
+
+<p>When pairing on Day 9 of Advent of Code, my coding partner who is also new to Clojure mentioned that he can’t see himself working in the language due to this being so different than what he’s used to from other languages (mainly Java). While I understand what he means I honestly think that it’s not better or worse but different. It takes time to get used to it.</p>
+
+<p>One thing I noticed was that testing was very easy because you can always split up big function into smaller ones, making them easily testable. It was also easy to reason about the different parts. The only hard thing was to put together the plan on how to get started and which path to take. But this discussion was useful and it was good to have it in the beginning instead of moving along and “just doing things”.</p>
+
+<h2 id="the-current-status">The current status</h2>
+
+<p>The last weeks have been busy, so I didn’t dive deeper into Clojure. My next step is taking a book and working through it while on christmas holiday. After using Clojure in practice and learning a ton I feel like a bit more theoretical understanding would be good at this point.</p>
+
+<p>I’d also like to write a small app in Clojure to see what this feels like. Advent of Code, Project Euler and others are great but they don’t mimic the real world. I realized with Advent of Code that I spent most of the time figuring out the algorithm, which does not help me getting any further with Clojure.</p>
+
+<h2 id="the-meta">The meta</h2>
+
+<p>Beside working with Clojure, I also watched a few talks by Rich Hickey. I like his ideas and got the feeling his one of those people not buying into hype and “best practice” but asking hard questions and thinking for himself. I might not agree with everything he says and don’t agree with every decision in Clojure, but overall he seems very reasonable. That’s more than enough for me to get behind Clojure.</p>
+
+<p>The next update will most likely on the book I chose to work through and what I learned. And it might only get here after my holiday, so enjoy the holidays, relax and stay tuned :)</p>
+ ]]></description>
+            <pubDate>Wed, 21 Dec 2016 11:00:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/clojure-2-getting-used-to.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/clojure-2-getting-used-to.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ (clojure 1) The beginning ]]></title>
+            <description><![CDATA[ <p>After “<a href="http://sgoettschkes.me/p/clojure-0-the-setup.html">The setup</a>”, I dove right into Clojure. As said before, I want to get to know Clojure by working on <a href="http://adventofcode.com/">Advent of Code</a> (AoC). I realize that coding puzzles and dojos and katas are not real world applications and one might miss certain things like performance or running an application in production. But they are small enough to provide fast feedback and to not hit a big wall. Even if I am not able to solve one, I can always skip that and keep going with another puzzle.</p>
+
+<h2 id="lein-run--lein-test">lein run &amp; lein test</h2>
+
+<p>Before starting with real code, I created a project for AoC. <code class="language-plaintext highlighter-rouge">lein new adventofcode</code>, ran in the <code class="language-plaintext highlighter-rouge">/vagrant</code> folder inside my Vagrant vm created a scaffold of a Clojure project the way Leiningen decided it should be. Within this directory, the program can be run by <code class="language-plaintext highlighter-rouge">lein run</code> and tested with <code class="language-plaintext highlighter-rouge">lein test</code>.</p>
+
+<p>I was again surprised by how easy this was. Everything works out of the box, no changes needed. The test fails, but that’s expected.</p>
+
+<p>And if you want to play with Clojure a bit before writing real code, a quick <code class="language-plaintext highlighter-rouge">lein repl</code> brings up a nice repl you can use to get a feeling for the syntax.</p>
+
+<h2 id="advent-of-code-day-1">Advent of Code, Day 1</h2>
+
+<p>Right after that first few minutes, I got into the code. Looking at the first day of AoC, it seemed plausible to see if I could get the input for the puzzle by downloading the file. A quick google search later it seemed fairly easy: Add a dependency to the code, use the library to request a url and get a string back. Adding the dependency is one line in the <code class="language-plaintext highlighter-rouge">project.cls</code>, requiring it is one more line and doing the request is again one line. That’s three lines. I was hooked!</p>
+
+<p>Leiningen detects changes in the dependencies and downloads everything automatically once you run <code class="language-plaintext highlighter-rouge">lein run</code> or any other Leiningen command. I added all my code to the <code class="language-plaintext highlighter-rouge">core.clj</code> file because I didn’t want to figure out how to best distribute code between many files. I usually focus on one thing at a time when learning a new language!</p>
+
+<p>Sadly, my code didn’t work. The reason was that the puzzle input needs login. I quickly decided that this would be to much of a hassle and put the puzzle input into a local txt file. Reading this file, I found the <code class="language-plaintext highlighter-rouge">slurp</code> function available in the clojure core which reads a file to a string. Again, very easy. It would be a problem with very big files but for now this was fine.</p>
+
+<p>Solving the first day was a succession of this steps: Google for an isolated problem, find a function or way to solve it, continue.</p>
+
+<h2 id="error-messages">Error messages</h2>
+
+<p>While solving the first day, it became clear to me that Clojure error messages are horrible. Seriously, the are the worst messages I have ever seen. Usually, they are just a Stack Trace from an Exception. Sometimes, they point to a specific line somehwere in there and sometimes it doesn’t even mention your code at all.</p>
+
+<p>It took way longer than needed because I had a weird error I couldn’t solve because I had no idea where to look. I looked at every piece of the code and after I already though the compiler was wrong I found the tiny little error.</p>
+
+<p>A lot fo errors are EOF problems because on of the many closing paranthesis is missing. Again, there is no real hint where this is so you again are on your own counting paranthesis.</p>
+
+<h2 id="done">Done</h2>
+
+<p>It took me maybe 3 hours to get both parts of the puzzle for day 1. Given Clojure is a completly new language for me and I had a few problems along the way, I guess this is an ok time spawn. I had a misunderstanding in the puzzle which took some time as well, so overall I was pretty happy.</p>
+
+<p>I’ll keep my impressions of the language for now and will get into them when I’m a little further down the road!</p>
+ ]]></description>
+            <pubDate>Thu, 08 Dec 2016 21:00:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/clojure-1-the-beginning.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/clojure-1-the-beginning.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ (clojure 0) The setup ]]></title>
+            <description><![CDATA[ <p>In the last week I started playing with <a href="https://clojure.org/">Clojure</a>. The reason for this are some upcoming projects with the blossom Team. The stack will most likely be Clojure in the backend and <a href="https://clojurescript.org/">ClojureScript</a> in the frontend. So I better up my game. I started with the <a href="http://adventofcode.com/">Advent of Code</a> to have some real world exposure and not just write complicated “Hello, World” code. I’m planning on writing a series of blog posts, documenting my journey.</p>
+
+<h2 id="vagrant">Vagrant</h2>
+
+<p>People who know me knew this was coming. I start every project in a clean vm managed by <a href="https://www.vagrantup.com/">Vagrant</a> to not clutter my laptop, remove stuff without a trace and not get caught in some weird dependency hell. I also got a vagrant setup for learning new stuff which is usually my go-to project when working on things like “Advent of Code”.</p>
+
+<p>So the first step for me was to add Clojure to the tech stack inside the Vagrant machine. To be honest, I expected some problems. There usually are. The only real easy setup I ever had was Dart, wehre downloading the zip and extracting it is all you really need. With clojure, it was almost as easy. Make sure Java is installed, download the leiningen script, make sure it’s executable and in the path, done.</p>
+
+<h2 id="clojure-and-leiningen">Clojure and Leiningen</h2>
+
+<p><a href="http://leiningen.org/">Leiningen</a> to me feels like a package manager on steriods and I love it. Using Leiningen to install Clojure is pure joy because it does it automatically. No need to figure anything out on your own. And it just works. I never installed something explicitly. If I add a dependency to my <code class="language-plaintext highlighter-rouge">project.clj</code> and run or test the project, Leiningen discovers the change and installs it automatically. I’m still amazed by how easy it feels to work with Leiningen.</p>
+
+<p>Leiningen also creates a new project scaffolding if you need it. Perfect for newcomers who have no idea how a project setup in Clojure looks like <code class="language-plaintext highlighter-rouge">lein new PROJECTNAME</code> and lein got you covered. You can use Leiningen to run the project, test it and build it as needed.</p>
+
+<h1 id="tests-included">Tests included</h1>
+
+<p>The new project also includes an incomplete test, urging you to fix it. This is great because it makes sure there is a working test setup included in the scaffolding make it easier to get started with tests. Nobody can be forced to write tests, but the easier it is to get started the more likely developers are to pick it up. And it’s more fun as well!</p>
+
+<p>In the next part I’ll talk about the first Advent of Code solutions as well as my feeling about Clojure after working with it a bit. Stay tuned ;)</p>
+ ]]></description>
+            <pubDate>Mon, 05 Dec 2016 14:00:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/clojure-0-the-setup.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/clojure-0-the-setup.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ An experiment ]]></title>
+            <description><![CDATA[ <p>In the upcoming weeks, I’d like to do an experiment involving Pokemon Go and the in-game currency Pokecoins. In short: I’ll work with a specific client for 2 hours each week doing my usual work and I’ll use the resulting money to buy Pokecoins. This work will be done on top of my current work.</p>
+
+<h2 id="client-needed">Client needed</h2>
+
+<p>I am currently looking for a new client I can work with. There are a few requirements that need to be met in order to be a fit:</p>
+
+<ul>
+  <li>I’ll only work for 2 hours/week with this client</li>
+  <li>The work is done async</li>
+</ul>
+
+<p>Ideal work would be:</p>
+
+<ul>
+  <li>Small development work which isn’t time critical (PHP, Python, Dart, Javascript)</li>
+  <li>Code review and/or overall codebase check (PHP/Python only)</li>
+  <li>DevOps work like setting up a vagrant environment or improving an existing Ansible setup</li>
+</ul>
+
+<p>As statet in the title, this is an experiment, which means that I’ll work on a rate that is lower than my usual hourly rate. Other than that, the client can expect my full commitment and my usual high quality work. If you know any company/person who would be interested in this, please forward my contact info which can be found at <a href="http://agileaddicts.com">http://agileaddicts.com</a>!</p>
+
+<h2 id="the-experiment">The experiment</h2>
+
+<p>The Pokemon Go hype got me! I’m not playing as much as a month ago (which might be because I was on holiday back then), but I invest quiet some time into the game. If you are not familiar with the game, it’s essentially running around with your mobile phone and catching Pokemon that pop up. You can also fight with your Pokemon in gyms, which gives you a reward (Pokecoins) which you can then use to buy additional items. You can also buy Pokecoins for real money. 100 Pokecoins cost 1€ and it takes me about 1 1/2 hour to get 100 Pokecoins, which is also the maximum for one day (21 hours to be exact).</p>
+
+<p>Doing the math, it’s insane to spent over 1 hour to “earn” something which is worth 1€. On the other hand, I play other games for hours which do not give me any “reward” and I do watch Netflix and I do various other activities which actually cost me money.</p>
+
+<p>And this is where my experiment comes in. I’d like to use the money from the 2 hours a week on Pokecoins and see if this changes my experience. I didn’t spent any money on the game yet which means I can directly compare the two ways of playing. I’ll also make sure to reduce my playing time by 2 hours, so those 2 hours won’t come out of my sleeping time or other activities.</p>
+
+<p>I expect that the two hours working will increase my Pokemon Go experience. The amount of coins will be a lot more than I could get in-game and can be used to make up for the two hours “lost” working instead of playing. Of course, there is the possibility that I’d rather play to earn those coins than work. Or it could be that not much changes.</p>
+
+<p>I’ll of course update my blog with results!</p>
+ ]]></description>
+            <pubDate>Wed, 14 Sep 2016 09:00:00 +0200</pubDate>
+            <link>http://sgoettschkes.me/p/an-experiment.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/an-experiment.html</guid>
+            <category><![CDATA[ freelance ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ Idempotent version updates with Ansible ]]></title>
+            <description><![CDATA[ <p>If you are a seasoned Vagrant user, you know the problem around provisioning. If some software version changes, everybody needs to provision his or her machine again. Otherwise, things will fail eventually. You’ll also run into problems if running the provisioning twice fails for some reason (e.g. because a file already exists somewhere).</p>
+
+<h2 id="idempotent-setup">Idempotent setup</h2>
+
+<p>If you are setting up your provisioning, the first thing you need to make sure is that you can run the setup steps more than once and it works without manual steps in between. Nothing is more frustrating than running <code class="language-plaintext highlighter-rouge">vagrant provision</code> and being left with errors because something is already installed or a file is already at a specific place.</p>
+
+<p>This is easy to do, even with a basic shell provisioner. You can check for the existence of files and test if some software is already installed. It’s also pretty easy to test: Just run the provisioning again and see if it works. If not, add appropriate tests and not run the offending commands.</p>
+
+<h2 id="updating-vs-optimizing">Updating vs. optimizing</h2>
+
+<p>Getting the provisioning step to update software to the correct version is more tricky. It’s easy with package managers like composer for PHP or pip for Python where you have a file containing all dependencies and their versions and the package manager takes care of the rest. If you need to download, compile and install a library, you are faced with three very different options: You can do all the steps every time when provisioning, which takes time even though most of the time nothing changed. You can also install it once and then forget about it, which means nothing happens if a new version for a software is available. The third thing is figuring out the current version as well as the target version and only run the steps for installing it if they don’t match.</p>
+
+<p>With Ansible, the Vagrant provisioner of choice for me, all three ways are possible. It’s important to be clear which one you are choosing so you know what drawbacks your solution might have.</p>
+
+<p>To run some steps every time, give them no restriction like <code class="language-plaintext highlighter-rouge">creates</code> for commands and Ansible will do as told. If you are using the <code class="language-plaintext highlighter-rouge">command</code> or <code class="language-plaintext highlighter-rouge">shell</code> module, Ansible will run it every time. If your process is downloading some tar or zip and extracting it, maybe running a setup command as well, Ansible will download it every time and you’ll get new versions available under the url.</p>
+
+<p>If you wanna run the whole process only once , use <code class="language-plaintext highlighter-rouge">creates</code> or similar instructions. Ansible will check if the file or directory is there and if it is, skip the step. As an example, let’s say you download some tar and extract it somewhere. The <code class="language-plaintext highlighter-rouge">unarchive</code> module takes a parameter called <code class="language-plaintext highlighter-rouge">creates</code>. If you set it to the extracted path, the command will do nothing if that folder is already there. As Ansible can’t possible figure out if the version inside the tar is the same as the existing one, it won’t unarchive it even though the version changed.</p>
+
+<h2 id="conditionals">Conditionals</h2>
+
+<p>If you want to run a command or a set of commands only if the installed version of a software differs from the target version, things are getting interesting. Let me walk you through that scenario. As an example, I’ll use the Dart SDK.</p>
+
+<p>First, we need a command to get the current version installed. For Dart, that’s reading the <code class="language-plaintext highlighter-rouge">version</code> file which contains only the version string. Other tools might make this more complicated, e.g. the Google Cloud SDK, which prints a lot of information in addition to the version when running <code class="language-plaintext highlighter-rouge">gcloud --version</code>. I usually use some command line magic like <code class="language-plaintext highlighter-rouge">sed</code> or <code class="language-plaintext highlighter-rouge">cut</code> to extract the part I need. Using the <code class="language-plaintext highlighter-rouge">shell</code> module from ansible, I pipe them together to end up with the version being the stdout for that command. We need to use <code class="language-plaintext highlighter-rouge">register</code> to put the output of that task into a variable. The whole task could look like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- name: Read the dart version
+  shell: cat /usr/local/lib/dart-sdk/version
+  register: current_dart_version
+  ignore_errors: True
+  changed_when: dart_version != current_dart_version.stdout
+</code></pre></div></div>
+
+<p>As you can see, I ignore errors because the shell command might fail if dart is not installed. I use <code class="language-plaintext highlighter-rouge">changed_when</code> because I like a clean output from Ansible. You can also see a variable named <code class="language-plaintext highlighter-rouge">dart_version</code> which I did not mention yet. It’s simply a variable keeping the target dart version.</p>
+
+<p>Next, let us download the Dart SDK if needed:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- name: download dart sdk
+  get_url:
+    dest=/tmp/dartsdk.zip
+    force=yes
+    url=https://storage.googleapis.com/dart-archive/channels/stable/release//sdk/dartsdk-linux-x64-release.zip
+  when: dart_version != current_dart_version.stdout
+</code></pre></div></div>
+
+<p>Again, we use the <code class="language-plaintext highlighter-rouge">dart_version</code> as a target both in the url and for the <code class="language-plaintext highlighter-rouge">when</code> clause which compares the stdout from the above command with our target. The last step is to extract the zip:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- name: extract dart sdk
+  unarchive:
+    copy=no
+    dest=/usr/local/lib
+    src=/tmp/dartsdk.zip
+  when: dart_version != current_dart_version.stdout
+</code></pre></div></div>
+
+<p>The same pattern repeats here as well. We only run the command if the target version is different from the current one. You can use this pattern for all kinds of installation and steps performed after the installation is done.</p>
+
+<h2 id="getting-fail-safe">Getting fail-safe</h2>
+
+<p>Even though this seems very much all you can want from a provisioning step, if you have to take care of real servers in production, you might want to be even more cautious. In the example above, if some files are not present in the new SDK, they are not deleted as the extract commands does not take care of this. We could work around this by first deleting the SDK.</p>
+
+<p>In production, it might be valuable to not just replace a version but have two versions installed and switch a symlink or something to change over. This way, it’s not possible that a process has access to the software in an unpredictable state.</p>
+
+<p>One tip regarding the version extraction: There are different ways to read the version! You might be able to read the version from some version-file or run the command with a <code class="language-plaintext highlighter-rouge">COMMAND --version</code> parameter. Look for different ways and see if some outputs only the exact version. And if you have to, using some regex with <code class="language-plaintext highlighter-rouge">sed</code> might not be the cleanest way but it does the job.</p>
+ ]]></description>
+            <pubDate>Mon, 29 Feb 2016 11:00:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/idempotent-version-updates-with-ansible.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/idempotent-version-updates-with-ansible.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ Dart, Vagrant and IDEs ]]></title>
+            <description><![CDATA[ <p>Using <a href="https://www.vagrantup.com">Vagrant</a> in order to have a reproducible development environment is second nature to me. All projects I work on have a <code class="language-plaintext highlighter-rouge">Vagrantfile</code> and it usually works great.</p>
+
+<h2 id="packages-and-your-ide">Packages and your IDE</h2>
+
+<p>One of the biggest problems when running your code inside a virtual machine is the IDE, at least for me. The code lives on my host machine and is synced into the vm, so I use an editor or IDE on my host. I might not have the needed dependencies on my host machine, so the IDE struggles to provide code completion (among other features which only work when the IDE can inspect the libraries used).</p>
+
+<p><a href="https://www.jetbrains.com/pycharm">PyCharm</a> (and many other JetBrains IDEs) has the ability to use a remote interpreter for Python. Pointing it to the Vagrant machine, PyCharm will ssh into the virtual machine and get the interpreter as well as all libraries installed through pip from there. This works rather well, so even though I don’t have flask installed on my host, I have code completion for the flask API and PyCharm tells me if I am missing an argument. If I use Python 3 for my project and it’s installed in the vm, I don’t need it on my host at all (In fact, I don’t need any Python installed, which is nice if you happen to develop on Windows).</p>
+
+<h2 id="dart-and-the-packages-symlinks">Dart and the packages symlinks</h2>
+
+<p>The Dart plugin for the JetBrains IDEs does not have such a feature. It relies on the Dart SDK installed on your host. I wouldn’t mind installing Dart, but there are some problems:</p>
+
+<ul>
+  <li>Different projects might use different versions of the Dart SDK. Keeping different versions of the SDK is tedious.</li>
+  <li>pub, the Dart package manager, downloads packages to <code class="language-plaintext highlighter-rouge">~/.pub-cache</code>. All dependencies need to be downloaded twice to be available inside the vm (to execute the code) and on the host (so the IDE can access it). You could sync your local <code class="language-plaintext highlighter-rouge">pub-cache</code> folder into the vm to get around this issue.</li>
+  <li>pub creates symlinks in your project to reference packages. In your project root, it creates a <code class="language-plaintext highlighter-rouge">packages</code> folder which contains symlinks to each package. The paths are absolute, so each time you run it inside the vm, it breaks the lookup on the host and vice verse.</li>
+</ul>
+
+<p>I didn’t find a solution to my first problem, but could solve the other two!</p>
+
+<h2 id="packages-to-the-rescue">.packages to the rescue</h2>
+
+<p>As far as the <code class="language-plaintext highlighter-rouge">.pub-cache</code> folder is concerned, there is a third solution beside downloading twice and syncing your pub cache: pub looks up the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code> environment variable and if it contains a valid path, it puts the dependencies there. This way, you can store all your dependencies in your project root in a <code class="language-plaintext highlighter-rouge">.pub-cache</code> (or whatever you wanna call it) folder. It’s synced to your host automatically, so no need to install the same libraries twice.</p>
+
+<p>The symlinks are a bigger problem, but if you are using Dart 1.12 or higher, there is a way around. By using <code class="language-plaintext highlighter-rouge">--no-package-symlinks</code> as an argument to <code class="language-plaintext highlighter-rouge">pub get</code> ( or <code class="language-plaintext highlighter-rouge">pub upgrade</code>), no symlinks are created. Instead, a single <code class="language-plaintext highlighter-rouge">.packages</code> file is used to store all links for the packages needed. Sadly, this links are again absolute. But with a little bit of <a href="https://github.com/agileaddicts/blitzlicht/blob/affac199cdab1154d66eb327696d26eb19d6b6cc/tool/grind.dart#L77-L80">Dart magic</a> (ok, regex magic), you can change those to be relative and work both on the vm and the host.</p>
+
+<p>If you are using Dart before 1.12, you can of course try to rewrite the symlinks which might work as well!</p>
+
+<h2 id="the-rough-edges">The rough edges</h2>
+
+<p>Because the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code> environment variable needs to be set correctly, I only run <code class="language-plaintext highlighter-rouge">pub get</code> and <code class="language-plaintext highlighter-rouge">pub upgrade</code> inside the vm where my provisioning takes care of putting everything in place. On my host, the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code> might point to a different project, messing everything up.</p>
+
+<p>One also needs to remember to run <code class="language-plaintext highlighter-rouge">pub get</code> with the correct argument and running the script to replace the links to be relative. If you are using some task runner (like <a href="https://pub.dartlang.org/packages/grinder">grinder</a>), this is no issue as you have your task and it takes care of doing all the steps needed. If you are still running tasks manually, well, you might want to consider using a task runner.</p>
+
+<h2 id="the-state-of-packages-managers">The state of packages managers</h2>
+
+<p>While this was intended as a practical post about Dart in the vm and IDEs, there is an underlying question: Why is it so complicated? Turns out that package management is complicated. Every package manager I have worked with has some problems. NPM (for Node.js) downloads every dependency once for each library that depends on it. There is no sharing going on, even if two libraries in one project depend on the exact same version.</p>
+
+<p>pip (for Python) and gem (for ruby) install packages globally and rely on external solutions (or workarounds) to install dependencies locally for every project. composer (for PHP) installs everything locally but only once, making it the best package manager I worked with in the past. If you work on a lot of projects and all depend on the same set of libraries, there is a certain overhead in downloading those libraries for each project though!</p>
+
+<p>pub seems to take into account all those problems: it installs each version needed of each library globally (if you don’t mess with the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code>), which means you can have different projects use different versions of the same library OR use the same library without storing it twice. Of course, within one project you can only use one version of each library, so “dependency hell” is still possible.</p>
+
+<h2 id="the-perfect-solution">The perfect solution?</h2>
+
+<p>The best solution would of course be if the Dart plugin could use a remote SDK. I doubt this will come anytime soon (I didn’t see anybody ranting about it anyway). The solution outlined above should also work with any IDE capable of using the <code class="language-plaintext highlighter-rouge">.packages</code> file for Dart.</p>
+
+<p>Having a working solution in place makes working on Dart projects which run inside a Vagrant vm much nicer. You should try it!</p>
+ ]]></description>
+            <pubDate>Thu, 21 Jan 2016 11:00:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/dart-vagrant-and-ides.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/dart-vagrant-and-ides.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+        <item>
+            <title><![CDATA[ Google App Engine Remote API within iPython Notebooks ]]></title>
+            <description><![CDATA[ <p>At <a href="https://www.blossom.co">blossom</a>, we are running on <a href="https://cloud.google.com/appengine/">Google App Engine</a> (GAE). It’s nice to stand on the shoulder of giants and don’t have to worry about servers at all. GAE takes care of scaling up and down for us, handles our database as well as storage and gives us great insight into our production environment.</p>
+
+<p>One thing I don’t like about GAE is that in order to have a look at the data inside our production database, you’ll either use the web interface or a REPL (which is called <code class="language-plaintext highlighter-rouge">remote_api_shell</code>). The web interface just doesn’t cut it if you want to look at different tables, compare data and do things like “Give me all projects and tasks for this set of users”. With the <code class="language-plaintext highlighter-rouge">remote_api_shell</code>, you can do that but it’s fairly limited in terms of repeating things and sharing your results.</p>
+
+<h2 id="python-in-your-browser">Python in your browser</h2>
+
+<p>For learning Python and testing solutions, I am usually running an <a href="https://ipython.org/">iPython</a> kernel within <a href="https://jupyter.org/">Jupyter</a>. If you don’t know about the Jupyter project yet, go check it out! It’s a server running on your localhost which serves a web frontend where you can create so-called notebooks and write code in various languages (depending which Jupyter kernels you have installed) right inside your browser. The code is executed through the server on your localhost, so it’s the real deal and not some Javascript library with an incomplete feature-set.</p>
+
+<p>With a Juypter server running and the iPython kernel installed, I can set up new notebooks to play around with e.g. RegEx. It’s also fairly easy to do some tutorial or see how, for example, generators work. Notebooks get stored on my machine, meaning I can pick up where I left whenever I want. Changing code, re-executing it and copying it is also super easy. And if I want to share the notebook, I can export it to HTML, markdown and even pdf.</p>
+
+<h2 id="combining-the-gae-remote-api-with-ipython-notebooks">Combining the GAE Remote API with iPython notebooks</h2>
+
+<p>It became clear to me pretty fast that by using an iPython notebook to connect to the GAE Remote API and then working with objects like I do in the code could make things much easier. Sadly, I wasn’t able to pull it off as I hit more than one wall trying to get the environment set up the right way. With some luck, I found a post by <a href="http://anfedorov.com/">Andrey</a> where he stated that he got this setup working. I shot him an email and he was very helpful and we got two different solutions working within a few emails.</p>
+
+<p>It works pretty straight forward: When the iPython kernel boots, it looks for files to execute in a specific startup folder at <code class="language-plaintext highlighter-rouge">~/.ipython/default_profile/startup</code>. Putting a <code class="language-plaintext highlighter-rouge">startup.py</code> file there which provides a function to connect to the GAE Remote API is the only thing needed:</p>
+
+<script src="https://gist.github.com/Sgoettschkes/5e9cae762530e53d0971.js"></script>
+
+<p>This makes it possible that within a notebook, you call the function <code class="language-plaintext highlighter-rouge">connect_to_gae()</code> and you are able to work with your objects or GQL just as you would inside your project:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>connect_to_gae()
+
+from models import User
+User.query().get()
+
+from google.appengine.ext import ndb
+ndb.gql("SELECT * FROM Project where __key__ = KEY('Project', 'somekey')").fetch()
+</code></pre></div></div>
+
+<p>For details about the implementation, have a look at the GIST. It’s pretty weird in the way that you have to add and remove stuff from the sys.path before being able to actually call the functions that establish the connection. By wrapping all this into a function, I make sure it’s only invoked when needed. Other notebooks that are not intended to work with the GAE Remote API won’t work any different!</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">startup.py</code> file for blossom has a few additional lines which include our project in the path so I can import our models and work with them easily. You can also add common imports there or provide helper functions you need a lot in your notebooks.</p>
+
+<p>With this setup, I was able to do some analysis on our database, got it formatted nicely and shared the HTML with my co-workers with ease. And by providing them the notebook itself, they can modify my work and put their own on top, making collaboration totally easy!</p>
+ ]]></description>
+            <pubDate>Fri, 11 Dec 2015 10:45:00 +0100</pubDate>
+            <link>http://sgoettschkes.me/p/google-app-engine-remote-api-within-ipython-notebooks.html</link>
+            <guid isPermaLink="true">http://sgoettschkes.me/p/google-app-engine-remote-api-within-ipython-notebooks.html</guid>
+            <category><![CDATA[ dev ]]></category>
+            <dc:creator><![CDATA[ Sebastian ]]></dc:creator>
+        </item>
+        
+    </channel>
+</rss>

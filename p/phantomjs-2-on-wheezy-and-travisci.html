@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            
+                PhantomJS 2 on Wheezy and TravisCI;
+            
+            Sgoettschkes.me;
+        </title>
+        <meta name="description" content="Personal blog and website by Sebastian Göttschkes, known as Sgoettschkes. Blogging about all things tech, mostly software engineering and DevOps." />
+
+        <meta charset="utf-8" />
+        <meta name="robots" content="index, follow" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/normalize.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/foundation.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+        <link rel="stylesheet" type="text/css" media="screen" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" >
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+
+        <script src="/js/vendor/modernizr.js"></script>
+
+        <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+
+        <link rel="canonical" href="http://sgoettschkes.me/p/phantomjs-2-on-wheezy-and-travisci.html" />
+
+        <link rel="alternate" type="application/rss+xml" title="Sgoettschkes.me" href="/feed.xml">
+    </head>
+    <body id="default">
+        <header>
+            <div>
+                <div>
+                    <p class="blog-title"><a href="/">Sgoettschkes.me</a></p>
+                    <p class="blog-description">Coding 5 to 9</p>
+
+                </div>
+            </div>
+        </header>
+        <nav>
+            <ul class="row">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/now">Now</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="row">
+    <div class="large-12 columns" role="content">
+        <article>
+            <p class="pre-headline">Written by Sebastian on Aug 21, 2015 in <a href="/c/dev.html">Dev</a></p>
+            <h1>PhantomJS 2 on Wheezy and TravisCI</h1>
+            <p>After playing with Dart for a little while, I also looked into testing with Dart and learned that the test library can use PhantomJS to test the code that interacts with the DOM. Being a testing junkie, I wanted to give this a try but learned that I needed PhantomJS 2 to get it working. Beside running it in my VM, I also wanted to have it running on TravisCI. This blog post tells you how to set up both.</p>
+
+<h2 id="compiling-it-yourself">Compiling it yourself</h2>
+
+<p>I struggled to find a binary version of PhantomJS 2. This version was released on January, but there are problems regarding building the binaries to work on different systems. The contributors are working on a solution. Until then, you have to build PhantomJS 2 yourself.</p>
+
+<p>There is a script for this and the build steps seem rather easy. I ran into problems doing this on my Debian Wheezy VM because of not enough RAM. So I spun up another one, gave it 2 GB of RAM and two processors and ran the script with <code class="language-plaintext highlighter-rouge">--jobs 2</code> which seemed to do the trick.</p>
+
+<p>After 2 hours of obscure output, a shiny executable named <code class="language-plaintext highlighter-rouge">phantomjs</code> was there. I put it up to download so everybody running Debian Wheezy can use it. Due to static linking it might not work, but give it a try:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo apt-get install -y libicu52 libfontconfig1 libjpeg62 libpng12-0
+sudo wget -O /usr/bin/phantomjs https://copy.com/YqL4Uc9T0PERoApf
+sudo chmod +x /usr/bin/phantomjs
+</code></pre></div></div>
+
+<h2 id="do-it-on-travisci">Do it on TravisCI</h2>
+
+<p>After running the tests locally, you might wanna run them on your CI server as well. If you are using TravisCI, you might be surprised. Even though TravisCI has PhantomJS preinstalled, it’s the 1.9.8 version.</p>
+
+<p>Put this commands into your <code class="language-plaintext highlighter-rouge">install</code> or <code class="language-plaintext highlighter-rouge">pre_install</code> section to get PhantomJS working:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl -s https://packagecloud.io/install/repositories/armando/phantomjs/script.deb.sh | sudo bash
+sudo apt-get install phantomjs=2.0.0
+</code></pre></div></div>
+
+<p>Now the only problem is that the old PhantomJS is in the <code class="language-plaintext highlighter-rouge">PATH</code> before the /usr/bin. This means that <code class="language-plaintext highlighter-rouge">phantomjs</code> points to the old 1.9.8 version. My workaround for this is running the following command when running the Dart tests: <code class="language-plaintext highlighter-rouge">export PATH=/usr/bin:$PATH &amp;&amp; pub run test -p phantomjs test/test_app.dart</code>. Maybe there is a nicer way. I though about removing the path to the old phantomjs executable from the <code class="language-plaintext highlighter-rouge">PATH</code> but could not find any easy way to do this. I also tried finding any settings for the dart test runner to tell him where to find the PhantomJS executable, but wasn’t successfull.</p>
+
+<p>With PhantomJS running locally and on TravisCI, you can go ahead and write tests for your Dart code. Happy testing!</p>
+
+        </article>
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <h3>Comments</h3>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'sgoettschkesme'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</div>
+        </main>
+        <footer>
+            <div class="row">
+                <div class="small-2 medium-2 columns">
+                    <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+                </div>
+                <div class="small-6 medium-8 columns">
+                    <p class="copyright">
+                        &copy; 2014 - 2020 <a href="/about">Sebastian Göttschkes</a>
+                        |
+                        Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+                        |
+                        Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>
+                    </p>
+                </div>
+                <div class="small-4 medium-2 columns clearfix">
+                    <ul class="inline-list right">
+                        <li><a href="https://www.facebook.com/sgoettschkes" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/Sgoettschkes" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="http://gplus.to/sgoettschkes" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-30976233-2', 'sgoettschkes.me');
+            ga('send', 'pageview');
+        </script>
+        <script src="/js/vendor/jquery.js"></script>
+        <script src="/js/foundation.min.js"></script>
+        <script>
+            $(document).foundation();
+        </script>
+    </body>
+</html>

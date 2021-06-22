@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            
+                Dart, Vagrant and IDEs;
+            
+            Sgoettschkes.me;
+        </title>
+        <meta name="description" content="Personal blog and website by Sebastian Göttschkes, known as Sgoettschkes. Blogging about all things tech, mostly software engineering and DevOps." />
+
+        <meta charset="utf-8" />
+        <meta name="robots" content="index, follow" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/normalize.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/foundation.min.css" />
+        <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+        <link rel="stylesheet" type="text/css" media="screen" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" >
+        <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+
+        <script src="/js/vendor/modernizr.js"></script>
+
+        <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+
+        <link rel="canonical" href="http://sgoettschkes.me/p/dart-vagrant-and-ides.html" />
+
+        <link rel="alternate" type="application/rss+xml" title="Sgoettschkes.me" href="/feed.xml">
+    </head>
+    <body id="default">
+        <header>
+            <div>
+                <div>
+                    <p class="blog-title"><a href="/">Sgoettschkes.me</a></p>
+                    <p class="blog-description">Coding 5 to 9</p>
+
+                </div>
+            </div>
+        </header>
+        <nav>
+            <ul class="row">
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/now">Now</a></li>
+            </ul>
+        </nav>
+        <main>
+            <div class="row">
+    <div class="large-12 columns" role="content">
+        <article>
+            <p class="pre-headline">Written by Sebastian on Jan 21, 2016 in <a href="/c/dev.html">Dev</a></p>
+            <h1>Dart, Vagrant and IDEs</h1>
+            <p>Using <a href="https://www.vagrantup.com">Vagrant</a> in order to have a reproducible development environment is second nature to me. All projects I work on have a <code class="language-plaintext highlighter-rouge">Vagrantfile</code> and it usually works great.</p>
+
+<h2 id="packages-and-your-ide">Packages and your IDE</h2>
+
+<p>One of the biggest problems when running your code inside a virtual machine is the IDE, at least for me. The code lives on my host machine and is synced into the vm, so I use an editor or IDE on my host. I might not have the needed dependencies on my host machine, so the IDE struggles to provide code completion (among other features which only work when the IDE can inspect the libraries used).</p>
+
+<p><a href="https://www.jetbrains.com/pycharm">PyCharm</a> (and many other JetBrains IDEs) has the ability to use a remote interpreter for Python. Pointing it to the Vagrant machine, PyCharm will ssh into the virtual machine and get the interpreter as well as all libraries installed through pip from there. This works rather well, so even though I don’t have flask installed on my host, I have code completion for the flask API and PyCharm tells me if I am missing an argument. If I use Python 3 for my project and it’s installed in the vm, I don’t need it on my host at all (In fact, I don’t need any Python installed, which is nice if you happen to develop on Windows).</p>
+
+<h2 id="dart-and-the-packages-symlinks">Dart and the packages symlinks</h2>
+
+<p>The Dart plugin for the JetBrains IDEs does not have such a feature. It relies on the Dart SDK installed on your host. I wouldn’t mind installing Dart, but there are some problems:</p>
+
+<ul>
+  <li>Different projects might use different versions of the Dart SDK. Keeping different versions of the SDK is tedious.</li>
+  <li>pub, the Dart package manager, downloads packages to <code class="language-plaintext highlighter-rouge">~/.pub-cache</code>. All dependencies need to be downloaded twice to be available inside the vm (to execute the code) and on the host (so the IDE can access it). You could sync your local <code class="language-plaintext highlighter-rouge">pub-cache</code> folder into the vm to get around this issue.</li>
+  <li>pub creates symlinks in your project to reference packages. In your project root, it creates a <code class="language-plaintext highlighter-rouge">packages</code> folder which contains symlinks to each package. The paths are absolute, so each time you run it inside the vm, it breaks the lookup on the host and vice verse.</li>
+</ul>
+
+<p>I didn’t find a solution to my first problem, but could solve the other two!</p>
+
+<h2 id="packages-to-the-rescue">.packages to the rescue</h2>
+
+<p>As far as the <code class="language-plaintext highlighter-rouge">.pub-cache</code> folder is concerned, there is a third solution beside downloading twice and syncing your pub cache: pub looks up the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code> environment variable and if it contains a valid path, it puts the dependencies there. This way, you can store all your dependencies in your project root in a <code class="language-plaintext highlighter-rouge">.pub-cache</code> (or whatever you wanna call it) folder. It’s synced to your host automatically, so no need to install the same libraries twice.</p>
+
+<p>The symlinks are a bigger problem, but if you are using Dart 1.12 or higher, there is a way around. By using <code class="language-plaintext highlighter-rouge">--no-package-symlinks</code> as an argument to <code class="language-plaintext highlighter-rouge">pub get</code> ( or <code class="language-plaintext highlighter-rouge">pub upgrade</code>), no symlinks are created. Instead, a single <code class="language-plaintext highlighter-rouge">.packages</code> file is used to store all links for the packages needed. Sadly, this links are again absolute. But with a little bit of <a href="https://github.com/agileaddicts/blitzlicht/blob/affac199cdab1154d66eb327696d26eb19d6b6cc/tool/grind.dart#L77-L80">Dart magic</a> (ok, regex magic), you can change those to be relative and work both on the vm and the host.</p>
+
+<p>If you are using Dart before 1.12, you can of course try to rewrite the symlinks which might work as well!</p>
+
+<h2 id="the-rough-edges">The rough edges</h2>
+
+<p>Because the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code> environment variable needs to be set correctly, I only run <code class="language-plaintext highlighter-rouge">pub get</code> and <code class="language-plaintext highlighter-rouge">pub upgrade</code> inside the vm where my provisioning takes care of putting everything in place. On my host, the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code> might point to a different project, messing everything up.</p>
+
+<p>One also needs to remember to run <code class="language-plaintext highlighter-rouge">pub get</code> with the correct argument and running the script to replace the links to be relative. If you are using some task runner (like <a href="https://pub.dartlang.org/packages/grinder">grinder</a>), this is no issue as you have your task and it takes care of doing all the steps needed. If you are still running tasks manually, well, you might want to consider using a task runner.</p>
+
+<h2 id="the-state-of-packages-managers">The state of packages managers</h2>
+
+<p>While this was intended as a practical post about Dart in the vm and IDEs, there is an underlying question: Why is it so complicated? Turns out that package management is complicated. Every package manager I have worked with has some problems. NPM (for Node.js) downloads every dependency once for each library that depends on it. There is no sharing going on, even if two libraries in one project depend on the exact same version.</p>
+
+<p>pip (for Python) and gem (for ruby) install packages globally and rely on external solutions (or workarounds) to install dependencies locally for every project. composer (for PHP) installs everything locally but only once, making it the best package manager I worked with in the past. If you work on a lot of projects and all depend on the same set of libraries, there is a certain overhead in downloading those libraries for each project though!</p>
+
+<p>pub seems to take into account all those problems: it installs each version needed of each library globally (if you don’t mess with the <code class="language-plaintext highlighter-rouge">PUB_CACHE</code>), which means you can have different projects use different versions of the same library OR use the same library without storing it twice. Of course, within one project you can only use one version of each library, so “dependency hell” is still possible.</p>
+
+<h2 id="the-perfect-solution">The perfect solution?</h2>
+
+<p>The best solution would of course be if the Dart plugin could use a remote SDK. I doubt this will come anytime soon (I didn’t see anybody ranting about it anyway). The solution outlined above should also work with any IDE capable of using the <code class="language-plaintext highlighter-rouge">.packages</code> file for Dart.</p>
+
+<p>Having a working solution in place makes working on Dart projects which run inside a Vagrant vm much nicer. You should try it!</p>
+
+        </article>
+    </div>
+</div>
+<div class="row">
+    <div class="large-12 columns">
+        <h3>Comments</h3>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'sgoettschkesme'; // required: replace example with your forum shortname
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</div>
+        </main>
+        <footer>
+            <div class="row">
+                <div class="small-2 medium-2 columns">
+                    <a href="/feed.xml"><i class="fa fa-rss"></i></a>
+                </div>
+                <div class="small-6 medium-8 columns">
+                    <p class="copyright">
+                        &copy; 2014 - 2020 <a href="/about">Sebastian Göttschkes</a>
+                        |
+                        Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+                        |
+                        Powered by <a href="http://jekyllrb.com/" target="_blank">Jekyll</a>
+                    </p>
+                </div>
+                <div class="small-4 medium-2 columns clearfix">
+                    <ul class="inline-list right">
+                        <li><a href="https://www.facebook.com/sgoettschkes" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="https://twitter.com/Sgoettschkes" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="http://gplus.to/sgoettschkes" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-30976233-2', 'sgoettschkes.me');
+            ga('send', 'pageview');
+        </script>
+        <script src="/js/vendor/jquery.js"></script>
+        <script src="/js/foundation.min.js"></script>
+        <script>
+            $(document).foundation();
+        </script>
+    </body>
+</html>
