@@ -7,9 +7,9 @@ title: "Something"
     <title>Still</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <%= link_to_css("css/theme.css", media: "all") %>
+    <%= link_to_css("css/global.css", media: "all") %>
   </head>
-  <body>
+  <body class="text-black bg-white">
     <%= @children %>
   </body>
 </html>

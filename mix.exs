@@ -28,7 +28,7 @@ defmodule Sgoettschkes.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:still, "~> 0.6.1"}
+      {:still, git: "https://github.com/still-ex/still.git", branch: "master"}
     ]
   end
 end
