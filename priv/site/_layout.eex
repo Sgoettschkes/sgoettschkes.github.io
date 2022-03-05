@@ -2,14 +2,29 @@
 title: "Something"
 ---
 <!DOCTYPE html>
-<html>
+<html class="h-full">
   <head>
     <title>Still</title>
-    <meta charset="UTF-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <%= link_to_css("css/global.css", media: "all") %>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <%= link_to_css("css/app.css", media: "all") %>
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
   </head>
-  <body class="text-black bg-white">
+  <body class="h-full text-black bg-white">
+    <header class="container flex flex-row w-full h-2/6 bg-gradient-to-b from-gray-600 to-gray-800">
+      <div class="grid items-center w-full grid-cols-1 justify-items-center">
+        <div class="text-center text-white h-fit">
+          <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+          <p class="font-serif text-lg">Coding 5 to 9</p>
+        </div>
+      </div>
+    </header>
     <%= @children %>
   </body>
 </html>
+

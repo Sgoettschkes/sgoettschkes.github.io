@@ -9,7 +9,7 @@ config :still,
     npx: [
       "tailwindcss",
       "--input=css/app.css",
-      "--output=../css/global.css",
+      "--output=../css/app.css",
       "--postcss",
       "--watch",
       cd: Path.expand("../priv/site/assets", __DIR__)
