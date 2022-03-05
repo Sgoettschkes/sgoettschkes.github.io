@@ -1,0 +1,7 @@
+<nav class="container pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>

@@ -17,59 +17,11 @@ title: "Something"
     <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
   </head>
   <body class="flex flex-col h-screen text-black bg-white">
-    <header class="container flex flex-row h-2/6 bg-gradient-to-b from-gray-600 to-gray-800">
-      <div class="grid items-center w-full grid-cols-1 justify-items-center">
-        <div class="text-center text-white h-fit">
-          <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
-          <p class="font-serif text-xl">Coding 5 to 9</p>
-        </div>
-      </div>
-    </header>
-    <nav class="container pt-4 font-sans text-lg">
-      <ul class="mx-auto w-fit">
-        <li class="inline pr-12"><a href="/">Home</a></li>
-        <li class="inline pr-12"><a href="/about">About</a></li>
-        <li class="inline pr-0"><a href="/now">Now</a></li>
-      </ul>
-    </nav>
+    <%= include(@env, "_includes/header.html.eex") %>
+    <%= include(@env, "_includes/nav.html.eex") %>
     <main class="my-4 mb-auto">
       <%= @children %>
     </main>
-    <footer class="container pt-2 pb-4 text-sm border-t-2 border-gray-500 bg-gradient-to-b from-gray-200 to-gray-300">
-      <div class="flex">
-        <div class="flex-none px-4">
-          <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
-        </div>
-        <div class="flex-grow text-center">
-          <p class="text-xs leading-5">
-            &copy; 2014 - 2022 <a class="text-blue" href="/about">Sebastian Göttschkes</a>
-            |
-            Hosted by <a class="text-blue" href="https://pages.github.com/" target="_blank">GitHub Pages</a>
-            |
-            Powered by <a class="text-blue" href="https://stillstatic.io/" target="_blank">Still</a>
-          </p>
-        </div>
-        <div class="flex-none px-3">
-          <ul class="">
-            <li class="inline mx-1">
-              <a href="https://www.facebook.com/sgoettschkes" target="_blank">
-                <i class="fa-brands fa-facebook-f"></i>
-              </a>
-            </li>
-            <li class="inline mx-1">
-              <a href="https://twitter.com/Sgoettschkes" target="_blank">
-                <i class="fa-brands fa-twitter"></i>
-              </a>
-            </li>
-            <li class="inline mx-1">
-              <a href="https://www.linkedin.com/in/sgoettschkes/" target="_blank">
-                <i class="fa-brands fa-linkedin-in"></i>  
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
+    <%= include(@env, "_includes/footer.html.eex") %>
   </body>
 </html>
-

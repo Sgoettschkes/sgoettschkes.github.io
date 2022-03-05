@@ -1,7 +1,35 @@
-<footer>
-  <p>Relevant links:</p>
-  <ul>
-    <li><a target="_blank" href="https://hexdocs.pm/still/">Docs</a></li>
-    <li><a target="_blank" href="https://github.com/still-ex/still">Github</a></li>
-  </ul>
+<footer class="container pt-2 pb-4 text-sm border-t-2 border-gray-500 bg-gradient-to-b from-gray-200 to-gray-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022 <a class="text-blue" href="/about">Sebastian Göttschkes</a>
+        |
+        Hosted by <a class="text-blue" href="https://pages.github.com/" target="_blank">GitHub Pages</a>
+        |
+        Powered by <a class="text-blue" href="https://stillstatic.io/" target="_blank">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" target="_blank">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://twitter.com/Sgoettschkes" target="_blank">
+            <i class="fa-brands fa-twitter"></i>
+          </a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" target="_blank">
+            <i class="fa-brands fa-linkedin-in"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </footer>
