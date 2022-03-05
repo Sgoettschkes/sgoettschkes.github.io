@@ -5,7 +5,11 @@ module.exports = {
       'sans': ['Open Sans', 'sans-serif'],
       'serif': ['Lora', 'serif']
     },
-    extend: {},
+    extend: {
+      colors: {
+        'blue': '#008cba'
+      }
+    },
   },
   variants: {
     extend: {},
