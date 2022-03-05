@@ -16,15 +16,24 @@ title: "Something"
     <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
   </head>
   <body class="h-full text-black bg-white">
-    <header class="container flex flex-row w-full h-2/6 bg-gradient-to-b from-gray-600 to-gray-800">
+    <header class="container flex flex-row h-2/6 bg-gradient-to-b from-gray-600 to-gray-800">
       <div class="grid items-center w-full grid-cols-1 justify-items-center">
         <div class="text-center text-white h-fit">
           <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
-          <p class="font-serif text-lg">Coding 5 to 9</p>
+          <p class="font-serif text-xl">Coding 5 to 9</p>
         </div>
       </div>
     </header>
-    <%= @children %>
+    <nav class="container pt-4 font-sans text-lg">
+      <ul class="mx-auto w-fit">
+        <li class="inline pr-12"><a href="/">Home</a></li>
+        <li class="inline pr-12"><a href="/about">About</a></li>
+        <li class="inline pr-0"><a href="/now">Now</a></li>
+      </ul>
+    </nav>
+    <main class="my-4">
+      <%= @children %>
+    </main>
   </body>
 </html>
 
