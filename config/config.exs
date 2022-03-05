@@ -2,9 +2,10 @@ import Config
 
 config :still,
   dev_layout: false,
-  ignore_files: ["assets", "css"],
+  ignore_files: ["assets"],
   input: Path.join(Path.dirname(__DIR__), "priv/site"),
   output: Path.join(Path.dirname(__DIR__), "_site"),
+  pass_through_copy: ["css/app.css"],
   watchers: [
     npx: [
       "tailwindcss",
