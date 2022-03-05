@@ -1,7 +1,7 @@
 <header class="container flex flex-row h-2/6 bg-gradient-to-b from-gray-600 to-gray-800">
   <div class="grid items-center w-full grid-cols-1 justify-items-center">
     <div class="text-center text-white h-fit">
-      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="mb-4 font-serif text-4xl font-bold"><%= link(@env, "Sgoettschkes.me", to: "/") %></p>
       <p class="font-serif text-xl">Coding 5 to 9</p>
     </div>
   </div>

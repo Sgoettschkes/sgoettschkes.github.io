@@ -4,7 +4,10 @@ title: "Something"
 <!DOCTYPE html>
 <html class="h-full">
   <head>
-    <title>Still</title>
+    <title>
+      <%= if @env[:title] do %><%= @env[:title] %>;<% end %>
+      Sgoettschkes.me;
+    </title>
 
     <meta charset="utf-8" />
     <meta name="robots" content="index, follow" />

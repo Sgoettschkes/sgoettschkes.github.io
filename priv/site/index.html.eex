@@ -1,9 +1,6 @@
 ---
 layout: _layout.html.eex
+title: Coding 5 to 9
 ---
 
-<h1 class="title">Welcome to Still</h1>
-
-<div class="main">
-  <p>Hello! <br /> This is your starter to create something beautiful.</p>
-</div>
+<p>coming soon...</p>
