@@ -1,0 +1,10 @@
+---
+layout: _layout.eex
+---
+
+<h1 class="title">Welcome to Still</h1>
+
+<div class="main">
+  <p>Hello! <br /> This is your starter to create something beautiful.</p>
+  <%= include(@env, "_includes/footer.eex") %>
+</div>

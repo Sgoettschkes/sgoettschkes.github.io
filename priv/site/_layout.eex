@@ -1,0 +1,15 @@
+---
+title: "Something"
+---
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Still</title>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <%= link_to_css("css/theme.css", media: "all") %>
+  </head>
+  <body>
+    <%= @children %>
+  </body>
+</html>
