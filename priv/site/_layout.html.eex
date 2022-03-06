@@ -22,7 +22,7 @@ title: "Something"
   <body class="flex flex-col h-screen text-black bg-white">
     <%= include(@env, "_includes/header.html.eex") %>
     <%= include(@env, "_includes/nav.html.eex") %>
-    <main class="my-4 mb-auto">
+    <main class="container w-3/5 mx-auto my-4 mb-auto">
       <%= @children %>
     </main>
     <%= include(@env, "_includes/footer.html.eex") %>
