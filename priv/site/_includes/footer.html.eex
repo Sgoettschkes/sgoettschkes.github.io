@@ -1,4 +1,4 @@
-<footer class="container pt-2 pb-4 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+<footer class="pt-2 pb-4 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
   <div class="flex">
     <div class="flex-none px-4">
       <%= link(@env, "<i class=\"fa-solid fa-rss\"></i>", to: "/feed.xml") %>

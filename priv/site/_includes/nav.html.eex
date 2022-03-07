@@ -1,4 +1,4 @@
-<nav class="container pt-4 font-sans text-lg">
+<nav class="pt-4 font-sans text-lg">
   <ul class="mx-auto w-fit">
     <li class="inline pr-12"><%= link(@env, "Home", to: "/") %></li>
     <li class="inline pr-12"><%= link(@env, "About", to: "/about") %></li>
