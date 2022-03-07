@@ -1,0 +1,102 @@
+---
+layout: _layout.html.eex
+title: About
+---
+
+<h1 class="font-serif text-4xl font-bold">Sebastian Göttschkes</h1>
+<p class="mb-5 font-serif text-lg font-bold">#vegan #music #strengthtraining #diagnosia #books</p>
+
+<h2 class="mb-2 font-serif text-lg font-bold">Contact</h2>
+
+<ul class="inline-block p-3 mb-5 font-sans border border-slate-200">
+    <li class="fn">Sebastian Göttschkes</li>
+    <li>Redtenbachergasse 35/8</li>
+    <li>1160 Vienna</li>
+    <li>Austria</li>
+    <li>sebastian (dot) goettschkes (at) googlemail (dot) com</li>
+</ul>
+
+<h2 class="mb-2 font-serif text-lg font-bold">As seen on</h2>
+
+<ul class="mb-5 font-sans">
+    <%= for item <- about_seenon() do %>
+        <li class="inline opacity-50 text-8xl hover:opacity-100">
+            <%= link(@env, "<i class=\"#{item["icon"]}\"></i>", to: item["url"]) %>
+        </li>
+    <% end %>
+</ul>
+
+<h2 class="mb-2 font-serif text-lg font-bold">Projects</h2>
+
+<dl class="mb-5 font-sans">
+    <%= for project <- about_projects() do %>
+        <dt class="mb-2 font-bold"><%= project["name"] %></dt>
+        <dd class="mb-4">
+            <%= project["description"] %>
+            <%= if Map.has_key?(project, "url") do %>
+                <br>
+                <%= link(@env, project["url_caption"], to: project["url"], class: "text-blue") %>
+            <% end %>
+        </dd>
+    <% end %>
+</dl>
+
+<h2 class="mb-2 font-serif text-lg font-bold">Talks</h2>
+
+<ul class="mb-5 font-sans list-disc list-inside">
+    <%= for talk <- about_recent_talks() do %>
+        <li>
+            <%= link(@env, talk["name"], to: talk["url"], class: "text-blue") %>
+            @ <%= talk["location"] %>, <%= talk["date"] %>
+            <%= if Map.has_key?(talk, "video_url") do %>
+                <%= link(@env, "Video", to: talk["video_url"], class: "text-blue") %>
+            <% end %>
+        </li>
+    <% end %>
+</ul>
+
+<%= if length(about_upcoming_talks()) > 0 do %>
+    <h4>Upcoming</h4>
+
+    <ul>
+        <%= for talk <- about_upcoming_talks() do %>
+            <li>
+                <% talk["name"] %>
+                @ <% talk["location"] %>, <% talk["date"] %>
+            </li>
+        <% end %>
+    </ul>
+<% end %>
+
+<h2 class="mb-2 font-serif text-lg font-bold">Workshops</h2>
+
+<ul class="mb-5 font-sans list-disc list-inside">
+    <%= for workshop <- about_workshops() do %>
+        <li><%= workshop["name"] %></li>
+    <% end %>
+</ul>
+
+<h2 class="mb-2 font-serif text-lg font-bold">Publications</h2>
+
+<ul class="mb-5 font-sans list-disc list-inside">
+    <%= for publication <- about_publications() do %>
+        <li>
+            <%= if Map.has_key?(publication, "url") do %>
+                "<%= link(@env, publication["name"], to: publication["url"], class: "text-blue") %>",
+            <% else %>
+                "<%= publication["name"] %>",
+            <% end %>
+            <%= publication["description"] %>
+        </li>
+    <% end %>
+</ul>
+
+<h2 class="mb-2 font-serif text-lg font-bold">Contributions</h2>
+
+<ul class="mb-5 font-sans list-disc list-inside">
+    <%= for contribution <- about_contributions() do %>
+        <li>
+            <%= link(@env, "#{contribution["org"]}/#{contribution["repo"]}", to: "https://github.com/#{contribution["org"]}/#{contribution["repo"]}", class: "text-blue") %>
+        </li>
+    <% end %>
+</ul>

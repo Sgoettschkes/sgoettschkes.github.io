@@ -28,7 +28,8 @@ defmodule Sgoettschkes.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:still, git: "https://github.com/still-ex/still.git", branch: "master"}
+      {:still, git: "https://github.com/still-ex/still.git", branch: "master"},
+      {:yaml_elixir, "~> 2.8"}
     ]
   end
 end

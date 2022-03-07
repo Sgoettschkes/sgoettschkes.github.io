@@ -1,0 +1,18 @@
+- name: Facebook
+  url: http://www.facebook.com/sgoettschkes
+  icon: fa-brands fa-facebook
+- name: twitter
+  url: http://twitter.com/Sgoettschkes
+  icon: fa-brands fa-twitter
+- name: LinkedIn
+  url: https://www.linkedin.com/in/sgoettschkes/
+  icon: fa-brands fa-linkedin
+- name: Speakerdeck
+  url: https://speakerdeck.com/sgoettschkes
+  icon: fa-brands fa-speaker-deck
+- name: Stack Overflow
+  url: https://stackoverflow.com/users/372562/sgoettschkes
+  icon: fa-brands fa-stack-overflow
+- name: GitHub
+  url: https://github.com/Sgoettschkes
+  icon: fa-brands fa-github

@@ -1,0 +1,18 @@
+- name: Sgoettschkes.me
+  description: Personal blog about and /now page. Blogging about Software Engineering DevOps and all things tech.
+  url: http://sgoettschkes.me
+  url_caption: sgoettschkes.me
+- name: phonix.live
+  description: Web app displaying streams and live gigs from DJs and Producers.
+  url: http://phonix.live
+  url_caption: phonix.live
+- name: intercom-elixir
+  description: Inoffical intercom library for elixir. Based on the official intercom library developed for Version 2 of the Intercom API
+  url: https://github.com/diagnosia/intercom-elixir
+  url_caption: intercom-elixir
+- name: tbalive (discontinued)
+  description: Small DIY distro for hardcore punk records.
+- name: pogo.travel (discontinued)
+  description: Travel guides for Pokemon Go players
+- name: raidwith.me (discontinued)
+  description: Web app for Pokemon players to coordinate in-game activities
