@@ -31,6 +31,20 @@ defmodule Sgoettschkes.TemplateHelpers do
     |> Enum.sort(&(String.downcase(&1["org"]) <= String.downcase(&2["org"])))
   end
 
+  def now_doing() do
+    read_yaml("priv/site/_data/now_doing.yaml")
+  end
+
+  def now_last_updated() do
+    File.cwd!()
+    |> Path.join("priv/site/_data/now_doing.yaml")
+    |> File.lstat!()
+    |> Map.get(:mtime)
+    |> NaiveDateTime.from_erl!()
+    |> DateTime.from_naive!("Etc/UTC")
+    |> Timex.format!("%B %Y", :strftime)
+  end
+
   defp read_yaml(path) do
     File.cwd!()
     |> Path.join(path)

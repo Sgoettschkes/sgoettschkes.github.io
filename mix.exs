@@ -29,6 +29,7 @@ defmodule Sgoettschkes.MixProject do
   defp deps do
     [
       {:still, git: "https://github.com/still-ex/still.git", branch: "master"},
+      {:timex, "~> 3.7"},
       {:yaml_elixir, "~> 2.8"}
     ]
   end
