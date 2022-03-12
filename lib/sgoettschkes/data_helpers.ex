@@ -1,4 +1,4 @@
-defmodule Sgoettschkes.TemplateHelpers do
+defmodule Sgoettschkes.DataHelpers do
   def about_seenon() do
     read_yaml("priv/site/_data/about_seenon.yaml")
   end
