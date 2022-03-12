@@ -1,4 +1,14 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind variants;
 
+@layer base {
+  article h2 {
+    @apply mt-2 mb-1 font-serif text-lg font-bold;
+  }
+
+  article p {
+    @apply font-sans;
+  }
+}
