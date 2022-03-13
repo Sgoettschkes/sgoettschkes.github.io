@@ -9,7 +9,6 @@ config :still,
   input: Path.join(Path.dirname(__DIR__), "priv/site"),
   output: Path.join(Path.dirname(__DIR__), "_site"),
   pass_through_copy: ["CNAME", "css/app.css"],
-  template_helpers: [Sgoettschkes.DataHelpers, Sgoettschkes.PostHelpers],
   preprocessors: %{
     ~r/\.html\.eex$/ => [
       Still.Preprocessor.AddContent,
@@ -19,7 +18,21 @@ config :still,
       Still.Preprocessor.AddLayout,
       Sgoettschkes.Preprocessor.Sitemap,
       Still.Preprocessor.Save
+    ],
+    ~r/\.xml\.eex$/ => [
+      Still.Preprocessor.AddContent,
+      Still.Preprocessor.EEx,
+      Still.Preprocessor.Frontmatter,
+      Still.Preprocessor.OutputPath,
+      Sgoettschkes.Preprocessor.Xml,
+      Still.Preprocessor.Save
     ]
+  },
+  template_helpers: [
+    Sgoettschkes.DataHelpers,
+    Sgoettschkes.PostHelpers,
+    Sgoettschkes.SitemapHelpers
+  ],
   watchers: [
     npx: [
       "tailwindcss",

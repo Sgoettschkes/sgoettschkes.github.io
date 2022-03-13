@@ -1,6 +1,7 @@
 ---
 layout: _layout.html.eex
 title: Coding 5 to 9
+sitemap: true
 ---
 
 <p>coming soon...</p>
