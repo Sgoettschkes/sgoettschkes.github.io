@@ -5,7 +5,7 @@ config :still,
   ignore_files: ["assets"],
   input: Path.join(Path.dirname(__DIR__), "priv/site"),
   output: Path.join(Path.dirname(__DIR__), "_site"),
-  pass_through_copy: ["css/app.css"],
+  pass_through_copy: ["CNAME", "css/app.css"],
   template_helpers: [Sgoettschkes.DataHelpers, Sgoettschkes.PostHelpers],
   watchers: [
     npx: [
