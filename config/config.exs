@@ -1,5 +1,8 @@
 import Config
 
+config :sgoettschkes,
+  site_url: ""
+
 config :still,
   dev_layout: false,
   ignore_files: ["assets"],
@@ -7,6 +10,16 @@ config :still,
   output: Path.join(Path.dirname(__DIR__), "_site"),
   pass_through_copy: ["CNAME", "css/app.css"],
   template_helpers: [Sgoettschkes.DataHelpers, Sgoettschkes.PostHelpers],
+  preprocessors: %{
+    ~r/\.html\.eex$/ => [
+      Still.Preprocessor.AddContent,
+      Still.Preprocessor.EEx,
+      Still.Preprocessor.Frontmatter,
+      Still.Preprocessor.OutputPath,
+      Still.Preprocessor.AddLayout,
+      Sgoettschkes.Preprocessor.Sitemap,
+      Still.Preprocessor.Save
+    ]
   watchers: [
     npx: [
       "tailwindcss",
