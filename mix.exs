@@ -29,6 +29,7 @@ defmodule Sgoettschkes.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:neotoma, "~> 1.7.3", manager: :rebar3, override: true},
       {:still, git: "https://github.com/still-ex/still.git", branch: "master"},
       {:timex, "~> 3.7"},
       {:yaml_elixir, "~> 2.8"}
