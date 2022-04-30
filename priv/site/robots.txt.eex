@@ -1,0 +1,9 @@
+---
+layout: nil
+permalink: robots.txt
+---
+User-agent: *
+
+Disallow:
+
+Sitemap: <%= get_sitemap_url() %>

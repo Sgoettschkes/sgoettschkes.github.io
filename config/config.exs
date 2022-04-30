@@ -26,11 +26,20 @@ config :still,
       Still.Preprocessor.OutputPath,
       Sgoettschkes.Preprocessor.Xml,
       Still.Preprocessor.Save
+    ],
+    ~r/\.txt\.eex$/ => [
+      Still.Preprocessor.AddContent,
+      Still.Preprocessor.EEx,
+      Still.Preprocessor.Frontmatter,
+      Still.Preprocessor.OutputPath,
+      Sgoettschkes.Preprocessor.Txt,
+      Still.Preprocessor.Save
     ]
   },
   template_helpers: [
     Sgoettschkes.DataHelpers,
     Sgoettschkes.PostHelpers,
+    Sgoettschkes.RobotHelpers,
     Sgoettschkes.SitemapHelpers
   ],
   watchers: [
