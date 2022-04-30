@@ -59,6 +59,9 @@ defmodule Sgoettschkes.Compiler.Post do
   end
 
   defp insert_file(file, files) do
-    [file | files]
+    case Enum.any?(files, fn f -> f.metadata.output_file == file.metadata.output_file end) do
+      true -> files
+      false -> [file | files]
+    end
   end
 end

@@ -66,6 +66,11 @@ defmodule Sgoettschkes.Compiler.Sitemap do
   end
 
   defp insert_file(file, files) do
-    [Map.get(file.metadata, :output_file, file.output_file) | files]
+    output_file = Map.get(file.metadata, :output_file, file.output_file)
+
+    case Enum.member?(files, output_file) do
+      true -> files
+      false -> [output_file | files]
+    end
   end
 end
