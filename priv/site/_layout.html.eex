@@ -2,8 +2,7 @@
 <html class="h-full">
   <head>
     <title>
-      <%= if @env[:title] do %><%= @env[:title] %>;<% end %>
-      Sgoettschkes.me;
+      <%= if @env[:title] do %><%= @env[:title] %>; <% end %>Sgoettschkes.me;
     </title>
 
     <meta charset="utf-8" />
