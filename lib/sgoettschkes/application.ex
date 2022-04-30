@@ -3,6 +3,7 @@ defmodule Sgoettschkes.Application do
 
   def start(_type, _args) do
     children = [
+      Sgoettschkes.Compiler.Post,
       Sgoettschkes.Compiler.Sitemap
     ]
 

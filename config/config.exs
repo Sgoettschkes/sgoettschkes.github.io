@@ -16,6 +16,7 @@ config :still,
       Still.Preprocessor.Frontmatter,
       Still.Preprocessor.OutputPath,
       Still.Preprocessor.AddLayout,
+      Sgoettschkes.Preprocessor.Post,
       Sgoettschkes.Preprocessor.Sitemap,
       Still.Preprocessor.Save
     ],
@@ -38,6 +39,7 @@ config :still,
   },
   template_helpers: [
     Sgoettschkes.DataHelpers,
+    Sgoettschkes.FeedHelpers,
     Sgoettschkes.PostHelpers,
     Sgoettschkes.RobotHelpers,
     Sgoettschkes.SitemapHelpers
