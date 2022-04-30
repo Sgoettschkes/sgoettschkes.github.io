@@ -2,7 +2,7 @@
 layout: _layout.html.eex
 title: About
 sitemap: true
-permalink: about
+permalink: about.html
 ---
 
 <h1 class="font-serif text-4xl font-bold">Sebastian Göttschkes</h1>
