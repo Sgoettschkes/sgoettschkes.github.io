@@ -16,7 +16,7 @@
     @apply p-1 my-5 bg-slate-50;
   }
 
-  pre code {
+  code {
     @apply text-red-700;
   }
 }
