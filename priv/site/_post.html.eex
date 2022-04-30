@@ -3,7 +3,7 @@ layout: _layout.html.eex
 ---
 
 <article class="mb-5">
-  <p class="font-sans text-xs text-gray-400">Written by <%= @env[:author] %> on <%= format_datetime(@env[:date]) %> in <%= String.capitalize(@env[:category]) %></p>
+  <p class="m-0 font-sans text-sm text-gray-400">Written by <%= @env[:author] %> on <%= format_datetime(@env[:date]) %> in <%= String.capitalize(@env[:category]) %></p>
   <h1 class="mt-2 mb-4 font-serif text-4xl font-bold"><%= @env[:title] %></h1>
   <%= @children %>
 </article>

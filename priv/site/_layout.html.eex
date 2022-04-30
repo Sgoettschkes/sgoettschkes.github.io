@@ -19,7 +19,7 @@
   <body class="flex flex-col h-full text-black bg-white">
     <%= include(@env, "_includes/header.html.eex") %>
     <%= include(@env, "_includes/nav.html.eex") %>
-    <main class="w-3/5 mx-auto my-4 mb-auto">
+    <main class="w-3/5 mx-auto my-10 mb-auto">
       <%= @children %>
     </main>
     <%= include(@env, "_includes/footer.html.eex") %>
