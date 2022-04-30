@@ -2,6 +2,7 @@
 layout: _layout.html.eex
 title: Coding 5 to 9
 sitemap: true
+permalink: ""
 ---
 
 <p>coming soon...</p>
