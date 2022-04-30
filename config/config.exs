@@ -40,6 +40,7 @@ config :still,
   template_helpers: [
     Sgoettschkes.DataHelpers,
     Sgoettschkes.FeedHelpers,
+    Sgoettschkes.IndexHelpers,
     Sgoettschkes.PostHelpers,
     Sgoettschkes.RobotHelpers,
     Sgoettschkes.SitemapHelpers

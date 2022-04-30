@@ -2,7 +2,14 @@
 layout: _layout.html.eex
 title: Coding 5 to 9
 sitemap: true
-permalink: ""
+permalink: index.html
 ---
 
-<p>coming soon...</p>
+<%= for post <- get_all_posts() do %>
+  <article class="mb-8 border-b-2 border-slate-100">
+    <p class="m-0 font-sans text-sm text-gray-400">Written by <%= post.metadata.author %> on <%= format_post_date(post) %> in <%= post.metadata.category %></p>
+    <h2 class="mt-2 mb-4 font-serif text-4xl font-bold"><a href="<%= get_post_url(post) %>"><%= post.metadata.title %></a></h2>
+    <%= get_excerpt(post) %>
+    <p class="mb-2"><a href="<%= get_post_url(post) %>">Read more</a></p>
+  </article>
+<% end %>
