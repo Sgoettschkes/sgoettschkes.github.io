@@ -12,7 +12,7 @@ permalink: feed.xml
       <atom:link href="<%= get_feed_url() %>" rel="self" type="application/rss+xml" />
       <author><![CDATA[ Sebastian Göttschkes ]]></author>
       <ttl>60</ttl>
-      <%= for post <- get_posts() do %>
+      <%= for post <- get_feed_posts() do %>
         <item>
             <title><![CDATA[ <%= post.metadata.title %> ]]></title>
             <description><![CDATA[ <%= post.metadata.children %> ]]></description>
