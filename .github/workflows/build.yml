@@ -2,8 +2,9 @@ name: Deploy
 on: push
 
 env:
-  elixir-version: '1.13.3'
+  elixir-version: '1.13.4'
   erlang-version: '24.2.1'
+  node-version: '18.0.0'
 
 jobs:
   test:
@@ -17,6 +18,13 @@ jobs:
         with:
           otp-version: ${{ env.erlang-version }}
           elixir-version: ${{ env.elixir-version }}
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.node-version }}
+      - working-directory: ./priv/site/assets
+        run: npm install
+      - working-directory: ./priv/site/assets
+        run: npx tailwindcss --input=css/app.css --output=../css/app.css --postcss
       - run: |
           mix deps.get
           mix format --check-formatted
