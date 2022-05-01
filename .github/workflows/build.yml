@@ -1,0 +1,41 @@
+name: Deploy
+on: push
+
+env:
+  elixir-version: '1.13.3'
+  erlang-version: '24.2.1'
+
+jobs:
+  test:
+    if: github.ref == 'refs/heads/still'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ env.erlang-version }}
+          elixir-version: ${{ env.elixir-version }}
+      - run: |
+          mix deps.get
+          mix format --check-formatted
+          mix still.compile
+
+  deploy:
+    if: github.ref == 'refs/heads/source'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: source
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.3
+      - run: gem install --no-document bundler jekyll rake
+      - run: rake publish
+        env: 
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
