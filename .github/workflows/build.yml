@@ -7,7 +7,7 @@ env:
   node-version: '18.0.0'
 
 jobs:
-  test:
+  deploy-still:
     if: github.ref == 'refs/heads/still'
     runs-on: ubuntu-latest
     steps:
@@ -25,12 +25,11 @@ jobs:
         run: npm install
       - working-directory: ./priv/site/assets
         run: npx tailwindcss --input=css/app.css --output=../css/app.css --postcss
-      - run: |
-          mix deps.get
-          mix format --check-formatted
-          mix still.compile
+      - run: mix deps.get
+      - run: mix format --check-formatted
+      - run: mix publish
 
-  deploy:
+  deploy-jekyll:
     if: github.ref == 'refs/heads/source'
 
     runs-on: ubuntu-latest
