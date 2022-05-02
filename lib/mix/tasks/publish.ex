@@ -20,7 +20,7 @@ defmodule Mix.Tasks.Publish do
     cur_dir = File.cwd!()
     dest_dir = Path.join([System.tmp_dir!(), "still", timestamp])
 
-    File.mkdir!(dest_dir)
+    File.mkdir_p!(dest_dir)
     File.cp_r("./_site", dest_dir)
     File.cd!(dest_dir)
 
