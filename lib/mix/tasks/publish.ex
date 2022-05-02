@@ -3,7 +3,6 @@ defmodule Mix.Tasks.Publish do
 
   @deploy_branch "test"
   @github_reponame "Sgoettschkes/sgoettschkes.github.io.git"
-  @github_remote "https://#{System.get_env("GH_TOKEN")}@github.com/#{@github_reponame}"
 
   @shortdoc "Simply calls the Hello.say/0 function."
   def run(_) do
@@ -24,22 +23,33 @@ defmodule Mix.Tasks.Publish do
     File.cp_r("./_site", dest_dir)
     File.cd!(dest_dir)
 
-    System.cmd("git", ["config", "--global", "init.defaultBranch", @deploy_branch])
-    System.cmd("git", ["config", "--global", "user.name", "'Sebastian Göttschkes'"])
+    System.cmd("git", ["config", "--global", "init.defaultBranch", @deploy_branch],
+      into: IO.stream()
+    )
 
-    System.cmd("git", [
-      "config",
-      "--global",
-      "user.email",
-      "'sebastian.goettschkes@googlemail.com'"
-    ])
+    System.cmd("git", ["config", "--global", "user.name", "'Sebastian Göttschkes'"],
+      into: IO.stream()
+    )
 
-    System.cmd("git", ["init"])
+    System.cmd(
+      "git",
+      [
+        "config",
+        "--global",
+        "user.email",
+        "'sebastian.goettschkes@googlemail.com'"
+      ],
+      into: IO.stream()
+    )
 
-    System.cmd("git", ["add", "."])
-    System.cmd("git", ["commit", "-m", "Site updated"])
-    System.cmd("git", ["remote", "add", "origin", @github_remote])
-    System.cmd("git", ["push", "--quiet", "--force", "origin", @deploy_branch])
+    System.cmd("git", ["init"], into: IO.stream())
+
+    github_remote = "https://#{System.get_env("GH_TOKEN")}@github.com/#{@github_reponame}"
+
+    System.cmd("git", ["add", "."], into: IO.stream())
+    System.cmd("git", ["commit", "-m", "Site updated"], into: IO.stream())
+    System.cmd("git", ["remote", "add", "origin", github_remote], into: IO.stream())
+    System.cmd("git", ["push", "--quiet", "--force", "origin", @deploy_branch], into: IO.stream())
 
     File.cd!(cur_dir)
   end
