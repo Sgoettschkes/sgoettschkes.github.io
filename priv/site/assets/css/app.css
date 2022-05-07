@@ -4,7 +4,7 @@
 @tailwind variants;
 
 @layer base {
-  article a {
+  main a {
     @apply text-blue;
   }
 
