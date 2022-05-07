@@ -21,6 +21,7 @@ defmodule Mix.Tasks.Publish do
 
     File.mkdir_p!(dest_dir)
     File.cp_r("./_site", dest_dir)
+    File.cp("./README.md", dest_dir <> "/README.md")
     File.cd!(dest_dir)
 
     System.cmd("git", ["config", "--global", "init.defaultBranch", @deploy_branch],
