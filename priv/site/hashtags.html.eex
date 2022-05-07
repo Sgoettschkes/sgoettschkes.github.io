@@ -1,0 +1,15 @@
+---
+layout: _layout.html.eex
+title: Hashtags
+sitemap: true
+permalink: hashtags.html
+---
+
+<h1 class="font-serif text-4xl font-bold">Sebastian Göttschkes</h1>
+<p class="mb-5 font-serif text-lg font-bold">#workera #elixir #vegan #music #strengthtrainig</p>
+
+<h2 class="mb-2 font-serif text-lg font-bold">What do these 5 hashtags in your bio mean?</h2>
+
+<p class="mb-5 font-sans">Great question! Back when <%= link(@env, "Diaspora", to: "https://en.wikipedia.org/wiki/Diaspora_(social_network)") %> was a thing, instead of a bio or about text you would add 5 hashtags most relevant to you. I fell in love with this way of focusing on the most important things. That's why they show up in my profile all over the web.</p>
+
+<p class="mb-5 font-sans">I try to keep them up to date, but as with everything, there might be an old set of hashtags out there somewhere. Consider it a glimpse into my past.</p>
