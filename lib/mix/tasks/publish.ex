@@ -1,7 +1,7 @@
 defmodule Mix.Tasks.Publish do
   use Mix.Task
 
-  @deploy_branch "test"
+  @deploy_branch "main"
   @github_reponame "Sgoettschkes/sgoettschkes.github.io.git"
 
   @shortdoc "Simply calls the Hello.say/0 function."
