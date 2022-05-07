@@ -5,6 +5,9 @@ sitemap: true
 permalink: index.html
 ---
 
+<h1 class="font-serif text-4xl font-bold">Sebastian Göttschkes</h1>
+<p class="mb-5 font-serif text-lg font-bold">#workera #elixir #vegan #music #strengthtrainig</p>
+
 <%= for post <- get_all_posts() do %>
   <article class="mb-8 border-b-2 border-slate-100">
     <p class="m-0 font-sans text-sm text-gray-400">Written by <%= post.metadata.author %> on <%= format_post_date(post) %> in <%= post.metadata.category %></p>
