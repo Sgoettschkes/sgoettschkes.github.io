@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "autoprefixer": "^10.4.2",
+    "autoprefixer": "^10.4.7",
     "postcss": "^8.4.5",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.0.2",
@@ -9,6 +9,5 @@
   "dependencies": {
     "alpinejs": "^3.8.0"
   },
-  "scripts": {
-  }
+  "scripts": {}
 }
