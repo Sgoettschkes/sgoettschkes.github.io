@@ -82,4 +82,8 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/clojure-made-me-a-better-php-developer
       location: ViennaPHP
       date: May 2017
+    - name: "LiveBook all the things"
+      url: https://speakerdeck.com/sgoettschkes/livebook-all-the-things
+      location: Elixir Vienna
+      date: June 2022
 upcoming: []
