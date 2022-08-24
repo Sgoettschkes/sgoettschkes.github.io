@@ -1,4 +1,7 @@
 defmodule Sgoettschkes.IndexHelpers do
+
+  import Meeseeks.CSS
+
   def get_all_posts() do
     Sgoettschkes.Compiler.Post.get()
     |> Enum.sort_by(
@@ -18,8 +21,8 @@ defmodule Sgoettschkes.IndexHelpers do
 
   def get_excerpt(post) do
     post.metadata.children
-    |> Essence.Chunker.paragraphs()
-    |> Enum.take(1)
-    |> Earmark.as_html!(compact_output: true)
+    |> Meeseeks.parse()
+    |> Meeseeks.one(css("p"))
+    |> Meeseeks.html()
   end
 end
