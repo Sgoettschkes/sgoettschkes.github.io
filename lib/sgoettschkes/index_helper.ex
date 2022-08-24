@@ -1,5 +1,4 @@
 defmodule Sgoettschkes.IndexHelpers do
-
   import Meeseeks.CSS
 
   def get_all_posts() do
