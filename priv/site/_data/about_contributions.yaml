@@ -1,25 +1,25 @@
-- org: kriswallsmith
-  repo: assetic
-- org: Seldaek
-  repo: monolog
 - org: ansible
   repo: ansible
+- org: Burgov
+  repo: KeyValueFormBundle
+- org: Cilex
+  repo: Cilex
+- org: codeguy
+  repo: php-the-right-way
 - org: domcode
   repo: rafflers
+- org: FriendsOfPHP
+  repo: PHP-CS-Fixer
+- org: grevory
+  repo: angular-local-storage
 - org: hoisie
   repo: web
 - org: jaugustin
-  repo: vagrant-ansible-local 
-- org: Cilex
-  repo: Cilex
-- org: Burgov
-  repo: KeyValueFormBundle
-- org: FriendsOfPHP
-  repo: PHP-CS-Fixer
-- org: codeguy
-  repo: php-the-right-way
-- org: grevory
-  repo: angular-local-storage
+  repo: vagrant-ansible-local
+- org: josh
+  repo: css-explain
+- org: kriswallsmith
+  repo: assetic
 - org: mitchellh
   repo: vagrant
 - org: mongodb
@@ -32,13 +32,13 @@
   repo: react
 - org: sebastianbergmann
   repo: phploc
+- org: Seldaek
+  repo: monolog
 - org: snc
   repo: SncRedisBundle
 - org: symfony
-  repo: symfony-docs
-- org: symfony
   repo: symfony
-- org: josh
-  repo: css-explain
+- org: symfony
+  repo: symfony-docs
 - org: zendframework
   repo: zf2-documentation
