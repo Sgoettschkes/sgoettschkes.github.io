@@ -1,5 +1,7 @@
-- org: ansible
-  repo: ansible
+- org: besughi
+  repo: elixir-k6
+- org: blossom
+  repo: webhook-test
 - org: Burgov
   repo: KeyValueFormBundle
 - org: Cilex
@@ -8,28 +10,34 @@
   repo: php-the-right-way
 - org: domcode
   repo: rafflers
-- org: FriendsOfPHP
-  repo: PHP-CS-Fixer
+- org: exercism
+  repo: dart
+- org: exercism
+  repo: dart-test-runner
+- org: getsentry
+  repo: sentry-elixir
 - org: grevory
   repo: angular-local-storage
-- org: hoisie
-  repo: web
 - org: jaugustin
   repo: vagrant-ansible-local
-- org: josh
-  repo: css-explain
 - org: kriswallsmith
   repo: assetic
-- org: mitchellh
-  repo: vagrant
+- org: lemmings-io
+  repo: clojure
+- org: mgwidmann
+  repo: scrivener_html
+- org: mischov
+  repo: meeseeks_html5ever
 - org: mongodb
   repo: docs
 - org: plumphp
   repo: plum
 - org: plumphp
   repo: plum-csv
+- org: prometheus-ai
+  repo: fb-messenger-clj
 - org: reactphp
-  repo: react
+  repo: reactphp
 - org: sebastianbergmann
   repo: phploc
 - org: Seldaek
@@ -37,8 +45,8 @@
 - org: snc
   repo: SncRedisBundle
 - org: symfony
-  repo: symfony
-- org: symfony
   repo: symfony-docs
+- org: viennaphp
+  repo: talks
 - org: zendframework
   repo: zf2-documentation
