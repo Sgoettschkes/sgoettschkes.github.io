@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "npm-check-updates": "^16.7.10",
     "postcss": "^8.4.21",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
