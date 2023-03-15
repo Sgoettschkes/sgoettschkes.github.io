@@ -2,9 +2,9 @@ name: Deploy
 on: push
 
 env:
-  elixir-version: '1.13.4'
-  erlang-version: '24.2.1'
-  node-version: '18.0.0'
+  elixir-version: '1.14.2'
+  erlang-version: '25.2'
+  node-version: '18.12.0'
 
 jobs:
   deploy-still:
@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: ${{ env.node-version }}
       - working-directory: ./priv/site/assets
-        run: npm install
+        run: yarn install
       - working-directory: ./priv/site/assets
         run: npx tailwindcss --input=css/app.css --output=../css/app.css --postcss
       - run: mix deps.get
