@@ -34,7 +34,7 @@ defmodule Sgoettschkes.MixProject do
       {:still, git: "https://github.com/still-ex/still.git", branch: "master"},
       {:timex, "~> 3.7"},
       {:yaml_elixir, "~> 2.8"},
-      {:meeseeks, "~> 0.16.1"}
+      {:meeseeks, "~> 0.17.0"}
     ]
   end
 end
