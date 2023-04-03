@@ -11,7 +11,7 @@
   "essence": {:hex, :essence, "0.3.0", "7231dd092cdc2614e41c122c9be551b8d6e96515aba85332cff3a802c0866fe1", [:mix], [{:exprof, "~> 0.2.0", [hex: :exprof, repo: "hexpm", optional: false]}], "hexpm", "0c83d9a00e9cbc42f2055356e1acffdbf9f68c7b71b84be64be90b54eb9584c9"},
   "eternal": {:hex, :eternal, "1.2.2", "d1641c86368de99375b98d183042dd6c2b234262b8d08dfd72b9eeaafc2a1abd", [:mix], [], "hexpm", "2c9fe32b9c3726703ba5e1d43a1d255a4f3f2d8f8f9bc19f094c7cb1a7a9e782"},
   "ex_image_info": {:hex, :ex_image_info, "0.2.4", "610002acba43520a9b1cf1421d55812bde5b8a8aeaf1fe7b1f8823e84e762adb", [:mix], [], "hexpm", "fd1a7e02664e3b14dfd3b231d22fdd48bd3dd694c4773e6272b3a6228f1106bc"},
-  "expo": {:hex, :expo, "0.4.0", "bbe4bf455e2eb2ebd2f1e7d83530ce50fb9990eb88fc47855c515bfdf1c6626f", [:mix], [], "hexpm", "a8ed1683ec8b7c7fa53fd7a41b2c6935f539168a6bb0616d7fd6b58a36f3abf2"},
+  "expo": {:hex, :expo, "0.4.1", "1c61d18a5df197dfda38861673d392e642649a9cef7694d2f97a587b2cfb319b", [:mix], [], "hexpm", "2ff7ba7a798c8c543c12550fa0e2cbc81b95d4974c65855d8d15ba7b37a1ce47"},
   "exprintf": {:hex, :exprintf, "0.2.1", "b7e895dfb00520cfb7fc1671303b63b37dc3897c59be7cbf1ae62f766a8a0314", [:mix], [], "hexpm", "20a0e8c880be90e56a77fcc82533c5d60c643915c7ce0cc8aa1e06ed6001da28"},
   "exprof": {:hex, :exprof, "0.2.4", "13ddc0575a6d24b52e7c6809d2a46e9ad63a4dd179628698cdbb6c1f6e497c98", [:mix], [{:exprintf, "~> 0.2", [hex: :exprintf, repo: "hexpm", optional: false]}], "hexpm", "0884bcb66afc421c75d749156acbb99034cc7db6d3b116c32e36f32551106957"},
   "file_system": {:hex, :file_system, "0.2.10", "fb082005a9cd1711c05b5248710f8826b02d7d1784e7c3451f9c1231d4fc162d", [:mix], [], "hexpm", "41195edbfb562a593726eda3b3e8b103a309b733ad25f3d642ba49696bf715dc"},
