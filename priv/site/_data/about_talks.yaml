@@ -86,4 +86,8 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/livebook-all-the-things
       location: Elixir Vienna
       date: June 2022
+    - name: "LiveView goes k6"
+      url: https://speakerdeck.com/sgoettschkes/liveview-goes-k6
+      location: ElixirConf EU 2023
+      date: April 2023
 upcoming: []
