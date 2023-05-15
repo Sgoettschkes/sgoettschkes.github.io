@@ -1,20 +1,4 @@
 - name: Sgoettschkes.me
-  description: Personal blog about and /now page. Blogging about Software Engineering DevOps and all things tech.
+  description: Personal blog (discontinued) about and /now page.
   url: https://sgoettschkes.me
   url_caption: sgoettschkes.me
-- name: Lifttribe
-  description: Log your current workout with ease. Plan your future workouts based on smart suggestions.
-  url: https://lifttribe.app
-  url_caption: lifttribe.app
-- name: phonix.live (discontinued)
-  description: Web app displaying streams and live gigs from DJs and Producers.
-- name: intercom-elixir
-  description: Inoffical intercom library for elixir. Based on the official intercom library developed for Version 2 of the Intercom API
-  url: https://github.com/diagnosia/intercom-elixir
-  url_caption: intercom-elixir
-- name: tbalive (discontinued)
-  description: Small DIY distro for hardcore punk records.
-- name: pogo.travel (discontinued)
-  description: Travel guides for Pokemon Go players
-- name: raidwith.me (discontinued)
-  description: Web app for Pokemon players to coordinate in-game activities
