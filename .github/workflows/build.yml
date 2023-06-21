@@ -2,8 +2,8 @@ name: Deploy
 on: push
 
 env:
-  elixir-version: '1.14.2'
-  erlang-version: '25.2'
+  elixir-version: '1.15.0'
+  erlang-version: '26.0'
   node-version: '18.12.0'
 
 jobs:
