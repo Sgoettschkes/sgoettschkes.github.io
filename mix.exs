@@ -5,7 +5,7 @@ defmodule Sgoettschkes.MixProject do
     [
       app: :sgoettschkes,
       version: "0.1.0",
-      elixir: "~> 1.14.5",
+      elixir: "~> 1.15.6",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps()
