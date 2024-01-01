@@ -31,7 +31,7 @@ defmodule Sgoettschkes.MixProject do
     [
       {:earmark, "~> 1.4.24"},
       {:neotoma, "~> 1.7.3", manager: :rebar3, override: true},
-      {:still, git: "https://github.com/still-ex/still.git", branch: "master"},
+      {:still, "~> 0.8.0"},
       {:timex, "~> 3.7"},
       {:yaml_elixir, "~> 2.8"},
       {:meeseeks, "~> 0.17.0"}
