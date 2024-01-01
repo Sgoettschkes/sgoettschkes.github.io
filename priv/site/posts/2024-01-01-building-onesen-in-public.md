@@ -4,11 +4,11 @@ category: dev
 tags: [elixir, phoenix, javascript, onesen, buildinpublic]
 title: "Building OneSen in public"
 author: Sebastian
-date: 2023-01-01 17:00:00 UTC
+date: 2023-01-01 16:45:00 UTC
 permalink: p/building-onesen-in-public.html
 ---
 
-[!A unique visual representation of the 'OneSen' note-taking app](img/2024-01-01-building-onesen-in-public.png)
+[!A unique visual representation of the 'OneSen' note-taking app](../img/2024-01-01-building-onesen-in-public.png)
 
 It's been a while since I posted on my blog. Almost two years, to be precise. I was focusing my energy on other parts of my life, and, to be honest, I never got back into publishing regular blog posts after falling off the wagon in 2017. But now I am back, and I intend to publish more often.
 
