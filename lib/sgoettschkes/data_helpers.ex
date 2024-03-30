@@ -1,6 +1,4 @@
 defmodule Sgoettschkes.DataHelpers do
-  def about_seenon(), do: read_yaml("about_seenon.yaml")
-
   def about_projects(), do: read_yaml("about_projects.yaml")
 
   def about_recent_talks() do

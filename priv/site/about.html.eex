@@ -14,17 +14,6 @@ permalink: about.html
     <li>Redtenbachergasse 35/8</li>
     <li>1160 Vienna</li>
     <li>Austria</li>
-    <li>sebastian (dot) goettschkes (at) googlemail (dot) com</li>
-</ul>
-
-<h2 class="mb-2 font-serif text-lg font-bold">As seen on</h2>
-
-<ul class="mb-5 font-sans">
-    <%= for item <- about_seenon() do %>
-        <li class="inline opacity-50 text-8xl hover:opacity-100">
-            <%= link(@env, "<i class=\"#{item["icon"]}\"></i>", to: item["url"]) %>
-        </li>
-    <% end %>
 </ul>
 
 <h2 class="mb-2 font-serif text-lg font-bold">Projects</h2>
