@@ -2,7 +2,7 @@ name: Deploy
 on: push
 
 env:
-  elixir-version: '1.15.8'
+  elixir-version: '1.14.5'
   erlang-version: '26.1'
   node-version: '18.18.0'
 
