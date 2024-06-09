@@ -30,7 +30,9 @@ defmodule Sgoettschkes.MixProject do
   defp deps do
     [
       {:earmark, "~> 1.4.24"},
-      {:neotoma, "~> 1.7.3", manager: :rebar3, override: true},
+      {:slime,
+       git: "https://github.com/populimited/slime.git",
+       ref: "0e92acd2f110b7d9d667069d19e077d8ee36721f", override: true},
       {:still, "~> 0.8.0"},
       {:timex, "~> 3.7"},
       {:yaml_elixir, "~> 2.8"},
