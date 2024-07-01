@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      (clojure 2) Getting used to; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Dec 21, 2016 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">(clojure 2) Getting used to</h1>
+  <p>After “<a href="http://sgoettschkes.me/p/clojure-0-the-setup.html">The setup</a>“ and “<a href="http://sgoettschkes.me/p/clojure-1-the-beginning.html">The beginning</a>“, my time with Clojure was somewhat limited due to pre-christmas stress. But this gave me time to reflect on what I learned so far, what I liked and didn’t like. I also attended the December Meetup by <a href="https://www.meetup.com/clojure-vienna/">(clojure ‘vienna)</a> and pair programmed Clojure for a few hours.</p><h2>The ecosystem</h2><p>I already said I liked the way Leiningen worked. Nothing has changed here. Leiningen feels stable and works great. I didn’t come across any issues using it, which is a great way for a language to work.</p><p>I didn’t find an editor/IDE I liked yet. I started with vim because it is what I know and universal enough. I also set up <a href="https://atom.io/">Atom</a> and use it but don’t really like it. My biggest problem right now is that Clojure and Leiningen are installed inside a virtual machine, making many tools unusable. I’d love to be able to evaluate statements from my editor directly by running them inside the vm but it turns out that’s a bit of a problem. There are tools to do that, but the setup needed is just to much.</p><p>My current workflow is writing code in Atom, running it sshd into the vm and also having an additional ssh session running with the Leiningen repl started to test out different things.</p><h2>The workflow</h2><p>Programming in a functional lanuage is just different then using a procedural language. It’s more about passing data around and rearrange it instead of maintaining a global state. It’s true that it’s much easier to reason about a small part of the software as the input and output is defined and can be tested.</p><p>When pairing on Day 9 of Advent of Code, my coding partner who is also new to Clojure mentioned that he can’t see himself working in the language due to this being so different than what he’s used to from other languages (mainly Java). While I understand what he means I honestly think that it’s not better or worse but different. It takes time to get used to it.</p><p>One thing I noticed was that testing was very easy because you can always split up big function into smaller ones, making them easily testable. It was also easy to reason about the different parts. The only hard thing was to put together the plan on how to get started and which path to take. But this discussion was useful and it was good to have it in the beginning instead of moving along and “just doing things”.</p><h2>The current status</h2><p>The last weeks have been busy, so I didn’t dive deeper into Clojure. My next step is taking a book and working through it while on christmas holiday. After using Clojure in practice and learning a ton I feel like a bit more theoretical understanding would be good at this point.</p><p>I’d also like to write a small app in Clojure to see what this feels like. Advent of Code, Project Euler and others are great but they don’t mimic the real world. I realized with Advent of Code that I spent most of the time figuring out the algorithm, which does not help me getting any further with Clojure.</p><h2>The meta</h2><p>Beside working with Clojure, I also watched a few talks by Rich Hickey. I like his ideas and got the feeling his one of those people not buying into hype and “best practice” but asking hard questions and thinking for himself. I might not agree with everything he says and don’t agree with every decision in Clojure, but overall he seems very reasonable. That’s more than enough for me to get behind Clojure.</p><p>The next update will most likely on the book I chose to work through and what I learned. And it might only get here after my holiday, so enjoy the holidays, relax and stay tuned :)</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
