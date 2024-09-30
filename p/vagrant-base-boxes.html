@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Vagrant base boxes; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Jan 27, 2015 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Vagrant base boxes</h1>
+  <p>If you are using vagrant on a daily basis, you might already be using something else than the base box suggested by vagrant (which would be the <code class="inline">hashicorp/precise32</code> or <code class="inline">hashicorp/precise64</code>). If you are thinking about creating your own base boxes or are interested in the topic, read on. If you have no idea what I am talking about, the vagrant documentation can tell you more about <a href="https://docs.vagrantup.com/v2/boxes.html">Boxes</a>.</p><p>I got to the point where I wanted to use Debian instead of Ubuntu and, looking through Vagrant Cloud (now <a href="https://atlas.hashicorp.com">Atlas</a>) no box did really appeal to me. So I decided to build my own base box on top of the <a href="https://atlas.hashicorp.com/chef/boxes/debian-7.4">chef/debian-7.4</a>. I am using vagrant to build this base box, meaning I have a <code class="inline">Vagrantfile</code> which imports the chef base box, then some shell provisioning to install the absolut minimum I need for every box (packages like <code class="inline">vim</code> for example).</p><p>This is pretty handy: If chef updates their base box I can update my base box just by destroying it, building it new, packaging it and uploading it to Atlas. If I decide to add some new software, the same workflow applies. Provision it again, package it, upload it.</p><p>It also means I don’t have to work with <a href="https://www.packer.io/intro">packer</a>, which seems like an amazing tool but is just not what I want to spend my time on right now.</p><h2>Evolution of a base box</h2><p>I started my base box pretty simple with one Vagrantfile and some shell provisioners inside. Afterwards, I’d manually package the box and upload it. The result was my first base box, <a href="https://atlas.hashicorp.com/Sgoettschkes/boxes/debian7">Sgoettschkes/debian7</a>. I didn’t really think about other users and updatet it from time to time, installing upgrades for all installed packages and maybe adding something I wanted to be present in the base box.</p><p>When switching from chef to Ansible for provisioning, using local Ansible provisioning rather then the Ansible provisioner from vagrant which needs Ansible present on the host, I also installed Ansible in the base box. My original idea was to remove chef because I don’t use it anymore. Back then I realized there are a few people out there using my base box (it has ~400 downloads to date), which means removing the provisioner people rely upon is not the best idea.</p><p>I decided to split the boxes up, providing <a href="https://atlas.hashicorp.com/Sgoettschkes/boxes/debian7-ansible">Sgoettschkes/debian7-ansible</a> which is, as you might have figured, the chef base box + my software selection and Ansible, as well as <a href="https://atlas.hashicorp.com/Sgoettschkes/boxes/debian7-chef">Sgoettschkes/debian7-chef</a>, which is the same but with chef instead of Ansible. The Sgoettschkes/debian7 box is deprecated now and won’t receive any updates.</p><h2>Knowing what’s inside</h2><p>To find out what exactly is going on inside my base boxes, have a look at the git repository at GitHub, <a href="https://github.com/Sgoettschkes/va">Sgoettschkes/va</a>. It contains all three boxes. Looking into <code class="inline">debian7-ansible</code>, you’ll see a very basic <code class="inline">Vagrantfile</code> and the provision.sh which contains all commands which are executed inside the vm before it’s packaged and shipped.</p><p>It’s not perfect and executing shell commands might not be the nicest way, but I really like that it just works. Again, I could try getting a real base box working with packer and maybe I will in the future. But for now, this works exactly like I need it. No need to make the setup more complicated!</p><p>If you are using my debian7 box, consider switching to either debian7-ansible or debian7-chef. It should not break anything as the software stack is nearly the same (although not installing chef means ruby is not up-to-date on the ansible base box). If you are not using any of my base boxes yet, you might want to reconsider. As you see, I really take care of maintaining stable base boxes and as they are lightweight, you can use them as a foundation to build your stuff on top.</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
