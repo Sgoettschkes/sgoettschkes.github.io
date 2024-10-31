@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Developing cllctr; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Jan 18, 2015 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Developing cllctr</h1>
+  <p>Over the past two month, I have been building a new weekend project: <a href="http://cllctr.net">cllctr</a>. It’s a CD database you can use to store information about your CDs. Say goodbye to excel lists and over-the-top stuff as <a href="http://www.discogs.com/">discogs</a> or <a href="http://www.collectorz.com/">collectorz</a>. cllctr is focused on the right amount of data, balancing the time needed to enter new CDs or organize a exisiting collection.</p><p>Currently, cllctr is more or less just a few pages where you can add/edit a CD and view a list of all your CDs. With time, the list of features will grow for sure. I have a ton of them in my head and only need some time ;)</p><p>In this blog post, I’d like to focus on the technical details of cllctr. How did I build it, why did I choose to do things they way I did and so on.</p><h2>On the shoulder of giants</h2><p>The backend is written in <a href="http://php.net/">PHP</a> and <a href="http://php-fpm.org/">php-fpm</a> is used together with <a href="http://nginx.org/">Nginx</a> to serve the webpages. <a href="https://www.mongodb.org/">MongoDB</a> takes care of persisting the data and <a href="http://redis.io/">redis</a> is used to store sessions as well as some calculated data like the amount of CDs somebody has.</p><h3>Backend matters</h3><p><a href="http://symfony.com/">symfony2</a> is my web framework of choice. It is using stuff like <a href="https://github.com/Seldaek/monolog">monolog</a> for logging or <a href="http://swiftmailer.org/">swiftmailer</a> to send out emails, which comes in handy because it’s both very flexible yet easy to handle.</p><p>To ensure code quality, a collection of tools like <a href="http://www.icosaedro.it/phplint/">phplint</a>, <a href="https://github.com/sebastianbergmann/phploc">phploc</a>, <a href="https://security.sensiolabs.org/">security-checker</a>, <a href="http://phpmd.org/">phpmd</a>, <a href="http://pdepend.org/">pdepend</a>, <a href="https://github.com/sebastianbergmann/phpcpd">phpcpd</a>, <a href="http://www.squizlabs.com/php-codesniffer">php_codesniffer</a> and <a href="https://phpunit.de">phpunit</a> are used. <a href="http://www.phing.info/">phing</a> is the build tool in place, making it easy to run all those tools at once. All those tools can be run by executing the test target with phing. It stops if any of those tools reports any problems. I have even written my own little bash script which counts the amount of “TODO” comments and if it’s over 15, fails. This makes it easy to spot problems in the code. It’s not perfect though as every tool has it’s own settings and something fails because of wrong settings. Some tools report data which cannot be interpreted by the software itself (like phploc or pdepend) but must be checked by a developer.</p><p>Phing also takes care of building and updating the whole application. It can update the database to ensure indexes and unique fields, clear the cache and has some targets for development (like adding test data). Everything is designed to be easily run by anybody working on the project. As the only developer it’s hard to say if the goal of “runs without any hassle” is really achieved, but it sure feels like it.</p><h3>Frontend goodies</h3><p>To make the webpage responsive, I am using the <a href="http://foundation.zurb.com/">foundation</a> framework. It comes with <a href="http://jquery.com/">jQuery</a>, so this is what I am currently using for the (limit amount of) javascript code. I’ll definitely switch to something more elaborate in the future if the frontend code gets more. Foundation is written in <a href="http://sass-lang.com/">Sass</a> which is what I am using for Css as well.</p><p>To compile Sass to Css, combine/minify the javascript code and optimize the pictures, <a href="http://gruntjs.com/">grunt</a> is used. It’s way better for these frontend stuff than Phing is and even if I don’t like having two build tools, it works great. <a href="https://www.npmjs.com/">Npm</a> is used to install grunt and it’s plugins as well as Sass. To install foundation, <a href="http://bower.io/">bower</a> is used. There is currently no good alternative to this way and although this means there are three package manages involved, it works ok. I’d love to see npm being able to install bower packages as well!</p><p>Grunt takes the foundation code installed through bower, runs it through sass to produce css and through <a href="https://github.com/mishoo/UglifyJS2">uglifyjs</a> to produce the js. For image, I am using the <a href="https://github.com/gruntjs/grunt-contrib-imagemin">imagemin</a> plugin for grunt which uses many different tools to minify images and place them in the public folder of the webapp.</p><h3>All things DevOps</h3><p>To develop cllctr, I am using a <a href="https://www.vagrantup.com/">vagrant</a> vm. Everything is setup so that checking out the code (which lives on <a href="https://github.com/">GitHub</a>) and running <code class="inline">vagrant up</code> is all you need to do to run the application locally (Of course there must be vagrant and <a href="http://virtualbox.org/">virtualbox</a> installed). The provisioning of the vm is done with <a href="http://www.ansible.com/home">Ansible</a>, my new favourite orchestration tool.</p><p>If new code is pushed to GitHub, it’s automatically checked out by <a href="https://codeship.com">Codeship</a>. The project is build inside a Codeship vm, the phing test target is run and if everything is green, the project is deployed using <a href="https://rsync.samba.org/">rsync</a>.</p><p>The deploy targets are servers running at <a href="https://www.digitalocean.com/?refcode=5cc7357e2a20">DigitalOcean</a>. There are currently two of them, one for staging and one for production. Both host the webserver, application and databases. Codeship deployes the code depending on the branch it lives in. The <code class="inline">develop</code> branch is deployed to the staging server and the <code class="inline">master</code> branch is deployed to production.</p><p>The DigitalOcean droplets are managed by Ansible as well. A Ansible run configures a staging or production server so he’s ready to receive the code to run the application. The Ansible code lives on GitHub as well and is run by Codeship. The way it works is the same as for the application: If new code is pushed to the <code class="inline">develop</code> branch of that repository, an Ansible run with the staging server is done. For the <code class="inline">master</code> branch the same run is done, only this time for the production server.</p><p>To monitor the servers, I have set up <a href="http://monitority.com/">Monitority</a> which pings them every now and then. To check the performance, I am using <a href="http://www.webpagetest.org/">WebPageTest</a>. The domain name and DNS are from <a href="http://namecheap.com/">NameCheap</a>.</p><h2>Mindset</h2><p>When I started with cllctr, my goal was to build something useful. I also wanted to make sure to use a mixture between stuff I know (symfony, Sass + foundation, jQuery, Vagrant) but also dive into new stuff (Ansible to some extend, npm/Grunt/bower, Continuous Deployment/codeship). This currently makes sure I am moving forward but also feeling challenged.</p><p>I started by quickly getting something ready which could be used. It wasn’t pretty, it wasn’t well tested, the Phing setup wasn’t really there yet, and deployment wasn’t possible. Then I stopped adding functionality and got all those ready. I made sure tests where run pretty early (The first commit to the cllctr repo was on November 20th, the first test run on Codeship only 4 days later). For every feature I added I also made some other code nice. I wrote down areas I want to improve and followed up on these plans.</p><p>I also did things the easiest way possible. Just implement it so it works. Afterwards, refactor it to adhere to coding standards, best practices and so on. One example where my tests. For the functional tests, I had a phing target which set up the database and one that ran phpunit which depended upon those database setup. All tests then used this one database setup. So tests where not really seperated and I had to work around some things, but it worked. A week ago or so I refactored it in a way that each functional test sets up a database to use, so each test is really isolated now.</p><h2>Stuff to improve</h2><p>Of course I am not done. While adding new features and making cllctr nicer, I also want to improve in some areas. The tests clearly need some work. Some things are not tested at all, some are functional tests because I wasn’t able to mock some symfony internals.</p><p>Deployment with rsync works, but is not resilient enough. If rsync has a problem in the middle of a deployment, half the code is from the new version and half the code is from the old version. There are tools out there like <a href="http://capistranorb.com/">capistrano</a>/<a href="http://capifony.org/">capifony</a>, <a href="http://www.fabfile.org/">fabric</a> and others which can be used to deploy code into production. I’ll definitly have a look at them!</p><p>There currently are no backups done on the production server. It’s ok for now as the software is alpha and if the server really dies, than so be it. But for the near future backups should be done and restoring of those backups should be tested. I wrote about this topic and a setup I had for another project which automatically downloaded backups from <a href="http://aws.amazon.com/s3/">S3</a>, loaded them locally and ran some tests. I’d like to set something like this up once again because it’s really awesome to know your backups are working at the end of a script run.</p><p>I’d also like to get monitoring up and running. Especially log file monitoring is not done at all. I get emailed the errors that are happening, but I feel there are better ways especially to see if e.g. 404s are hit more often than usual. Such errors can go unnoticed for very long!</p><p>And of course it would be cool to try new things, like adding SSL (never done that before), using more web servers with load balancing, scaling the database servers. But for this to be justified, there need to be a big user base.</p><h2>Try it!</h2><p>If you are collecting CDs, please give <a href="http://cllctr.net">cllctr</a> a try. <a href="mailto:sebastian.goettschkes@googlemail.com">Tell me</a> what you like and what features you want to see. I’d love to chat about it and improve cllctr together with the people using it.</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
