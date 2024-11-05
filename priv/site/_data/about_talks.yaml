@@ -90,4 +90,12 @@ recent:
       url: https://speakerdeck.com/sgoettschkes/liveview-goes-k6
       location: ElixirConf EU 2023
       date: April 2023
+    - name: "Utilizing LLMs in OTP applications"
+      url: "#"
+      location: Elixir Vienna
+      date: September 2024
+    - name: "Utilizing LLMs in OTP applications"
+      url: "#"
+      location: CodeBeam Europe 2024
+      date: October 2024
 upcoming: []
