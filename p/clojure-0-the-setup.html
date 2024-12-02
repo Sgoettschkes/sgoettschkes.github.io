@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      (clojure 0) The setup; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Dec 05, 2016 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">(clojure 0) The setup</h1>
+  <p>In the last week I started playing with <a href="https://clojure.org/">Clojure</a>. The reason for this are some upcoming projects with the blossom Team. The stack will most likely be Clojure in the backend and <a href="https://clojurescript.org/">ClojureScript</a> in the frontend. So I better up my game. I started with the <a href="http://adventofcode.com/">Advent of Code</a> to have some real world exposure and not just write complicated “Hello, World” code. I’m planning on writing a series of blog posts, documenting my journey.</p><h2>Vagrant</h2><p>People who know me knew this was coming. I start every project in a clean vm managed by <a href="https://www.vagrantup.com/">Vagrant</a> to not clutter my laptop, remove stuff without a trace and not get caught in some weird dependency hell. I also got a vagrant setup for learning new stuff which is usually my go-to project when working on things like “Advent of Code”.</p><p>So the first step for me was to add Clojure to the tech stack inside the Vagrant machine. To be honest, I expected some problems. There usually are. The only real easy setup I ever had was Dart, wehre downloading the zip and extracting it is all you really need. With clojure, it was almost as easy. Make sure Java is installed, download the leiningen script, make sure it’s executable and in the path, done.</p><h2>Clojure and Leiningen</h2><p><a href="http://leiningen.org/">Leiningen</a> to me feels like a package manager on steriods and I love it. Using Leiningen to install Clojure is pure joy because it does it automatically. No need to figure anything out on your own. And it just works. I never installed something explicitly. If I add a dependency to my <code class="inline">project.clj</code> and run or test the project, Leiningen discovers the change and installs it automatically. I’m still amazed by how easy it feels to work with Leiningen.</p><p>Leiningen also creates a new project scaffolding if you need it. Perfect for newcomers who have no idea how a project setup in Clojure looks like <code class="inline">lein new PROJECTNAME</code> and lein got you covered. You can use Leiningen to run the project, test it and build it as needed.</p><h1>Tests included</h1><p>The new project also includes an incomplete test, urging you to fix it. This is great because it makes sure there is a working test setup included in the scaffolding make it easier to get started with tests. Nobody can be forced to write tests, but the easier it is to get started the more likely developers are to pick it up. And it’s more fun as well!</p><p>In the next part I’ll talk about the first Advent of Code solutions as well as my feeling about Clojure after working with it a bit. Stay tuned ;)</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
