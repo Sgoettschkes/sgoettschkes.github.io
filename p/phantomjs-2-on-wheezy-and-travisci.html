@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      PhantomJS 2 on Wheezy and TravisCI; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Aug 21, 2015 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">PhantomJS 2 on Wheezy and TravisCI</h1>
+  <p>After playing with Dart for a little while, I also looked into testing with Dart and learned that the test library can use PhantomJS to test the code that interacts with the DOM. Being a testing junkie, I wanted to give this a try but learned that I needed PhantomJS 2 to get it working. Beside running it in my VM, I also wanted to have it running on TravisCI. This blog post tells you how to set up both.</p><h2>Compiling it yourself</h2><p>I struggled to find a binary version of PhantomJS 2. This version was released on January, but there are problems regarding building the binaries to work on different systems. The contributors are working on a solution. Until then, you have to build PhantomJS 2 yourself.</p><p>There is a script for this and the build steps seem rather easy. I ran into problems doing this on my Debian Wheezy VM because of not enough RAM. So I spun up another one, gave it 2 GB of RAM and two processors and ran the script with <code class="inline">--jobs 2</code> which seemed to do the trick.</p><p>After 2 hours of obscure output, a shiny executable named <code class="inline">phantomjs</code> was there. I put it up to download so everybody running Debian Wheezy can use it. Due to static linking it might not work, but give it a try:</p><pre><code>sudo apt-get install -y libicu52 libfontconfig1 libjpeg62 libpng12-0
+sudo wget -O /usr/bin/phantomjs https://copy.com/YqL4Uc9T0PERoApf
+sudo chmod +x /usr/bin/phantomjs</code></pre><h2>Do it on TravisCI</h2><p>After running the tests locally, you might wanna run them on your CI server as well. If you are using TravisCI, you might be surprised. Even though TravisCI has PhantomJS preinstalled, it’s the 1.9.8 version.</p><p>Put this commands into your <code class="inline">install</code> or <code class="inline">pre_install</code> section to get PhantomJS working:</p><pre><code>curl -s https://packagecloud.io/install/repositories/armando/phantomjs/script.deb.sh | sudo bash
+sudo apt-get install phantomjs=2.0.0</code></pre><p>Now the only problem is that the old PhantomJS is in the <code class="inline">PATH</code> before the /usr/bin. This means that <code class="inline">phantomjs</code> points to the old 1.9.8 version. My workaround for this is running the following command when running the Dart tests: <code class="inline">export PATH=/usr/bin:$PATH &amp;&amp; pub run test -p phantomjs test/test_app.dart</code>. Maybe there is a nicer way. I though about removing the path to the old phantomjs executable from the <code class="inline">PATH</code> but could not find any easy way to do this. I also tried finding any settings for the dart test runner to tell him where to find the PhantomJS executable, but wasn’t successfull.</p><p>With PhantomJS running locally and on TravisCI, you can go ahead and write tests for your Dart code. Happy testing!</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
