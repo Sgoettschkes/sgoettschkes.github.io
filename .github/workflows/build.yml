@@ -3,7 +3,7 @@ on: push
 
 env:
   elixir-version: '1.18.1'
-  erlang-version: '26.2'
+  erlang-version: '27.2'
   node-version: '18.18.0'
 
 jobs:
