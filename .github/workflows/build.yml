@@ -4,7 +4,7 @@ on: push
 env:
   elixir-version: '1.18.1'
   erlang-version: '27.2'
-  node-version: '18.18.0'
+  node-version: '23.6.0'
 
 jobs:
   deploy-still:
