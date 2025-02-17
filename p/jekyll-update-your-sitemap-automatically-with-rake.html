@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Jekyll: Update your sitemap automatically with rake; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Jun 28, 2014 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Jekyll: Update your sitemap automatically with rake</h1>
+  <p>If you write your blog to also be found through Google, you may have a sitemap which makes it easy for Google and Bing to crawl your page. It might be good idea to inform both if this sitemap changes so they can send their crawlers your way and update their index with the great stuff you just put on their. This can be done by doing a <code class="inline">GET</code> request and passing the url to your sitemap as a parameter. Easy as pie, right?</p><h2>But my page is static</h2><p>If you are running a wordpress blog or some other dynamic blogging engine, there is a chance that sending this request is either build in or available as a plugin. If not, you can always develop the parts yourself. But what if you are using Jekyll or another static blogging engine which doesn’t execute any code on the server? Well, you can push the html to the webserver and then do a ping to google from your own laptop. That works with curl or wget or whatever you like.</p><p>To prevent you from forgetting to run the request and to always remember what the syntax is, you can always write a rake task which publishes your page and then pings Google and Bing. Let’s do that!</p><h2>Start with something easy</h2><p><strong>A short disclaimer before we begin: I copied most of the code from a blog post I cannot seem to find anymore and used it, so it’s not my property. If you know who actually wrote this code, please tell me so I can give credit!</strong></p><p>First, let’s tell Jekyll to generate the static files we need:</p><pre><code>desc &quot;Generate blog files&quot;
+task :generate do
+    Jekyll::Site.new(Jekyll.configuration({
+        &quot;source&quot;      =&gt; &quot;.&quot;,
+        &quot;destination&quot; =&gt; &quot;_site&quot;
+    })).process
+end</code></pre><p>That was easy. Running <code class="inline">rake generate</code> will now do the same as <code class="inline">jekyll build</code> but we can reuse it when we push our code to github (or any other git repository we have write access to). I am using github pages as an example where you put the HTML code into the master branch while the source for Jekyll lies within the source branch. So rake is creating a new repo within the <code class="inline">_site</code> directory, adding and commiting all files and then doing a <code class="inline">psuh force</code> to github:</p><pre><code>desc &quot;Generate and publish blog to gh-pages&quot;
+task :publish =&gt; [:generate] do
+    Dir.mktmpdir do |tmp|
+        cp_r &quot;_site/.&quot;, tmp
+
+        pwd = Dir.pwd
+        Dir.chdir tmp
+
+        system &quot;git init&quot;
+        system &quot;git add .&quot;
+        message = &quot;Site updated at #{Time.now.utc}&quot;
+        system &quot;git commit -m #{message.inspect}&quot;
+        system &quot;git remote add origin git@github.com:#{GITHUB_REPONAME}.git&quot;
+        system &quot;git push origin master --force&quot;
+
+        Dir.chdir pwd
+    end
+end</code></pre><p>You can easily exchange that part for “just” a push to a remote repository or an rsync call to push the files to a remote location.</p><h2>Add some magic</h2><p>And now let’s add a rake task to ping Google and Bing about our new sitemap:</p><pre><code>desc &quot;Push sitemap to Google and Bing&quot;
+task :ping do
+    urls = [
+        &quot;http://www.google.com/webmasters/tools/ping?sitemap=#{SITEMAP_PATH}&quot;,
+        &quot;http://www.bing.com/webmaster/ping.aspx?siteMap=#{SITEMAP_PATH}&quot;]
+    urls.each do |url|
+        uri = URI.parse(url)
+        req = Net::HTTP::Get.new(uri.to_s)
+        res = Net::HTTP.start(uri.host, uri.port) { |http|
+            http.request(req)
+        }
+    end
+end</code></pre><p>The last part is calling the ping rake task from within the generate task which can be done with <code class="inline">Rake::Task[&quot;ping&quot;].invoke</code>. Now, whenever calling <code class="inline">rake publish</code>, it generates the html, pushes it to github and pings Google and Bing. To see the end result, check out <a href="https://github.com/Sgoettschkes/sgoettschkes.github.io/blob/3e0de230b165591505b7496f9eb40103116967bc/Rakefile">my Rakefile</a>.</p><p><strong>Success!</strong></p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
