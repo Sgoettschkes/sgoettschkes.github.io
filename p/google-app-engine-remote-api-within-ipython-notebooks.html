@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Google App Engine Remote API within iPython Notebooks; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Dec 11, 2015 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Google App Engine Remote API within iPython Notebooks</h1>
+  <p>At <a href="https://www.blossom.co">blossom</a>, we are running on <a href="https://cloud.google.com/appengine/">Google App Engine</a> (GAE). It’s nice to stand on the shoulder of giants and don’t have to worry about servers at all. GAE takes care of scaling up and down for us, handles our database as well as storage and gives us great insight into our production environment.</p><p>One thing I don’t like about GAE is that in order to have a look at the data inside our production database, you’ll either use the web interface or a REPL (which is called <code class="inline">remote_api_shell</code>). The web interface just doesn’t cut it if you want to look at different tables, compare data and do things like “Give me all projects and tasks for this set of users”. With the <code class="inline">remote_api_shell</code>, you can do that but it’s fairly limited in terms of repeating things and sharing your results.</p><h2>Python in your browser</h2><p>For learning Python and testing solutions, I am usually running an <a href="https://ipython.org/">iPython</a> kernel within <a href="https://jupyter.org/">Jupyter</a>. If you don’t know about the Jupyter project yet, go check it out! It’s a server running on your localhost which serves a web frontend where you can create so-called notebooks and write code in various languages (depending which Jupyter kernels you have installed) right inside your browser. The code is executed through the server on your localhost, so it’s the real deal and not some Javascript library with an incomplete feature-set.</p><p>With a Juypter server running and the iPython kernel installed, I can set up new notebooks to play around with e.g. RegEx. It’s also fairly easy to do some tutorial or see how, for example, generators work. Notebooks get stored on my machine, meaning I can pick up where I left whenever I want. Changing code, re-executing it and copying it is also super easy. And if I want to share the notebook, I can export it to HTML, markdown and even pdf.</p><h2>Combining the GAE Remote API with iPython notebooks</h2><p>It became clear to me pretty fast that by using an iPython notebook to connect to the GAE Remote API and then working with objects like I do in the code could make things much easier. Sadly, I wasn’t able to pull it off as I hit more than one wall trying to get the environment set up the right way. With some luck, I found a post by <a href="http://anfedorov.com/">Andrey</a> where he stated that he got this setup working. I shot him an email and he was very helpful and we got two different solutions working within a few emails.</p><p>It works pretty straight forward: When the iPython kernel boots, it looks for files to execute in a specific startup folder at <code class="inline">~/.ipython/default_profile/startup</code>. Putting a <code class="inline">startup.py</code> file there which provides a function to connect to the GAE Remote API is the only thing needed:</p><script src="https://gist.github.com/Sgoettschkes/5e9cae762530e53d0971.js"></script><p>This makes it possible that within a notebook, you call the function <code class="inline">connect_to_gae()</code> and you are able to work with your objects or GQL just as you would inside your project:</p><pre><code>connect_to_gae()
+
+from models import User
+User.query().get()
+
+from google.appengine.ext import ndb
+ndb.gql(&quot;SELECT * FROM Project where __key__ = KEY(&#39;Project&#39;, &#39;somekey&#39;)&quot;).fetch()</code></pre><p>For details about the implementation, have a look at the GIST. It’s pretty weird in the way that you have to add and remove stuff from the sys.path before being able to actually call the functions that establish the connection. By wrapping all this into a function, I make sure it’s only invoked when needed. Other notebooks that are not intended to work with the GAE Remote API won’t work any different!</p><p>The <code class="inline">startup.py</code> file for blossom has a few additional lines which include our project in the path so I can import our models and work with them easily. You can also add common imports there or provide helper functions you need a lot in your notebooks.</p><p>With this setup, I was able to do some analysis on our database, got it formatted nicely and shared the HTML with my co-workers with ease. And by providing them the notebook itself, they can modify my work and put their own on top, making collaboration totally easy!</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

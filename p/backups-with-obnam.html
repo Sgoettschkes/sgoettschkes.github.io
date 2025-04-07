@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Backups with Obnam; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on May 31, 2014 in Tools</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Backups with Obnam</h1>
+  <p>You know you should do backups, right? Taking all those data you store on your laptop and put it somewhere safe. There are so many ways of doing backups but people still don’t do regular backups. Maybe you put the data on an external drive and swear you’ll do this every month from now on. Chances are you’ll be to busy next month and the month after. And you still got a backup, right?</p><p>I was like this. I wrote done a plan when to backup on an external drive and even to DVDs, what to backup and in which intervals. It was a great plan. But it didn’t take into account that when the time comes to sit down and do the backup, other things are more important. Because there is still the last backup, right. And how often does the hard drive die after all! And there don’t have been that many changes to the data I want to backup, so it doesn’t make sense.</p><h2>Obnam to the rescue</h2><p>With this experience in mind, I looked for some tools. On Mac, you got Time Machine shipped with your OS, which is great. Many Linux distributions ship some tool for backup and restoring as well, and there is always rsync to do the job if nothing else is available. On Windows you have some basic functionality built in and a ton of tools to choose from. Running Linux, I decided to give <a href="http://obnam.org">Obnam</a> a try. With the ability to do backups to hard drives and over sftp it fits my idea of putting backups on external drives as well as some remote server.</p><p>Obnam also has a nice concept of storing chunks of data which are automatically dedublicated, meaning every backup is a full backup but only new data needs to be transfered and takes away space. Every backup is a generation and you can decide which generations to keep and which are obsolete after a while. Obnam also makes it easy to encrypt your backup if you wish to do so. You’ll need a pgp key and tell Obnam where to find it, but everything else is automated.</p><h2>Baby steps</h2><p>Installing it on my Linux Mint was fairly easy. Mint uses Debian under the hood, so I could use apt (after adding the liw repository to my sources) to install the Obnam package which resolves all dependencies for me. That gave me the <code class="inline">obnam</code> command which is used to do backups and restores and work with generations of backups.</p><p>The most basic command to do a backup would be <code class="inline">obnam backup -r /path/to/repository /path/which/should/be/backed/up</code>. This creates a so called backup repository (which is a folder used by Obnam to store all data) at <code class="inline">/path/to/repository</code> and backup all data in <code class="inline">path/which/should/be/backed/up</code>. Also note that the repository can be in a remote location you have ssh access to by using sftp: <code class="inline">sftp://user@host:/path/to/repository</code>. If you want to backup different directories, you can specify as many as you want as the last parameters: <code class="inline">obnam backup -r /some/repo /home/user/dir1 /home/user/dir2 /home/user/dir3</code>.</p><p>Obnam takes arguments to not include cache directories into the backup (<code class="inline">--exclude-caches</code>) and to place a log at a location you choose where you can see what gets included in the backup (<code class="inline">--log /path/to/logfile.log</code>). There are more arguments for various tasks. If you want to exclude specific files or folders, you can do this as well. This works with regular expressions and I didn’t really get it to work, so now I rather include the stuff I want then exclude the stuff I don’t need. Works pretty well.</p><p>Also note that you can create a configuration file for Obnam to use. As I am doing my backups through a bash script, I don’t care passing a few more parameters - If you intend on using Obnam manually, you might wanna look into setting some parameters in the configuration file so you don’t need to repeat yourself.</p><h2>Lets script it!</h2><p>With the tool at hand, I started writing a script which does a backup of my home directory to one of my external hard drives. After checking if the hard drive is connected, all there is left is the backup command for Obnam <strong>and</strong> the command to let Obnam forget previous backups if they are to old. You can tell Obnam which backups you want to keep and it will forget all the others. This is pretty neat as you don’t need all those old ones around.</p><p>I decided to use the strategy often used when doing server backups: Keep one backup for the last 30 days each, one backup for each of the past 8 weeks and one for each of the last 14 month. This works well with the need to restore (you might remember you had a particular file last Wednesday but you won’t remember if you had it 6 month or 7 monh ago) as well as with the amount of space your backups will consume. The command to let Obnam forget those older backups is: <code class="inline">obnam forget --keep=&quot;30d,8w,14m&quot; --repository /path/to/repo</code>.</p><p>As I want to use different backup locations, I also added a parameter the script takes which decides which repository to use, which directories to backup and what to forget. You can have a look at the current version of the script in my dotfiles repository: <a href="https://github.com/Sgoettschkes/dotfiles/blob/master/bin/backup">https://github.com/Sgoettschkes/dotfiles/blob/master/bin/backup</a></p><h2>Afterthoughts</h2><p>For the first time, I have a working backup solution in place. I have thought of different ways I could loose my data and my current backup solution makes sure I have a backup in any case. I can loose my laptop or even have a fire destroy my home office and be good backup-wise. At the same time, if my server looses my backups as well, I stil have an (older) backup on an external drive which is stored at a different location and will only be transfered to my laptop for backups every so often.</p><p>I didn’t talk about restoring those data, but I’ll do that in a second post. A backup you cannot restore is useless, so testing your backups is a good idea. And, like backups, this isn’t done as often as it should because it’s work nobody wants to do. With an (automatic) script you can take that work away and be sure of your backups working. I also skipped over encryption, because I don’t use it currently. I might look into this in the future. If I decide to do so, I’ll write an additional blog post.</p><p>As for Obnam itself, it’s a great tool which does one thing and does it right. It has good documentation and it seems the developers have thought about the most common use cases and made them work flawlessly. Being a commandline tool it’s also easy to create a script which does all the hard work and have you sit back, relax and enjoy all the other things in life - Not worried about your data anymore.</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
