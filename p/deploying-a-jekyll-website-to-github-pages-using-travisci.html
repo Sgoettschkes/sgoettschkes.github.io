@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Deploying a Jekyll website to Github Pages using TravisCI; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Jul 25, 2015 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Deploying a Jekyll website to Github Pages using TravisCI</h1>
+  <p>Today I switched over this blog to be subject to continous deployment. Whenever I push a new commit (which might be a design change, new blog post like this or some small change), everything is build and automatically pushed to Github Pages, which host this blog.</p><p>Let me tell you how I did it!</p><h2>What?</h2><p>This blog is served as static pages, meaning only HTML, CSS and Javascript are stored on the servers. There is no application in the background, getting the blog posts out of a database like Wordpress does it. Everything is written in text files which are then used to generate HTML. The software I use is <a href="http://jekyllrb.com/">Jekyll</a>. Because it’s only HTML, I can host it almost everywhere and I chose Github Pages because the repository is already on github and it works really great.</p><p>There is a way to get around building the static website locally: <a href="https://pages.github.com/">Github Pages</a> can run Jekyll in the back, generating the pages for you. The drawback is that you can’t use Jekyll plugins, which means it’s limited to the things Jekyll can do out of the box. This is why I build the pages locally and then push the result to Github, letting Github Pages serve the static HTML.</p><p>And then there is <a href="https://travis-ci.org/">TravisCI</a>, which is a Continous Integration service “in the cloud”, meaning you don’t have to run anything locally. It executes your tests and can also deploy your code. It’s free for repositories hosted on Github which are public, so it’s a perfect choice for me!</p><p>Please note that this is not a beginners tutorial on Jekyll, Github Pages or TravisCI. It’s a description on how to connect those three, so you should either have Jekyll running on Github Pages already or pick the things needed up on the way. I won’t go into detail on that!</p><h2>Why?</h2><p>Up until now, I had to run commands locally to build the static pages and then push the stuff to github so it can be served. This meant I had to have Jekyll installed locally, all the right gems in place and needed to remember which commands to execute.</p><p>It also meant I couldn’t just clone the repo on some other PC, change some files and be done. I had to either install everything locally or use vagrant with it’s dependencies. That’s way to much overhead for quickly fixing a typo! And I could not use the github web interface to change stuff directly. I could change it, then update my local repository when I get home, build the page and upload it again. What a hassle!</p><h2>How?</h2><p>Let’s get started! Let me explain my end result briefly: If I changed something in some file and push the resulting commits, TravisCI generates the whole static page using Jekyll and then pushes these changes to the Github Pages branch (usually <code class="inline">gh-pages</code> or <code class="inline">master</code>). The whole Jekyll setup lives in a different branch.</p><p>For this post, I’ll assume your Github Pages branch is <code class="inline">master</code> and the branch the Jekyll setup lives in is <code class="inline">source</code>. This is the setup of my blog as well. I am using rake to put together my tasks and my Rakefile looks something like this:</p><pre><code>require &quot;jekyll&quot;
+require &quot;tmpdir&quot;
+
+GITHUB_REPONAME = &quot;sgoettschkes/sgoettschkes.github.io&quot;
+GITHUB_REMOTE = &quot;https://#{ENV[&#39;GH_TOKEN&#39;]}@github.com/#{GITHUB_REPONAME}&quot;
+
+desc &quot;Generate blog files&quot;
+task :generate do
+    Jekyll::Site.new(Jekyll.configuration({
+        &quot;source&quot;      =&gt; &quot;.&quot;,
+        &quot;destination&quot; =&gt; &quot;_site&quot;
+    })).process
+end
+
+desc &quot;Generate and publish blog to gh-pages&quot;
+task :publish =&gt; [:generate] do
+    fail &quot;Not on Travis&quot; if &quot;#{ENV[&#39;TRAVIS&#39;]}&quot; != &quot;true&quot;
+
+    Dir.mktmpdir do |tmp|
+        cp_r &quot;_site/.&quot;, tmp
+
+        Dir.chdir tmp
+
+        system &quot;git init&quot;
+        system &quot;git config user.name &#39;Sebastian Göttschkes&#39;&quot;
+        system &quot;git config user.email &#39;sebastian.goettschkes@googlemail.com&#39;&quot;
+
+        system &quot;git add .&quot;
+        message = &quot;Site updated at #{Time.now.utc}&quot;
+        system &quot;git commit -m #{message.inspect}&quot;
+        system &quot;git remote add origin #{GITHUB_REMOTE}&quot;
+        system &quot;git push --force origin master&quot;
+    end
+end</code></pre><p>What’s going on? Well, we have the <code class="inline">generate</code> command which runs a Jekyll build and stores the static website into the <code class="inline">_site</code> folder. The <code class="inline">publish</code> tasks fails if it isn’t run on TravisCI, creates a temporary dir and copies everything from <code class="inline">_site</code> in there. It then makes this temporary dir a github repository, adds all content, commits it and pushes it to github into the master branch. As this would overwrite previous commits, <code class="inline">--force</code> is needed. This means the master branch has only one commit at any time. It’s a workaround, but it works pretty well for me. The history is in the source branch, which is all I need.</p><p>If you look closely, you’ll see <code class="inline">#{ENV[&#39;GH_TOKEN&#39;]}</code> in the <code class="inline">GITHUB_REMOTE</code> variable. It holds the Github token which let you deploy without using a ssh key. To get this variable filled, we need to put it into our <code class="inline">.travis.yml</code>. Putting it there in plain text would mean everybody with read access to our repo could push code just like TravisCI does. Which means we need to encrypt it!</p><p>But first, let’s look at the <code class="inline">.travis.yml</code> file:</p><pre><code class="yaml">language: ruby
+sudo: false
+branches:
+    only:
+        - source
+rvm:
+    - 2.1.5
+install:
+    - gem install --no-rdoc --no-ri bundler jekyll rake
+script:
+    - rake generate
+after_success:
+    - rake publish</code></pre><p>This file tells TravisCI to have ruby installed, only build the source branch, use ruby 2.1.5, install bundler, jekyll and rake before running <code class="inline">rake generate</code>. If this command returns error code 0, it will run <code class="inline">rake publish</code>.</p><p>The missing part is the environment variable from above, containing our token. First, install the “travis” gem using <code class="inline">gem install travis</code>. Then query the Github API for your token:</p><pre><code>curl -u &lt;USERNAME&gt; \
+    -d &#39;{&quot;scopes&quot;:[&quot;public_repo&quot;],&quot;note&quot;:&quot;CI: &lt;REPONAME&gt;&quot;}&#39; \
+    https://api.github.com/authorizations</code></pre><p>Don’t forget to replace your username and the reponame! The response should include a key called “oken” which holds your token. The last step is encrypting it and adding it to the <code class="inline">.travis.yml</code> file. The travis gem can do this for you. From your repository root, run <code class="inline">travis encrypt --add &#39;GH_TOKEN=&lt;TOKEN&gt;&#39;</code>. The gem adds the encrypted value directly to your file!</p><p>After enabling the build process on the TravisCI website, push your changes and see if everything works out!</p><h2>What’s next?</h2><p>With TravisCI enabled, you could add linters for Markdown, CSS and javascript as well as a javascript test framework if you’d like. Just add the commands to be run to your <code class="inline">.travis.yml</code> file and before pushing your updated version, Travis will look if everything still works.</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Quickstart guide for clojure (compojure), clojurescript (figwheel), garden; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Nov 03, 2017 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Quickstart guide for clojure (compojure), clojurescript (figwheel), garden</h1>
+  <p>Setting up new projects is always exciting, but if you have done it a few times, it’s getting old quick. I have set up a few projects in the last time and I believe I have a nice setup going which I’m about to share with everybody interested. There is nothing new in here and if you are a seasoned Clojure developer, you might not learn much. If you are just starting out or have some work done in Clojure but need a working setup or some input on your current setup, you are at the right place.</p><p>All my projects live insight Vagrant virtual machines. I’ll be using Clojure with Compojure and Ring, Clojurescript with figwheel and garden. I’m also throwing in the cooper library.</p><h2>Clojure</h2><p>All my web Clojure projects include <code class="inline">compojure</code> and the <code class="inline">lein-ring</code> plugin. Both are mature and work very well, so I didn’t look any further. My project.clj at this point looks like:</p><pre><code>(defproject mycompany/myproject &quot;0.1.0&quot;
+  :dependencies [[compojure &quot;1.6.0&quot;]
+                 [org.clojure/clojure &quot;1.8.0&quot;]]
+  :main myproject.core
+  :min-lein-version &quot;2.0.0&quot;
+  :plugins [[lein-ring &quot;0.12.1&quot;]]
+  :ring {:auto-reload? true
+         :handler myproject.core/app
+         :open-browser? false
+         :reload-paths [&quot;src/&quot; &quot;resources/&quot;]}
+  :source-paths [&quot;src/clj&quot;])</code></pre><p>The ring setup is important as it allows for auto-recompiling when run through <code class="inline">lein ring server</code>. <code class="inline">open-browser</code> is there because I run the project inside a vm, so there is no browser to open and instead of remembering to run <code class="inline">lein ring server-headless</code> every time, I disable it altogether.</p><h1>ClojureScript</h1><p>Adding Clojurescript is just a dependency away, especially if you don’t start with figwheel and other libraries but keep it plain and simple:</p><pre><code>(defproject mycompany/myproject &quot;0.1.0&quot;
+  :cljsbuild {:builds [{:source-paths [&quot;src/cljs&quot;]
+                        :compiler {:optimizations :whitespace
+                                   :output-to &quot;resources/public/js/main.js&quot;
+                                   :output-dir &quot;resources/public/js&quot;}}]}
+  :dependencies [[compojure &quot;1.6.0&quot;]
+                 [org.clojure/clojure &quot;1.8.0&quot;]
+                 [org.clojure/clojurescript &quot;1.9.946&quot;]
+                 [ring/ring-core &quot;1.6.2&quot;]
+                 [selmer &quot;1.11.2&quot;]]
+  :main myproject.core
+  :min-lein-version &quot;2.0.0&quot;
+  :plugins [[lein-cljsbuild &quot;1.1.7&quot;]
+            [lein-ring &quot;0.12.1&quot;]]
+  :resource-paths [&quot;resources&quot;]
+  :ring {:auto-reload? true
+         :handler myproject.core/app
+         :open-browser? false
+         :reload-paths [&quot;src/&quot; &quot;resources/&quot;]}
+  :source-paths [&quot;src/clj&quot;])</code></pre><p><code class="inline">lein-cljsbuild</code> helps transpiling ClojureScript to Javascript by running <code class="inline">lein cljsbuild once</code> or <code class="inline">lein cljsbuild auto</code>.</p><h2>Garden</h2><p>I usually try to stick with the choices popular within the ecosystem. I have used Sass and Less in the past and was fine with both. Garden is another CSS precompiler, but you write your CC as Clojure data structures, making it easy to integrate it within the ecosystem. There is nothing wrong with using another precompiler for CSS or write plain CSS if the project calls for it.</p><p>For garden, you only need the dependency <code class="inline">[garden &quot;1.3.3&quot;]</code> as well as the plugin <code class="inline">[lein-garden &quot;0.3.0&quot;]</code>. After that, adding the garden config to your project.clj works like this:</p><pre><code>  :garden {:builds [{:id &quot;screen&quot;
+                     :source-paths [&quot;src/garden&quot;]
+                     :stylesheet myproject.core/main
+                     :compiler {:output-to &quot;resources/public/css/main.css&quot;
+                                :pretty-print? false}}]}</code></pre><p>As you can see, the garden source code goes into <code class="inline">src/garden</code>. Within <code class="inline">src</code>, there is also <code class="inline">clj</code> and <code class="inline">cljs</code> to split up the different parts (backend, frontend, CSS).</p><h2>Figwheel</h2><p>We glanced over figwheel when setting up ClojureScript. If you would stop right now and would start working on your project, you’d need to wait for the ClojureScript compiler to generate the js on every change, than reload the website, navigate where you left of and look at your changed.</p><p>With figwheel, only the part of your ClojureScript app that changed get recompiled and these parts get pushed to the browser directly which in turns exchanges the code parts so you see the changes directly.</p><p>With all this going on, figwheel was the first hurdle for me. Adding it was straightforward by adding <code class="inline">[lein-figwheel &quot;0.5.14&quot;]</code> to the plugin section of the project.clj. After the, the <code class="inline">cljsbuild</code> config needed to be changed:</p><pre><code>  :cljsbuild {:builds [{:compiler {:asset-path &quot;js/out&quot;
+                                   :main &quot;myproject.core&quot;
+                                   :optimizations :none
+                                   :output-to &quot;resources/public/js/main.js&quot;
+                                   :output-dir &quot;resources/public/js/out&quot;}
+                        :figwheel {:websocket-host &quot;myproject.local&quot;}
+                        :id &quot;dev&quot;
+                        :source-paths [&quot;src/cljs&quot;]}]}</code></pre><p>The <code class="inline">websocket-host</code> was needed because of the vm. I run the project through a hostname and not by mapping localhost ports. The second thing needed was the figwheel config itself:</p><pre><code>  :figwheel {:css-dirs [&quot;resources/public/css&quot;]
+             :hawk-options {:watcher :polling}
+             :ring-handler myproject.core/app
+             :server-port 3000}</code></pre><p><code class="inline">css-dirs</code> is important to have hot code reloading for CSS as well. The <code class="inline">hawk-options</code> is needed because of the vm (again), as figwheel does not detect code changes (due to the way Vagrant mounts folders). By adding the <code class="inline">ring-handler</code>, the ring server is run when running figwheel, making it easier than running both processes in parallel.</p><h2>Bonus points: Cooper</h2><p>The next thing for me was to not have the need to run both <code class="inline">lein figwheel</code> and <code class="inline">lein garden auto</code> in two different shells. Luckily, there is <code class="inline">cooper</code>, which can be used to run many tasks in parallel. Add the lein plugin and a small config, and you are good to go:</p><pre><code>  :cooper {&quot;figwheel&quot;  [&quot;lein&quot; &quot;figwheel&quot;]
+           &quot;garden&quot; [&quot;lein&quot; &quot;garden&quot; &quot;auto&quot;]}</code></pre><p>After that, <code class="inline">lein cooper figwheel garden</code> got you covered.</p><h2>Follow along</h2><p>If you want to see this changes in full (without cooper right now), go over to <a href="https://github.com/Sgoettschkes/web-clj">https://github.com/Sgoettschkes/web-clj</a> and step through the commits. You can see every code change in detail much better than I would ever be able to outline in this blog.</p><p>I’ll also be adding more (and writing a second blog post) on testing Clojure and ClojureScript as well as adding some example code to the repo. Stay tuned!</p><p>I’m also looking for feedback towards my setup, both in terms if libraries I used and the ways I plugged them together. You can either comment here, add an issue to the github repo or find me on social media as well as send me an email.</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

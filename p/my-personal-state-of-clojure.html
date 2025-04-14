@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      My personal state of Clojure; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Oct 23, 2017 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">My personal state of Clojure</h1>
+  <p>Almost a year ago I wrote my last blog post on this blog. It wasn’t planned, it just happened. I was busy doing other, unrelated things and while I sometimes had something to say, I never took the time to take it to my blog. As with many things which are not top priority, it got lost along the way.</p><p>As a comeback, I figured a personal look into Clojure might be interesting for some. Let’s go!</p><h2>One year with Clojure</h2><p>We started using Clojure for a new project (green-field, as some might say) at Blossom. We are building the project alongside running Blossom and other projects, which means progress is naturally slow. We also decided to look into Datomic as well, harming progress even further. But while we removed Datomic from our stack again, we keep Clojure and Clojurescript. Getting used to Clojure and Clojurescript took some times as well but now I feel good about the way I write code and I grew to like it a lot. I still got much to learn, but that’s ok as I like learning new things. Beside work, I used Clojure for 3 side projects (a Chatbot, a article-based website and a map-based web app).</p><h2>Clojure as a language</h2><p>I have worked with many languages over the years. Clojure feels more mature than many other “small” languages, both the language itself as well as the ecosystem. Leiningen is a great tool for managing dependencies and to buid your project. Built on top of the JVM means that running the application in production is possible everywhere where you’d be able to run Java applications.</p><p>After some time to get used to the Clojure way, I am very fast implementing features in Clojure. Having the codebase split up into many small functions which are pure in most cases makes it easy to plug them together in new ways, remove a certain step or add another one. Testing is easy as well, given that Clojure works with data most of the time.</p><p>And, before the argument comes up: Sure, just having (pure) functions doesn’t protect you from a messy code base. You can have unreadable, untraceable code in almost any language. But my personal feeling is that by sticking to small functions and trying to keep them pure goes a long way towards good software.</p><p>The Clojars repository contains many packages and I haven’t had any problems finding the libraries I needed throughout the year. Having the possibility to add Maven dependencies or Jar files if no Clojure library is available adds to the ecosystem as well. Using Java libraries isn’t as smooth as the ones written in Clojure, but that’s mostly due to the underlying differences in thinking than a shortcoming of Clojure. And even though it sometimes feels weird, it works quiet well.</p><h2>The community</h2><p>Clojure has a small, nice community. You can feel the excitment about the language at our local Usergroup as well as when talking about Clojure at conferences and with fellow developers. Many times I had people jumping in to help me with my problems and being nice. I also don’t feel like I am looked down on or anything if I don’t understand a certain concept. In languages like Haskell I always felt a little stupid for not knowing how to solve a certain problem “the functional way”. I didn’t have this feeling in Clojure.</p><p>As with any other small language, having a small community has drawbacks. Sometimes, you come across a problem nobody ever had. This is rare in the big languages as almost everything has been done. Sometimes, you are looking around and while it seems others have solved the problem, they didn’t openly discuss it. Again, it happens because of the smaller amount of people around.</p><p>Additionally, the opinion of a few does make a lot more noise in a small community. It did show recently as a negative blog post hit Hackernews and reddit and the community started discussing. I don’t think a post like this would hit the Javascript or Python community as hard. With this in mind, it becomes even more crucial to try to discuss in a civil manner than to attack. People are spending their free time so we all can benefit. Even if you don’t like or don’t agree, showing some decency and respect for the work goes a long way.</p><h2>Getting payed</h2><p>Beside Blossom, I do some freelancing and while I’d love to use Clojure there as well, I wasn’t able to find any opportunities yet. The market for Clojure developers seems small. I was surprised to see some Clojure job posts on Upwork and have applied there, without much success yet.</p><p>In Vienna, there are some companies using Clojure for their products. I am excited for their success stories and the inspiration for other companies to make the bold move and invest in a rather small language. I feel that with the Java interoperability the risks of such a move are minimized.</p><p>Should you drop everything else and learn Clojure? I don’t think so. Make sure to experiment with Clojure. If you like it and if you feel you could be more productive, try to incorporate it into existing projects or new ones. But don’t just try Clojure. See if Erlang/Elixir is for you, if you can get more done with another “big” language or if you are still happy with your language of choice.</p><p>I don’t see Clojure as a game changer, just as a nicer, cleaner way to express intend. But that’s a lot of what a language should foster, right?</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

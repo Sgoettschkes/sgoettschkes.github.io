@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Deploying to PythonAnywhere with TravisCI; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Sep 13, 2015 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Deploying to PythonAnywhere with TravisCI</h1>
+  <p>Many of you might already know it: Soon I’ll be joining the <a href="https://www.blossom.co/">blossom</a> Team on their quest to project management awesomeness. The current development stack of blossom consists of Python and Dart running on Google App Engine. In order to get some experience with both Python and Dart, I started a small side project which is a perfect combination of my two main interests, development and music.</p><h2>The project</h2><p>The project is a <a href="http://www.tbalive.at">small webpage</a>. To be honest, it could be done with wordpress or tumblr way easier! But developing it manually I can dive into Python and Dart all while working on something usefull. The alternative would be to setup the webpage with one of the systems named above and then work on some example code to learn Python and Dart, which doesn’t sound fun.</p><p>I created a Flask app which has some routes. It reads some data from csv (no database at this point) and then renders some lists out of this data. I added tests for both the data extraction and the routes as well as pylint to check my codestyle.</p><p>To filter a few lists I added a little bit of dart code. It’s compiled to js using dart2js. There is also stylus as a css preprocessor. For testing the Dart code I added PhantomJs to the setup but only use it to check one dart method right now.</p><h3>Continous Integration</h3><p>As a first step, I set up Continous Integration with <a href="https://travis-ci.org/">TravisCI</a>. The service gets triggered when I push commits to GitHub, checks them out and runs my tests. It’s pretty good to get feedback if something fails. I set TravisCI up to test both Python 2.7 and PyPy as well as Dart stable and unstable. I wasn’t able to get invoke running with Python 3 which is why I don’t test it.</p><p>Getting it running was a bit of a hassle because Dart needs to be installed by hand. There is also the need to install PhantomJS 2.0 because TravisCI only has 1.9 installed.</p><h3>Adding PythonAnywhere to the setup</h3><p>I chose <a href="https://www.pythonanywhere.com">PythonAnywhere</a> because I liked the idea of having a PaaS which focuses on Python. I could have gone with Heroku or any other PaaS offering Python support. I didn’t do extensive research so your views might vary, but I had the feeling that for Python specifically, PythonAnywhere looked like the best provider from the outside. And I am pretty happy with it right now.</p><p>After reviewing the options to deploy code to PythonAnywhere, I opted for rsync. It can be done over ssh to simplify authentication. After generating a ssh key pair and adding the public key to my PythonAnywhere container, I decrypted the private key file with the travis gem and added the decrypted file together with the public key to the repo.</p><p>For the deployment to work, I added a “script” deployment and made a deploy script which encrypts the private key, moves both keys to the <code class="inline">~/.ssh</code> folder, executes the rsync command and runs <code class="inline">pip install</code> on PythonAnywhere. The last step for the script is to <code class="inline">touch</code> the wsgi file so the web worker is restarted.</p><p>In the end, everything was pretty straightforward and easy. It took some trying out a few things as there are no guides out there.</p><p>In the end, everything was pretty straightforward and easy. It took some trying out a few things as there are no guides out there.</p><p>If you wanna dive into the code I am using, have a look at <a href="https://github.com/tbalive/website/tree/442ae0eae0a61583eeabce22f654aa21ca18e686">tbalive/website</a> on GitHub. If you need help setting it up, get in touch!</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

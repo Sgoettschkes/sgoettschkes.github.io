@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      (clojure 1) The beginning; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Dec 08, 2016 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">(clojure 1) The beginning</h1>
+  <p>After “<a href="http://sgoettschkes.me/p/clojure-0-the-setup.html">The setup</a>“, I dove right into Clojure. As said before, I want to get to know Clojure by working on <a href="http://adventofcode.com/">Advent of Code</a> (AoC). I realize that coding puzzles and dojos and katas are not real world applications and one might miss certain things like performance or running an application in production. But they are small enough to provide fast feedback and to not hit a big wall. Even if I am not able to solve one, I can always skip that and keep going with another puzzle.</p><h2>lein run &amp; lein test</h2><p>Before starting with real code, I created a project for AoC. <code class="inline">lein new adventofcode</code>, ran in the <code class="inline">/vagrant</code> folder inside my Vagrant vm created a scaffold of a Clojure project the way Leiningen decided it should be. Within this directory, the program can be run by <code class="inline">lein run</code> and tested with <code class="inline">lein test</code>.</p><p>I was again surprised by how easy this was. Everything works out of the box, no changes needed. The test fails, but that’s expected.</p><p>And if you want to play with Clojure a bit before writing real code, a quick <code class="inline">lein repl</code> brings up a nice repl you can use to get a feeling for the syntax.</p><h2>Advent of Code, Day 1</h2><p>Right after that first few minutes, I got into the code. Looking at the first day of AoC, it seemed plausible to see if I could get the input for the puzzle by downloading the file. A quick google search later it seemed fairly easy: Add a dependency to the code, use the library to request a url and get a string back. Adding the dependency is one line in the <code class="inline">project.cls</code>, requiring it is one more line and doing the request is again one line. That’s three lines. I was hooked!</p><p>Leiningen detects changes in the dependencies and downloads everything automatically once you run <code class="inline">lein run</code> or any other Leiningen command. I added all my code to the <code class="inline">core.clj</code> file because I didn’t want to figure out how to best distribute code between many files. I usually focus on one thing at a time when learning a new language!</p><p>Sadly, my code didn’t work. The reason was that the puzzle input needs login. I quickly decided that this would be to much of a hassle and put the puzzle input into a local txt file. Reading this file, I found the <code class="inline">slurp</code> function available in the clojure core which reads a file to a string. Again, very easy. It would be a problem with very big files but for now this was fine.</p><p>Solving the first day was a succession of this steps: Google for an isolated problem, find a function or way to solve it, continue.</p><h2>Error messages</h2><p>While solving the first day, it became clear to me that Clojure error messages are horrible. Seriously, the are the worst messages I have ever seen. Usually, they are just a Stack Trace from an Exception. Sometimes, they point to a specific line somehwere in there and sometimes it doesn’t even mention your code at all.</p><p>It took way longer than needed because I had a weird error I couldn’t solve because I had no idea where to look. I looked at every piece of the code and after I already though the compiler was wrong I found the tiny little error.</p><p>A lot fo errors are EOF problems because on of the many closing paranthesis is missing. Again, there is no real hint where this is so you again are on your own counting paranthesis.</p><h2>Done</h2><p>It took me maybe 3 hours to get both parts of the puzzle for day 1. Given Clojure is a completly new language for me and I had a few problems along the way, I guess this is an ok time spawn. I had a misunderstanding in the puzzle which took some time as well, so overall I was pretty happy.</p><p>I’ll keep my impressions of the language for now and will get into them when I’m a little further down the road!</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>

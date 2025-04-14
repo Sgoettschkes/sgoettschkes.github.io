@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html class="h-full">
+  <head>
+    <title>
+      Phoenix UI testing with Cypress, Part 1; Sgoettschkes.me;
+    </title>
+
+    <meta charset="utf-8" />
+    <meta name="robots" content="index, follow" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="//fonts.googleapis.com/css?family=Open+Sans:400,700|Lora:400,700" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" media=all href="/css/app.css" />
+
+
+    <meta name="google-site-verification" content="owr8_sYsogeEj0Ovgy63UTqcNdYayhgQOD611Kcn250" />
+  </head>
+  <body class="flex flex-col h-full text-black bg-white">
+    <header class="flex flex-row h-2/6 min-h-[33%] max-h-[33%] bg-gradient-to-b from-slate-600 to-slate-800">
+  <div class="grid items-center w-full grid-cols-1 justify-items-center">
+    <div class="text-center text-white h-fit">
+      <p class="mb-4 font-serif text-4xl font-bold"><a href="/">Sgoettschkes.me</a></p>
+      <p class="font-serif text-xl">Coding 5 to 9</p>
+    </div>
+  </div>
+</header>
+
+    <nav class="pt-4 font-sans text-lg">
+  <ul class="mx-auto w-fit">
+    <li class="inline pr-12"><a href="/">Home</a></li>
+    <li class="inline pr-12"><a href="/about">About</a></li>
+    <li class="inline pr-0"><a href="/now">Now</a></li>
+  </ul>
+</nav>
+
+    <main class="w-3/5 mx-auto my-10 mb-auto">
+      
+<article class="mb-5">
+  <p class="m-0 font-sans text-sm text-gray-400">Written by Sebastian on Feb 03, 2021 in Dev</p>
+  <h1 class="mt-2 mb-4 font-serif text-4xl font-bold">Phoenix UI testing with Cypress, Part 1</h1>
+  <p>I still remember the days I tried to achieve UI testing with Selenium, PhantomJS and various other tools. It was a hassle. It didn’t run on CI because it needed some kind of window manager. It was unstable.</p><h2>Introducing Cypress</h2><p>Cypress has solved these issues, hiding the complexity of UI testing and leaving you with the task of writing the tests. It comes with it’s own UI where you can run tests and see what the test does in realtime. Cypress can do screenshots, videos of the tests and more.</p><p>In this tutorial, we’ll mostly use <code class="inline">cypress run</code>. This command acts like <code class="inline">mix test</code> does: Running your tests and displaying the result within your terminal window. I encourage you to check out the other features of Cypress on your own.</p><h2>Cypress Setup</h2><p>I assume you have an existing Elixir/Phoenix project you want to start using Cypress with. Your frontend files are located at <code class="inline">assets/</code> while your elixir tests are stored within <code class="inline">test/</code>. </p><p>To install Cypress, we use npm: <code class="inline">cd assets/ &amp;&amp; npm install cypress --save-dev</code>. Cypress installs itself and is afterwards available as a command line tool at <code class="inline">assets/node_modules/cypress/bin/cypress</code>.</p><p>Cypress by default expects all test files and support files to be located at <code class="inline">cypress/</code>. I’d argue a much better place for these files is in <code class="inline">test/cypress</code>, so this is where we’re going to place them. If you like your Cypress tests to live someplace else, you’ll find this guide helpful to figure out which adjustments you need to make.</p><h2>Config and support files</h2><p>Let’s start with the config file <code class="inline">cypress.json</code> in your root directory:</p><pre><code class="json">{
+  &quot;componentFolder&quot;: false,
+  &quot;downloadsFolder&quot;: &quot;tmp/cypress/downloads&quot;,
+  &quot;fixturesFolder&quot;: &quot;test/cypress/fixtures&quot;,
+  &quot;integrationFolder&quot;: &quot;test/cypress/integration&quot;,
+  &quot;pluginsFile&quot;: false,
+  &quot;screenshotOnRunFailure&quot;: false,
+  &quot;screenshotsFolder&quot;: &quot;tmp/cypress/screenshots&quot;,
+  &quot;supportFile&quot;: false,
+  &quot;testFiles&quot;: &quot;**/*.*&quot;,
+  &quot;video&quot;: false,
+  &quot;videosFolder&quot;: &quot;tmp/cypress/videos&quot;
+}</code></pre><p>As you can see, we overwrite all folders, either pointing to <code class="inline">test/cypress</code> or <code class="inline">tmp/cypress</code> (for files to be ignored). We also don’t use support files or plugins and deactivate screenshots and videos.</p><h2>The first test</h2><p>Now it’s time to write the first test, a simple request to our homepage. Tests for Cypress are placed in the integrations folder which means creating the file <code class="inline">test/cypress/integration/index_spec.js</code>:</p><pre><code class="js">describe(&#39;Homepage&#39;, () =&gt; {
+  it(&#39;Visit homepage without interaction&#39;, () =&gt; {
+    cy.visit(&#39;http://localhost:4000/&#39;)
+  })
+})</code></pre><p>You can run this test using the command <code class="inline">./assets/node_modules/cypress/bin/cypress run</code> but it will fail if your Phoenix server does not run. Try it again after starting the server with <code class="inline">mix phx.serer</code> in another terminal window.</p><h2>The All-in-one shell file</h2><p>We want to run the tests with one command, both locally and on a CI server. I used the shell script suggested by <a href="https://www.alanvardy.com/post/phoenix-cypress-tests">https://www.alanvardy.com/post/phoenix-cypress-tests</a> and modified them a bit. Create a file <code class="inline">cypress-run.sh</code>, make it executable (<code class="inline">chmod +x cypress-run.sh</code>) and put the following code into it:</p><pre><code class="sh"> #!/bin/sh
+
+MIX_ENV=cypress mix ecto.reset
+echo &quot;===STARTING PHX SERVER===&quot;
+echo &quot;===IF STARTING CYPRESS FAILS===&quot;
+echo &quot;===RUN npm install cypress --save-dev ===&quot;
+echo &quot;===IN THE assets/ FOLDER===&quot;
+MIX_ENV=cypress mix phx.server &amp;
+pid=$! # Store server pid
+echo &quot;===WAITING FOR PHX SERVER===&quot;
+until $(curl --output /dev/null --silent --head --fail http://localhost:4002); do
+    printf &#39;.&#39;
+    sleep 5
+done
+echo &quot;&quot;
+echo &quot;===PHX SERVER RUNNING===&quot;
+echo &quot;===STARTING CYPRESS===&quot;
+./assets/node_modules/.bin/cypress run
+result=$?
+kill -9 $pid # kill server
+echo &quot;===KILLING PHX SERVER===&quot;
+exit $result</code></pre><p>As you might have noticed, the <code class="inline">MIX_ENV</code> is set to <code class="inline">cypress</code>. To create this env, we need the new configuration file <code class="inline">config/cypress.exs</code>:</p><pre><code class="elixir">use Mix.Config
+
+# Configure your database
+config :phonix, Phonix.Repo,
+  username: &quot;postgres&quot;,
+  password: &quot;postgres&quot;,
+  database: &quot;phonix_cypress&quot;,
+  hostname: &quot;localhost&quot;,
+  pool_size: 10
+
+config :phonix, PhonixWeb.Endpoint,
+  http: [port: 4002],
+  server: true
+
+# Print only warnings and errors during test
+config :logger, level: :warn</code></pre><p>This approach is also copied from <a href="https://www.alanvardy.com/post/phoenix-cypress-tests">https://www.alanvardy.com/post/phoenix-cypress-tests</a>. It’s a great idea to separate the test environment from the ui test environment. As Alan suggests, you could use a tool like <code class="inline">ex_check</code> which can run your normal tests and your ui tests in parallel, which is only possible if you use different databases and thus different environments.</p><p>We are using a different port in the cypress env (<code class="inline">4002</code>), so make sure to adjust your tests accordingly.</p><p>Now you can run your UI tests by executing <code class="inline">./cypress-run.sh</code>. This script should run on your CI environment as well as locally. Just make sure to run <code class="inline">npm install</code> in your CI run!</p><h2>What else?</h2><p>I intend to write a second part, figuring out how to use fixtures or reset the database between tests. I saw a few blog posts on how to do this, utilizing sockets in phoenix to take commands. I don’t really like the approach and might come up with a way to work with the database directly. We’ll see!</p>
+</article>
+
+    </main>
+    <footer class="pt-2 pb-4 mt-5 text-sm border-t border-slate-500 bg-gradient-to-b from-slate-200 to-slate-300">
+  <div class="flex">
+    <div class="flex-none px-4">
+      <a href="/feed.xml"><i class="fa-solid fa-rss"></i></a>
+    </div>
+    <div class="flex-grow text-center">
+      <p class="text-xs leading-5">
+        &copy; 2014 - 2022
+        <a href="/about" class="text-blue">Sebastian Göttschkes</a>
+        |
+        Hosted by
+        <a href="https://pages.github.com/" rel="noopener noreferrer" target="_blank" class="text-blue">GitHub Pages</a>
+        |
+        Powered by
+        <a href="https://stillstatic.io" rel="noopener noreferrer" target="_blank" class="text-blue">Still</a>
+      </p>
+    </div>
+    <div class="flex-none px-3">
+      <ul class="">
+        <li class="inline mx-1">
+          <a href="https://www.facebook.com/sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+        </li>
+        <li class="inline mx-1">
+        <a href="https://twitter.com/Sgoettschkes" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </li>
+        <li class="inline mx-1">
+          <a href="https://www.linkedin.com/in/sgoettschkes/" rel="noopener noreferrer" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+  </body>
+</html>
